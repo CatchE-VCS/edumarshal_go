@@ -7,9 +7,10 @@ import 'package:http/http.dart' as http;
 
 class Controller {
   static const url = 'https://akgec-edumarshal-dev.onrender.com/';
-  static const loginUrl = url + 'api/login';
-  static const localUrl = 'http://localhost:8000/api/login';
+  static const loginUrl = '${url}api/v1/login';
+  static const localUrl = 'http://localhost:8000/api/v1/login';
   static const localUrl2 = 'http://192.168.29.111:8000/api/v1/login';
+
   Future<String?> login(username, password) async {
     try {
       if (kDebugMode) {
@@ -17,7 +18,8 @@ class Controller {
       }
       var res = await http.post(
         Uri.parse(
-          localUrl2,
+          // localUrl2,
+          loginUrl,
         ),
         headers: {
           "Accept": "application/json",
