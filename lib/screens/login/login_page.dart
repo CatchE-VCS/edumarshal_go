@@ -1,4 +1,4 @@
-import 'package:edumarshal/controllers/auth_controller.dart';
+import 'package:edumarshal/controllers/auth.dart';
 import 'package:edumarshal/screens/home_nav/hidden_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

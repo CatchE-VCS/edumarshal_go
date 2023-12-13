@@ -1,13 +1,11 @@
 import 'dart:convert';
 
+import 'package:edumarshal/controllers/attendance.dart';
 import 'package:edumarshal/models/attendance_model.dart';
 import 'package:edumarshal/screens/widgets/test.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 
-import '../../controllers/db_controller.dart';
 import '../widgets/additional_info.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,88 +25,10 @@ class _HomePageState extends State<HomePage> {
     // getData();
   }
 
-  Future<AttendanceData?> getData() async {
-    try {
-      final user = await DataBaseCon().getUserById(1);
-      var headers = {
-        'Authorization': "Bearer ${user!.accessToken}",
-        'X-ContextId': user.xContextId,
-        'X-UserId': user.xUserId,
-      };
-      // var headers = {
-      //   'Token':
-      //       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3R1ZGVudDAxIiwicm9sZSI6InN0dWRlbnQifQ.UkULa-lSkrgCyxlHi106ocV1261_YpI3tFbxRfk09lg'
-      // };
-      http.Response response = await http.get(
-        Uri.parse(
-          'https://akgec-edumarshal-dev.onrender.com/api/v1/attendance',
-        ),
-        headers: headers,
-      );
-
-      if (response.statusCode == 200) {
-        // setState(() {
-        //   isLoading = false;
-        // });
-        return attendanceDataFromJson(response.body);
-
-        // if (kDebugMode) {
-        //   print('Total Subjects: $totalSubjects');
-        //   print('Total Present: $totalPresent');
-        //   print('Total Absent: $totalAbsent');
-        //   print('Total Classes: $totalClasses');
-        //   print('Overall Percentage: $overallPercentage');
-        //   print('Name: $name');
-        //   print('Email: $email');
-        // }
-      } else {
-        if (kDebugMode) {
-          print('Failed to load data. Status code: ${response.statusCode}');
-        }
-        // return AttendanceData(
-        //   attendance: null,
-        //   businessDays: 0,
-        //   userBusinessDay: null,
-        //   attendanceData: [],
-        //   extraLectures: [],
-        //   attendanceCopy: [],
-        //   stdSubAtdDetails: StdSubAtdDetails(
-        //     overallPresent: 0,
-        //     overallLecture: 0,
-        //     overallPercentage: 0,
-        //     subjects: [],
-        //     studentSubjectAttendance: [],
-        //   ),
-        // );
-        return null;
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error fetching data: $e');
-      }
-      return null;
-      // return AttendanceData(
-      //   attendance: null,
-      //   businessDays: 0,
-      //   userBusinessDay: null,
-      //   attendanceData: [],
-      //   extraLectures: [],
-      //   attendanceCopy: [],
-      //   stdSubAtdDetails: StdSubAtdDetails(
-      //     overallPresent: 0,
-      //     overallLecture: 0,
-      //     overallPercentage: 0,
-      //     subjects: [],
-      //     studentSubjectAttendance: [],
-      //   ),
-      // );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getData(),
+      future: AttendanceController().getData(),
       builder: (BuildContext context, AsyncSnapshot<AttendanceData?> snapshot) {
         // Add a snapshot
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -156,53 +76,54 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         children: [
                           Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 23, top: 8),
-                                  child: RichText(
-                                    text: TextSpan(
-                                      text: "Hello, ",
-                                      style: GoogleFonts.poppins(
-                                        textStyle: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 23, top: 8),
+                                child: RichText(
+                                  text: TextSpan(
+                                    text: "Hello, ",
+                                    style: GoogleFonts.poppins(
+                                      textStyle: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text: name,
-                                          style: GoogleFonts.poppins(
-                                            textStyle: const TextStyle(
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black,
-                                            ),
+                                    ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: name,
+                                        style: GoogleFonts.poppins(
+                                          textStyle: const TextStyle(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
                                           ),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 24,
-                                  ),
-                                  child: Text(
-                                    email,
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.black,
-                                      fontFamily:
-                                          GoogleFonts.poppins().fontFamily,
-                                    ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 24,
+                                ),
+                                child: Text(
+                                  email,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.black,
+                                    fontFamily:
+                                        GoogleFonts.poppins().fontFamily,
                                   ),
                                 ),
-                              ]),
+                              ),
+                            ],
+                          ),
                           const SizedBox(
                             width: 40,
                           ),
@@ -580,19 +501,19 @@ class SubjectCard extends StatelessWidget {
               Text(
                 subject,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Colors.black54,
                   fontFamily: GoogleFonts.poppins().fontFamily,
                 ),
               ),
               const SizedBox(
-                height: 8.0,
+                height: 6.0,
               ),
               Text(
                 'Attendance: $totalPresent / $totalClasses ($attendance%)',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                   fontFamily: GoogleFonts.poppins().fontFamily,
                   color: Colors.black45,

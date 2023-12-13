@@ -5,9 +5,11 @@ import 'package:edumarshal/controllers/model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import '../const/strings.dart';
+
 class Controller {
   static const url = 'https://akgec-edumarshal-dev.onrender.com/';
-  static const loginUrl = '${url}api/v1/login';
+  static const loginUrl = '${domain}api/v1/login';
   static const localUrl = 'http://localhost:8000/api/v1/login';
   static const localUrl2 = 'http://192.168.29.111:8000/api/v1/login';
 
