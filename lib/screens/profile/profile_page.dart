@@ -148,7 +148,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     const SizedBox(height: 5),
 
                     Text(
-                      '${email ?? 'N/A'} ',
+                      email,
                       style: const TextStyle(
                           color: Color.fromARGB(255, 175, 139, 238),
                           fontSize: 18,

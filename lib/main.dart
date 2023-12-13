@@ -3,6 +3,8 @@ import 'package:edumarshal/screens/home_nav/hidden_drawer.dart';
 import 'package:edumarshal/screens/login/login_page.dart';
 import 'package:flutter/material.dart';
 
+import 'controllers/model.dart';
+
 void main() {
   runApp(const App());
 }
@@ -23,18 +25,20 @@ class App extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: FutureBuilder(
-        future: handler.retrieveUser(),
-        builder: (BuildContext context, AsyncSnapshot<List<Object?>> snapshot) {
+        future: handler.getUserById(1),
+        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data!.isNotEmpty) {
+            if (snapshot.data != null) {
               return HiddenDrawer(
-                accessToken: snapshot.data![0].toString(),
+                accessToken: snapshot.data!.accessToken,
               );
             } else {
               return const Login();
             }
-          } else {
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
+          } else {
+            return const Login();
           }
         },
       ),

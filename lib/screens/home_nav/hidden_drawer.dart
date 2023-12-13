@@ -1,3 +1,4 @@
+import 'package:edumarshal/ext_package/hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:edumarshal/screens/events/events_page.dart';
 import 'package:edumarshal/screens/home/home_page.dart';
 import 'package:edumarshal/screens/payment/payment_history_page.dart';
@@ -5,7 +6,6 @@ import 'package:edumarshal/screens/profile/profile_page.dart';
 import 'package:edumarshal/screens/time_table/time_table_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 
 import '../../controllers/db_controller.dart';
 import '../../utils/dialogs.dart';
@@ -27,8 +27,16 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
     super.initState();
 
     // Map<String, dynamic>? jwtDecodedToken;
+    print("Access Token: ");
+    print(widget.accessToken);
     try {
-      // jwtDecodedToken = JwtDecoder.decode(widget.token!);
+      // jwtDecodedToken = JwtDecoder.decode(widget.accessToken!);
+      // if (kDebugMode) {
+      // print("---------------------");
+      //
+      // print(jwtDecodedToken);
+      // print("---------------------");
+      // }
     } catch (e) {
       if (kDebugMode) {
         print('Error decoding token: $e');
@@ -42,7 +50,7 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
     _pages = [
       ScreenHiddenDrawer(
         ItemHiddenMenu(
-            name: 'HomePage',
+            name: 'Dashboard',
             baseStyle: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -176,17 +184,20 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
         return await Dialogs().showExitConfirmationDialog(context);
       },
       child: HiddenDrawerMenu(
-        backgroundColorAppBar: Colors.cyan,
+        backgroundColorAppBar: const Color(0xFF1E1E1E),
         disableAppBarDefault: false,
         actionsAppBar: const <Widget>[],
-
-        backgroundColorMenu: const Color.fromARGB(255, 199, 181, 246),
+        backgroundColorMenu: const Color(0xFF1E1E1E),
         screens: _pages,
         initPositionSelected: 0,
-
         slidePercent: 50,
+        leadingAppBar: const Icon(
+          Icons.menu,
+          color: Colors.white,
+        ),
         contentCornerRadius: 25,
         boxShadow: const [],
+
         // verticalScalePercent: 80.0,
         //    contentCornerRadius: 10.0,
         //  elevationAppBar: 100.0

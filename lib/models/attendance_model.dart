@@ -15,7 +15,6 @@ class AttendanceData {
   final dynamic userBusinessDay;
   final List<AttendanceDatum> attendanceData;
   final List<AttendanceCopy> extraLectures;
-  final List<AttendanceCopy> attendanceCopy;
   final StdSubAtdDetails stdSubAtdDetails;
 
   AttendanceData({
@@ -24,7 +23,6 @@ class AttendanceData {
     required this.userBusinessDay,
     required this.attendanceData,
     required this.extraLectures,
-    required this.attendanceCopy,
     required this.stdSubAtdDetails,
   });
 
@@ -36,8 +34,6 @@ class AttendanceData {
             json["attendanceData"].map((x) => AttendanceDatum.fromJson(x))),
         extraLectures: List<AttendanceCopy>.from(
             json["extraLectures"].map((x) => AttendanceCopy.fromJson(x))),
-        attendanceCopy: List<AttendanceCopy>.from(
-            json["attendanceCopy"].map((x) => AttendanceCopy.fromJson(x))),
         stdSubAtdDetails: StdSubAtdDetails.fromJson(json["stdSubAtdDetails"]),
       );
 
@@ -49,8 +45,6 @@ class AttendanceData {
             List<dynamic>.from(attendanceData.map((x) => x.toJson())),
         "extraLectures":
             List<dynamic>.from(extraLectures.map((x) => x.toJson())),
-        "attendanceCopy":
-            List<dynamic>.from(attendanceCopy.map((x) => x.toJson())),
         "stdSubAtdDetails": stdSubAtdDetails.toJson(),
       };
 }
@@ -316,9 +310,9 @@ enum AttendanceLable { A, P }
 final attendanceLableValues =
     EnumValues({"A": AttendanceLable.A, "P": AttendanceLable.P});
 
-enum Css { ABSENT, PRESENT }
+enum Css { absent, present }
 
-final cssValues = EnumValues({"absent": Css.ABSENT, "present": Css.PRESENT});
+final cssValues = EnumValues({"absent": Css.absent, "present": Css.present});
 
 class AttendanceDatum {
   final int? orgnizationId;
@@ -447,14 +441,12 @@ class AttendanceDatum {
 
 class StdSubAtdDetails {
   final List<StudentSubjectAttendance> studentSubjectAttendance;
-  final List<Subject> subjects;
   final double overallPercentage;
   final int? overallPresent;
   final int? overallLecture;
 
   StdSubAtdDetails({
     required this.studentSubjectAttendance,
-    required this.subjects,
     required this.overallPercentage,
     required this.overallPresent,
     required this.overallLecture,
@@ -465,8 +457,6 @@ class StdSubAtdDetails {
         studentSubjectAttendance: List<StudentSubjectAttendance>.from(
             json["studentSubjectAttendance"]
                 .map((x) => StudentSubjectAttendance.fromJson(x))),
-        subjects: List<Subject>.from(
-            json["subjects"].map((x) => Subject.fromJson(x))),
         overallPercentage: json["overallPercentage"].toDouble(),
         overallPresent: json["overallPresent"],
         overallLecture: json["overallLecture"],
@@ -475,7 +465,6 @@ class StdSubAtdDetails {
   Map<String, dynamic> toJson() => {
         "studentSubjectAttendance":
             List<dynamic>.from(studentSubjectAttendance.map((x) => x.toJson())),
-        "subjects": List<dynamic>.from(subjects.map((x) => x.toJson())),
         "overallPercentage": overallPercentage,
         "overallPresent": overallPresent,
         "overallLecture": overallLecture,

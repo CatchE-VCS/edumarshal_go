@@ -1,29 +1,17 @@
 class User {
   late final int id;
   late final String accessToken;
-
   final String tokenType;
-
   final int expiresIn;
-
   final String xContextId;
-
   final String xUserId;
-
   final String xRx;
-
   final String xLogoId;
-
   final String pChangeSetting;
-
   final String sessionId;
-
   final String pChangeStatus;
-
   final String issued;
-
   final String xToken;
-
   final String expires;
 
   User({
