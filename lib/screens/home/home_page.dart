@@ -369,7 +369,7 @@ class _HomePageState extends State<HomePage> {
                 // ),
                 // ),
                 const Padding(
-                  padding: EdgeInsets.all(15.0),
+                  padding: EdgeInsets.all(12.0),
                   child: Text(
                     'Your Statistics',
                     style: TextStyle(
@@ -415,7 +415,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 const Padding(
                   padding: EdgeInsets.only(left: 16),
