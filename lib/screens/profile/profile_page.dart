@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:edumarshal/const/strings.dart';
+import 'package:edumarshal/controllers/db_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -52,14 +54,20 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> fetchData() async {
     try {
+      // var headers = {
+      //   'Token':
+      //       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3R1ZGVudDAxIiwicm9sZSI6InN0dWRlbnQifQ.UkULa-lSkrgCyxlHi106ocV1261_YpI3tFbxRfk09lg'
+      // };
+      final user = await DataBaseCon().getUserById(1);
       var headers = {
-        'Token':
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3R1ZGVudDAxIiwicm9sZSI6InN0dWRlbnQifQ.UkULa-lSkrgCyxlHi106ocV1261_YpI3tFbxRfk09lg'
+        'Authorization': "Bearer ${user!.accessToken}",
+        'X-ContextId': user.xContextId,
+        'X-UserId': user.xUserId,
       };
 
       var request = http.Request(
         'GET',
-        Uri.parse('https://erp.anaskhan.site/api/student_profile/'),
+        Uri.parse('${domain}api/v1/user'),
       );
 
       request.headers.addAll(headers);
@@ -104,7 +112,6 @@ class _ProfilePageState extends State<ProfilePage> {
           motherName = jsonData['mother_name'] ?? '';
           motherPhone = jsonData['mother_phone'] ?? '';
           motherEmail = jsonData['mother_email'] ?? '';
-
           isLoading = false;
         });
       } else {
@@ -132,7 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(top: 30),
+              padding: const EdgeInsets.only(top: 20),
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -227,7 +234,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                     Container(
                       alignment: Alignment.center,
-                      height: 220,
+                      height: 270,
                       width: 380,
                       child: Card(
                         shadowColor: Colors.white,
@@ -337,7 +344,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             ),
 
                                             Text(
-                                              'DOB:- $dob',
+                                              'DOB:- $dob'.substring(0, 16),
                                               style: const TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.normal,
@@ -361,7 +368,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                     Container(
                       alignment: Alignment.center,
-                      height: 230,
+                      height: 250,
                       width: 380,
                       child: Card(
                         shadowColor: Colors.white,
