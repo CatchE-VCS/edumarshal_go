@@ -3,11 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../const/strings.dart';
-import '../models/attendance_model.dart';
+
 import 'db_controller.dart';
 
 class ProfileController {
-  Future<ProfileData?> getData() async {
+  Future<ProfileData?> getData2() async {
     try {
       final user = await DataBaseCon().getUserById(1);
       var headers = {

@@ -75,6 +75,7 @@ class _HomePageState extends State<HomePage> {
             int totalPresent = snapshot.data!.stdSubAtdDetails.overallPresent!;
             int totalClasses = snapshot.data!.stdSubAtdDetails.overallLecture!;
             int totalAbsent = totalClasses - totalPresent;
+
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
