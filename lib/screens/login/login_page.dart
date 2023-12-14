@@ -30,7 +30,8 @@ class _LoginState extends State<Login> {
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        elevation: 12,
+        shape: RoundedRectangleBorder(),
+        elevation: 20,
         centerTitle: true,
         title: Text(
           'Edumarshal App',
@@ -116,8 +117,9 @@ class _LoginState extends State<Login> {
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.infinity,
-                          MediaQuery.of(context).size.height * 0.12),
+                      backgroundColor: const Color.fromARGB(255, 136, 211, 245),
+                      minimumSize: Size(MediaQuery.of(context).size.width * 0.5,
+                          MediaQuery.of(context).size.height * 0.08),
                       shape: const StadiumBorder(),
                       visualDensity: VisualDensity.compact,
                       alignment: Alignment.center,
@@ -162,8 +164,9 @@ class _LoginState extends State<Login> {
                     child: _loading
                         ? const CircularProgressIndicator()
                         : const Text(
-                            'Login',
+                            'LOGIN',
                             style: TextStyle(
+                              color: Colors.black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
