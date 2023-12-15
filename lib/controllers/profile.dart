@@ -3,11 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../const/strings.dart';
-import '../models/attendance_model.dart';
+
 import 'db_controller.dart';
 
-class AttendanceController {
-  Future<AttendanceData?> getData() async {
+class ProfileController {
+  Future<ProfileData?> getData2() async {
     try {
       final user = await DataBaseCon().getUserById(1);
       var headers = {
@@ -21,7 +21,7 @@ class AttendanceController {
       // };
       http.Response response = await http.get(
         Uri.parse(
-          '${domain}api/v1/attendance',
+          '${domain}api/v1/user',
         ),
         headers: headers,
       );
@@ -29,8 +29,9 @@ class AttendanceController {
       if (response.statusCode == 200) {
         // setState(() {
         //   isLoading = false;
-        // });
-        return attendanceDataFromJson(response.body);
+        // });print(')
+        print('went ');
+        return profileDataFromJson(response.body);
 
         // if (kDebugMode) {
         //   print('Total Subjects: $totalSubjects');

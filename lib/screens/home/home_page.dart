@@ -75,6 +75,7 @@ class _HomePageState extends State<HomePage> {
             int totalPresent = snapshot.data!.stdSubAtdDetails.overallPresent!;
             int totalClasses = snapshot.data!.stdSubAtdDetails.overallLecture!;
             int totalAbsent = totalClasses - totalPresent;
+
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,6 +150,294 @@ class _HomePageState extends State<HomePage> {
                             //                   backgroundColor: Colors.transparent,
                             //                 ),
 
+<<<<<<< HEAD
+                          // GestureDetector(
+                          //   onTap: () {
+                          //     showDialog(
+                          //       context: context,
+                          //       builder: (context) {
+                          //         return CircleAvatar(
+                          //           backgroundImage:
+                          //               NetworkImage(profilePhotoUrl!),
+                          //           radius: 50,
+                          //         );
+                          //       },
+                          //     );
+                          //   },
+                          //   child: Container(
+                          //     height: 70,
+                          //     width: 70,
+                          //     decoration: BoxDecoration(
+                          //         shape: BoxShape.circle,
+                          //         border: Border.all(
+                          //           color: Colors.black,
+                          //         )),
+                          //     child: ClipRRect(
+                          //         borderRadius: BorderRadius.circular(100),
+                          //         child: profilePhotoUrl!.isNotEmpty
+                          //             ? Image.network(profilePhotoUrl!,
+                          //                 fit: BoxFit.cover, loadingBuilder:
+                          //                     (context, child,
+                          //                         loadingProgress) {
+                          //                 if (loadingProgress == null) {
+                          //                   return child;
+                          //                 }
+                          //                 return const Center(
+                          //                   child:
+                          //                       CircularProgressIndicator(),
+                          //                 );
+                          //               }, errorBuilder:
+                          //                     (context, object, stack) {
+                          //                 return const Icon(
+                          //                   Icons.error_outline,
+                          //                   color: Colors.amber,
+                          //                 );
+                          //               })
+                          //             : const Center(
+                          //                 child: CircularProgressIndicator(),
+                          //               )),
+                          //   ),
+                          // ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                // Container(
+                //   margin: const EdgeInsets.symmetric(
+                //     horizontal: 15,
+                //     vertical: 5,
+                //   ),
+                //   height: 180,
+                //   width: double.infinity,
+                //   decoration: const BoxDecoration(
+                //     color: Color.fromARGB(255, 183, 146, 247),
+                //     boxShadow: [
+                //       BoxShadow(
+                //         color: Color.fromARGB(255, 56, 159, 243),
+                //         // blurRadius: 20.0,
+                //         offset: Offset(7, 7),
+                //       ),
+                //     ],
+                //   ),
+                //   child:
+                SizedBox(
+                  height: 200, // Adjust the height of the cards
+                  width: double.infinity,
+                  child: SwipeCardsScreen(
+                    totalSubjects: totalSubjects,
+                    overallPercentage: overallPercentage,
+                  ),
+                ),
+                // const SizedBox(
+                //   height: 200, // Adjust the height of the cards
+                //   child: Stack(
+                //     alignment: Alignment.center,
+                //     children: <Widget>[
+                //       // Background Card
+                //       Positioned(
+                //         top: 20.0,
+                //         child: Card(
+                //           elevation: 4.0,
+                //           margin: EdgeInsets.all(16.0),
+                //           color: Colors.blue,
+                //           child: SizedBox(
+                //             width: 300,
+                //             height: 150,
+                //             child: Padding(
+                //               padding: EdgeInsets.all(16.0),
+                //               child: Column(
+                //                 crossAxisAlignment: CrossAxisAlignment.start,
+                //                 children: <Widget>[
+                //                   Text(
+                //                     'First Card',
+                //                     style: TextStyle(
+                //                       color: Colors.white,
+                //                       fontSize: 20.0,
+                //                       fontWeight: FontWeight.bold,
+                //                     ),
+                //                   ),
+                //                   Text(
+                //                     'This is the content of the first card.',
+                //                     style: TextStyle(
+                //                       color: Colors.white,
+                //                     ),
+                //                   ),
+                //                 ],
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //       // Foreground Card (Overlay)
+                //       Card(
+                //         elevation: 6.0,
+                //         margin: EdgeInsets.all(16.0),
+                //         color: Colors.white,
+                //         child: SizedBox(
+                //           width: 300,
+                //           height: 150,
+                //           child: Padding(
+                //             padding: EdgeInsets.all(16.0),
+                //             child: Column(
+                //               crossAxisAlignment: CrossAxisAlignment.start,
+                //               children: <Widget>[
+                //                 Text(
+                //                   'Second Card (Overlay)',
+                //                   style: TextStyle(
+                //                     color: Colors.black,
+                //                     fontSize: 20.0,
+                //                     fontWeight: FontWeight.bold,
+                //                   ),
+                //                 ),
+                //                 Text(
+                //                   'This is the content of the second card.',
+                //                   style: TextStyle(
+                //                     color: Colors.black,
+                //                   ),
+                //                 ),
+                //               ],
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // Card(
+                //   elevation: 10,
+                //   margin: const EdgeInsets.symmetric(
+                //     horizontal: 15,
+                //     vertical: 5,
+                //   ),
+                //   color: Colors.blueAccent.shade700,
+                //   shape: RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(16.0),
+                //   ),
+                //   shadowColor: Colors.blueAccent.shade700,
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(16.0),
+                //     child: Row(
+                //       children: [
+                //         Column(
+                //           mainAxisAlignment: MainAxisAlignment.center,
+                //           crossAxisAlignment: CrossAxisAlignment.start,
+                //           children: [
+                //             Text(
+                //               'Your Attendance',
+                //               style: TextStyle(
+                //                 fontSize: 24,
+                //                 fontFamily: GoogleFonts.poppins().fontFamily,
+                //                 fontWeight: FontWeight.bold,
+                //                 color: Colors.white,
+                //               ),
+                //             ),
+                //             const SizedBox(
+                //               height: 10,
+                //             ),
+                //             Text(
+                //               '$totalSubjects Subjects (incl. Labs)',
+                //               style: const TextStyle(
+                //                 fontSize: 18,
+                //                 fontWeight: FontWeight.normal,
+                //                 color: Colors.white,
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //         const Spacer(),
+                //         Column(
+                //           children: [
+                //             Container(
+                //               alignment: Alignment.center,
+                //               decoration: BoxDecoration(
+                //                 borderRadius: BorderRadius.circular(100),
+                //               ),
+                //               child: CircularProgressIndicator(
+                //                 value: overallPercentage / 100,
+                //                 backgroundColor: Colors.white,
+                //                 color: overallPercentage >= 75
+                //                     ? Colors.greenAccent
+                //                     : overallPercentage >= 50
+                //                         ? Colors.orangeAccent
+                //                         : Colors.redAccent,
+                //               ),
+                //             ),
+                //             const SizedBox(
+                //               height: 10,
+                //             ),
+                //             Text(
+                //               '$overallPercentage%',
+                //               style: const TextStyle(
+                //                 fontSize: 26,
+                //                 fontWeight: FontWeight.bold,
+                //                 color: Colors.white,
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // ),
+                const Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: Text(
+                    'Your Statistics',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const BouncingScrollPhysics(),
+                    child: Row(
+                      children: [
+                        AdditionalInfo(
+                          image:
+                              Image.asset('assets/images/school_7214224.png'),
+                          label: 'Course',
+                          value: 'B.Tech (I Year)',
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        AdditionalInfo(
+                          image: Image.asset(
+                            'assets/images/presentation_760138.png',
+                          ),
+                          label: 'Preview',
+                          value:
+                              'Total Present: $totalPresent\nTotal Absent: $totalAbsent',
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        AdditionalInfo(
+                          image: Image.asset('assets/images/cv_3194447.png'),
+                          label: 'Lectures',
+                          value: 'Total Lectures: $totalClasses',
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 16),
+                  child: Text(
+                    'All Subjects',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+=======
                             // GestureDetector(
                             //   onTap: () {
                             //     showDialog(
@@ -225,6 +514,7 @@ class _HomePageState extends State<HomePage> {
                     child: SwipeCardsScreen(
                       totalSubjects: totalSubjects,
                       overallPercentage: overallPercentage,
+>>>>>>> c808f833baba4bedf46e75bd31317d70db833b8a
                     ),
                   ),
                   // const SizedBox(
