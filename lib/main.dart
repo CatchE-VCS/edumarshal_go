@@ -2,6 +2,7 @@ import 'package:edumarshal/controllers/db_controller.dart';
 import 'package:edumarshal/screens/home_nav/hidden_drawer.dart';
 import 'package:edumarshal/screens/login/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'controllers/model.dart';
 
@@ -22,6 +23,8 @@ class App extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        fontFamily: GoogleFonts.poppins().fontFamily,
+        primarySwatch: Colors.deepPurple,
       ),
       debugShowCheckedModeBanner: false,
       home: FutureBuilder(

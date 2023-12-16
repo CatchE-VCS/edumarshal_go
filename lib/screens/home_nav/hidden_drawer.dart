@@ -12,7 +12,9 @@ import '../../utils/dialogs.dart';
 
 class HiddenDrawer extends StatefulWidget {
   const HiddenDrawer({super.key, required this.accessToken});
+
   final String accessToken;
+
   @override
   State<HiddenDrawer> createState() => _HiddenDrawerState();
 }
@@ -118,7 +120,7 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
 
       ScreenHiddenDrawer(
         ItemHiddenMenu(
-            name: 'Payment History',
+            name: 'Payment',
             baseStyle: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,

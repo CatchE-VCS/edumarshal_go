@@ -13,6 +13,16 @@ class Controller {
   static const localUrl = 'http://localhost:8000/api/v1/login';
   static const localUrl2 = 'http://192.168.29.111:8000/api/v1/login';
 
+  void decodeBase64(String base64String) {
+    try {
+      List<int> decoded = base64.decode(base64String);
+      print(utf8
+          .decode(decoded)); // Assuming the decoded data is UTF-8 encoded text
+    } catch (e) {
+      print('Invalid Base64 string: $e');
+    }
+  }
+
   Future<String?> login(username, password) async {
     try {
       if (kDebugMode) {
@@ -36,6 +46,9 @@ class Controller {
         print(jsonDecode(res.body));
       }
       if (res.statusCode == 200) {
+        // String encodedToken = jsonDecode(res.body)['access_token'];
+        // String decodedToken = utf8.decode(base64Url.decode(encodedToken));
+        // print(decodedToken);
         User user = User(
           id: 1,
           accessToken: jsonDecode(res.body)['access_token'],
