@@ -1,8 +1,4 @@
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class PaymentHistoryPage extends StatefulWidget {
   const PaymentHistoryPage({super.key});
@@ -12,8 +8,8 @@ class PaymentHistoryPage extends StatefulWidget {
 }
 
 class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
-  String token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3R1ZGVudDAxIiwicm9sZSI6InN0dWRlbnQifQ.UkULa-lSkrgCyxlHi106ocV1261_YpI3tFbxRfk09lg';
+  // String token =
+  //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3R1ZGVudDAxIiwicm9sZSI6InN0dWRlbnQifQ.UkULa-lSkrgCyxlHi106ocV1261_YpI3tFbxRfk09lg';
 
   dynamic amount = 0.0;
   dynamic paid = 0.0;
@@ -21,28 +17,28 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
   String date = '';
 
   Future<void> fetchData() async {
-    var headers = {'Token': token};
-    var request =
-        http.Request('GET', Uri.parse('https://erp.anaskhan.site/api/my_fee/'));
-    request.headers.addAll(headers);
-
-    http.StreamedResponse response = await request.send();
-
-    if (response.statusCode == 200) {
-      String data = await response.stream.bytesToString();
-      // Parse the JSON response
-      Map<String, dynamic> jsonData = json.decode(data);
-
-      // Update variables with fetched data
-      amount = jsonData['amount'];
-      paid = jsonData['paid'];
-      due = jsonData['due'];
-      date = jsonData['date'];
-    } else {
-      if (kDebugMode) {
-        print(response.reasonPhrase);
-      }
-    }
+    //   var headers = {'Token': token};
+    //   var request =
+    //       http.Request('GET', Uri.parse('https://erp.anaskhan.site/api/my_fee/'));
+    //   request.headers.addAll(headers);
+    //
+    //   http.StreamedResponse response = await request.send();
+    //
+    //   if (response.statusCode == 200) {
+    //     String data = await response.stream.bytesToString();
+    //     // Parse the JSON response
+    //     Map<String, dynamic> jsonData = json.decode(data);
+    //
+    //     // Update variables with fetched data
+    //     amount = jsonData['amount'];
+    //     paid = jsonData['paid'];
+    //     due = jsonData['due'];
+    //     date = jsonData['date'];
+    //   } else {
+    //     if (kDebugMode) {
+    //       print(response.reasonPhrase);
+    //     }
+    //   }
   }
 
   @override
