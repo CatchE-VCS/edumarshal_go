@@ -10,10 +10,7 @@ class DataBaseCon {
       version: 1,
       onCreate: (Database db, int version) async {
         await db.execute(
-          'CREATE TABLE userCred (id INTEGER PRIMARY KEY, accessToken TEXT NOT NULL, '
-          'tokenType TEXT, expiresIn INTEGER, xContextId TEXT, xUserId TEXT, '
-          'xLogoId TEXT, xRx TEXT, pChangeSetting TEXT, pChangeStatus TEXT, '
-          'sessionId TEXT, xToken TEXT, issued TEXT, expires TEXT)',
+          'CREATE TABLE userCred (id INTEGER PRIMARY KEY, accessToken TEXT NOT NULL, tokenType TEXT, expiresIn INTEGER, xContextId TEXT, xUserId TEXT, xLogoId TEXT, xRx TEXT, pChangeSetting TEXT, pChangeStatus TEXT, sessionId TEXT, xToken TEXT, issued TEXT, expires TEXT)',
         );
       },
     );
