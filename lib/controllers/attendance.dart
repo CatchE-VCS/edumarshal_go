@@ -1,4 +1,3 @@
-import 'package:edumarshal/models/profile_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -27,39 +26,12 @@ class AttendanceController {
       );
 
       if (response.statusCode == 200) {
-        // setState(() {
-        //   isLoading = false;
-        // });
         return attendanceDataFromJson(response.body);
-
-        // if (kDebugMode) {
-        //   print('Total Subjects: $totalSubjects');
-        //   print('Total Present: $totalPresent');
-        //   print('Total Absent: $totalAbsent');
-        //   print('Total Classes: $totalClasses');
-        //   print('Overall Percentage: $overallPercentage');
-        //   print('Name: $name');
-        //   print('Email: $email');
-        // }
       } else {
         if (kDebugMode) {
           print('Failed to load data. Status code: ${response.statusCode}');
         }
-        // return AttendanceData(
-        //   attendance: null,
-        //   businessDays: 0,
-        //   userBusinessDay: null,
-        //   attendanceData: [],
-        //   extraLectures: [],
-        //   attendanceCopy: [],
-        //   stdSubAtdDetails: StdSubAtdDetails(
-        //     overallPresent: 0,
-        //     overallLecture: 0,
-        //     overallPercentage: 0,
-        //     subjects: [],
-        //     studentSubjectAttendance: [],
-        //   ),
-        // );
+
         return null;
       }
     } catch (e) {
@@ -67,21 +39,6 @@ class AttendanceController {
         print('Error fetching data: $e');
       }
       return null;
-      // return AttendanceData(
-      //   attendance: null,
-      //   businessDays: 0,
-      //   userBusinessDay: null,
-      //   attendanceData: [],
-      //   extraLectures: [],
-      //   attendanceCopy: [],
-      //   stdSubAtdDetails: StdSubAtdDetails(
-      //     overallPresent: 0,
-      //     overallLecture: 0,
-      //     overallPercentage: 0,
-      //     subjects: [],
-      //     studentSubjectAttendance: [],
-      //   ),
-      // );
     }
   }
 }
