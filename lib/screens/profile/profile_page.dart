@@ -186,7 +186,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     const SizedBox(height: 4),
                     Container(
-                      alignment: Alignment.center,
+                      alignment: Alignment.centerLeft,
                       margin: const EdgeInsets.symmetric(
                         vertical: 8.0,
                         horizontal: 16.0,
@@ -293,9 +293,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 4,
                     ),
                     Container(
-                      alignment: Alignment.center,
-                      margin: const EdgeInsets.all(16.0),
-                      padding: const EdgeInsets.all(24.0),
+                      alignment: Alignment.centerLeft,
+                      margin: const EdgeInsets.symmetric(
+                        vertical: 8.0,
+                        horizontal: 16.0,
+                      ),
+                      padding: const EdgeInsets.all(
+                        24.0,
+                      ),
                       decoration: const BoxDecoration(
                         color: Color.fromARGB(255, 141, 150, 218),
                         shape: BoxShape.rectangle,
@@ -311,7 +316,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             sigmaY: 5,
                           ),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text(

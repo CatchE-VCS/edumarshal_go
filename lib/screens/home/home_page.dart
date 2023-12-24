@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:edumarshal/controllers/attendance.dart';
 import 'package:edumarshal/models/attendance_model.dart';
+import 'package:edumarshal/models/pdp_att_model.dart';
+import 'package:edumarshal/screens/subject_attendance/pdp_att_page.dart';
 import 'package:edumarshal/screens/widgets/test.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,51 +41,64 @@ class _HomePageState extends State<HomePage> {
           },
         );
       },
-      child: FutureBuilder(
-        future: AttendanceController().getData(),
-        builder:
-            (BuildContext context, AsyncSnapshot<AttendanceData?> snapshot) {
-          // Add a snapshot
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // Check the connection state
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            // Check if error occurred
-            return const Center(
-              child: Text('Error fetching data'),
-            );
-          } else {
-            // If no error occurred
-            if (snapshot.data == null) {
-              return const Center(
-                child: Text('No data found'),
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: FutureBuilder(
+          future: AttendanceController().getData(),
+          builder:
+              (BuildContext context, AsyncSnapshot<AttendanceData?> snapshot) {
+            // Add a snapshot
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // Check the connection state
+              return SizedBox(
+                height: MediaQuery.of(context).size.height - 100,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
               );
-            }
-            // String profilePhotoUrl =
-            //     "https://akgecerp.edumarshal.com/api/fileblob/${snapshot.data!.stdSubAtdDetails.studentSubjectAttendance[0].userDetails == null ? null : jsonDecode(snapshot.data!.stdSubAtdDetails.studentSubjectAttendance[0].userDetails)['profilePictureId']}";
+            } else if (snapshot.hasError) {
+              // Check if error occurred
+              return SizedBox(
+                height: MediaQuery.of(context).size.height - 100,
+                child: const Center(
+                  child: Text('Error fetching data'),
+                ),
+              );
+            } else {
+              // If no error occurred
+              if (snapshot.data == null) {
+                return const Center(
+                  child: Text('No data found'),
+                );
+              }
+              // String profilePhotoUrl =
+              //     "https://akgecerp.edumarshal.com/api/fileblob/${snapshot.data!.stdSubAtdDetails.studentSubjectAttendance[0].userDetails == null ? null : jsonDecode(snapshot.data!.stdSubAtdDetails.studentSubjectAttendance[0].userDetails)['profilePictureId']}";
 
-            print(snapshot.data!.stdSubAtdDetails.studentSubjectAttendance[0]
-                .userDetails);
-            String name = jsonDecode(snapshot.data!.stdSubAtdDetails
-                    .studentSubjectAttendance.first.userDetails)['firstName'] +
-                ' ' +
-                jsonDecode(snapshot.data!.stdSubAtdDetails
-                    .studentSubjectAttendance.first.userDetails)['lastName'];
-            String email = jsonDecode(snapshot.data!.stdSubAtdDetails
-                .studentSubjectAttendance.first.userDetails)['email'];
-            int totalSubjects = snapshot.data!.stdSubAtdDetails
-                .studentSubjectAttendance[0].subjects.length;
-            double overallPercentage =
-                snapshot.data!.stdSubAtdDetails.overallPercentage;
-            List<Subject> subjectsList = snapshot
-                .data!.stdSubAtdDetails.studentSubjectAttendance[0].subjects;
-            int totalPresent = snapshot.data!.stdSubAtdDetails.overallPresent!;
-            int totalClasses = snapshot.data!.stdSubAtdDetails.overallLecture!;
-            // int totalAbsent = totalClasses - totalPresent;
-            return SingleChildScrollView(
-              child: Column(
+              print(snapshot.data!.stdSubAtdDetails.studentSubjectAttendance[0]
+                  .userDetails);
+              String name = jsonDecode(snapshot
+                      .data!
+                      .stdSubAtdDetails
+                      .studentSubjectAttendance
+                      .first
+                      .userDetails)['firstName'] +
+                  ' ' +
+                  jsonDecode(snapshot.data!.stdSubAtdDetails
+                      .studentSubjectAttendance.first.userDetails)['lastName'];
+              String email = jsonDecode(snapshot.data!.stdSubAtdDetails
+                  .studentSubjectAttendance.first.userDetails)['email'];
+              int totalSubjects = snapshot.data!.stdSubAtdDetails
+                  .studentSubjectAttendance[0].subjects.length;
+              double overallPercentage =
+                  snapshot.data!.stdSubAtdDetails.overallPercentage;
+              List<Subject> subjectsList = snapshot
+                  .data!.stdSubAtdDetails.studentSubjectAttendance[0].subjects;
+              int totalPresent =
+                  snapshot.data!.stdSubAtdDetails.overallPresent!;
+              int totalClasses =
+                  snapshot.data!.stdSubAtdDetails.overallLecture!;
+              // int totalAbsent = totalClasses - totalPresent;
+              return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
@@ -259,79 +274,13 @@ class _HomePageState extends State<HomePage> {
                     height: 15,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 16),
+                    padding: const EdgeInsets.only(left: 16),
                     child: Text(
                       'All Subjects',
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                         fontFamily: GoogleFonts.poppins().fontFamily,
-                        // GestureDetector(
-                        //   onTap: () {
-                        //     showDialog(
-                        //       context: context,
-                        //       builder: (context) {
-                        //         return CircleAvatar(
-                        //           backgroundImage:
-                        //               NetworkImage(profilePhotoUrl!),
-                        //           radius: 50,
-                        //         );
-                        //       },
-                        //     );
-                        //   },
-                        //   child: Container(
-                        //     height: 70,
-                        //     width: 70,
-                        //     decoration: BoxDecoration(
-                        //         shape: BoxShape.circle,
-                        //         border: Border.all(
-                        //           color: Colors.black,
-                        //         )),
-                        //     child: ClipRRect(
-                        //         borderRadius: BorderRadius.circular(100),
-                        //         child: profilePhotoUrl!.isNotEmpty
-                        //             ? Image.network(profilePhotoUrl!,
-                        //                 fit: BoxFit.cover, loadingBuilder:
-                        //                     (context, child,
-                        //                         loadingProgress) {
-                        //                 if (loadingProgress == null) {
-                        //                   return child;
-                        //                 }
-                        //                 return const Center(
-                        //                   child:
-                        //                       CircularProgressIndicator(),
-                        //                 );
-                        //               }, errorBuilder:
-                        //                     (context, object, stack) {
-                        //                 return const Icon(
-                        //                   Icons.error_outline,
-                        //                   color: Colors.amber,
-                        //                 );
-                        //               })
-                        //             : const Center(
-                        //                 child: CircularProgressIndicator(),
-                        //               )),
-                        //   ),
-                        // ),
-
-                        // Container(
-                        //   margin: const EdgeInsets.symmetric(
-                        //     horizontal: 15,
-                        //     vertical: 5,
-                        //   ),
-                        //   height: 180,
-                        //   width: double.infinity,
-                        //   decoration: const BoxDecoration(
-                        //     color: Color.fromARGB(255, 183, 146, 247),
-                        //     boxShadow: [
-                        //       BoxShadow(
-                        //         color: Color.fromARGB(255, 56, 159, 243),
-                        //         // blurRadius: 20.0,
-                        //         offset: Offset(7, 7),
-                        //       ),
-                        //     ],
-                        //   ),
-                        //   child:
                       ),
                     ),
                   ),
@@ -369,11 +318,91 @@ class _HomePageState extends State<HomePage> {
                       height: 10,
                     ),
                   ],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Text(
+                      'PDP Attendance',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: GoogleFonts.poppins().fontFamily,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  FutureBuilder(
+                      future: AttendanceController().getPDPData(// Add a future
+                          jsonDecode(snapshot
+                              .data!
+                              .stdSubAtdDetails
+                              .studentSubjectAttendance[0]
+                              .userDetails)['admissionNumber']),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<PDPAttendanceData>?> ss) {
+                        int presentLectures = 0;
+                        if (ss.data!.isNotEmpty) {
+                          for (var element in ss.data!) {
+                            if (element.isInAbsent == false) {
+                              presentLectures++;
+                            }
+                          }
+                        }
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (snapshot.hasError) {
+                          return const Center(
+                            child: Text('Error fetching data'),
+                          );
+                        } else if (snapshot.data != null) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            margin: const EdgeInsets.only(left: 18, right: 15),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PDPAttendanceScreen(
+                                      attendanceData: ss.data!,
+                                      presentLectures: presentLectures,
+                                      percentageAttendance:
+                                          (presentLectures / ss.data!.length) *
+                                              100,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: SubjectCard(
+                                totalPresent: presentLectures,
+                                totalClasses: ss.data!.length,
+                                subject: "PDP",
+                                attendance:
+                                    (presentLectures / ss.data!.length) * 100,
+                              ),
+                            ),
+                          );
+                        } else {
+                          return const Center(
+                            child: Text('No data found'),
+                          );
+                        }
+                      }),
+                  const SizedBox(
+                    height: 10,
+                  ),
                 ],
-              ),
-            );
-          }
-        },
+              );
+            }
+          },
+        ),
       ),
     );
   }

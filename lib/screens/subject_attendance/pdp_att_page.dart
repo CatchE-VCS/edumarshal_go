@@ -1,65 +1,50 @@
-import 'package:edumarshal/models/attendance_model.dart';
+import 'package:edumarshal/models/pdp_att_model.dart';
 import 'package:edumarshal/screens/subject_attendance/attendance_summary_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SubjectAttendanceScreen extends StatefulWidget {
-  final Subject subject;
-  final AttendanceData? attendanceData;
+class PDPAttendanceScreen extends StatefulWidget {
+  final List<PDPAttendanceData?> attendanceData;
+  final int presentLectures;
+  final double percentageAttendance;
 
-  const SubjectAttendanceScreen(
-      {super.key, required this.attendanceData, required this.subject});
+  const PDPAttendanceScreen(
+      {super.key,
+      required this.attendanceData,
+      required this.presentLectures,
+      required this.percentageAttendance});
 
   @override
-  State<SubjectAttendanceScreen> createState() =>
-      _SubjectAttendanceScreenState();
+  State<PDPAttendanceScreen> createState() => _PDPAttendanceScreenState();
 }
 
-class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
-  // String capitalizeFirstLetters(String input) {
+class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
   late DateTime _firstDay;
   late DateTime _lastDay;
-
-  // late Offset _offset;
   late Map<DateTime, List<AttendanceEntry>> _events;
-  final List<AttendanceDatum> subjectAtt = [];
-  final List<AttendanceCopy> extraLecture = [];
 
   @override
   initState() {
     super.initState();
     // _offset = const Offset(0.0, 0.0);
-    for (var element in widget.attendanceData!.attendanceData) {
-      if (element.subjectId == widget.subject.id) {
-        subjectAtt.add(element);
-      }
-    }
-    for (var element in widget.attendanceData!.extraLectures) {
-      if (element.subjectId == widget.subject.id) {
-        extraLecture.add(element);
-      }
-    }
-
-    _firstDay = subjectAtt[0].absentDate;
-    _lastDay = subjectAtt[subjectAtt.length - 1].absentDate;
-    subjectAtt.sort((a, b) => a.absentDate.compareTo(b.absentDate));
-    extraLecture.sort((a, b) => a.absentDate.compareTo(b.absentDate));
     _events = {};
-    for (var element in subjectAtt) {
-      _events[element.absentDate] = [
-        AttendanceEntry(isAbsent: element.isAbsent),
-      ];
-    }
-    for (var element in extraLecture) {
-      if (_events.containsKey(element.absentDate)) {
-        _events[element.absentDate]!.add(
-          AttendanceEntry(isAbsent: element.isAbsent),
-        );
-      } else {
-        _events[element.absentDate] = [
-          AttendanceEntry(isAbsent: element.isAbsent),
-        ];
+    if (widget.attendanceData.isNotEmpty) {
+      for (var element in widget.attendanceData) {
+        if (_events.containsKey(element!.attendanceDate)) {
+          _events[element.attendanceDate]!.add(
+            AttendanceEntry(isAbsent: element.isInAbsent),
+          );
+        } else {
+          _events[element.attendanceDate] = [
+            AttendanceEntry(isAbsent: element.isInAbsent),
+          ];
+        }
       }
+      widget.attendanceData
+          .sort((a, b) => a!.attendanceDate.compareTo(b!.attendanceDate));
+      _firstDay = widget.attendanceData[0]!.attendanceDate;
+      _lastDay = widget
+          .attendanceData[widget.attendanceData.length - 1]!.attendanceDate;
     }
   }
 
@@ -68,7 +53,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          (widget.subject.name),
+          "PDP Attendance",
           style: TextStyle(
             // fontSize: 24,
             // fontWeight: FontWeight.bold,
@@ -96,7 +81,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
                       ),
                     ),
                     Text(
-                      widget.subject.totalLeactures.toString(),
+                      widget.attendanceData.length.toString(),
                       style: TextStyle(
                         fontSize: 14,
                         fontFamily: GoogleFonts.poppins().fontFamily,
@@ -114,7 +99,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
                       ),
                     ),
                     Text(
-                      widget.subject.presentLeactures.toString(),
+                      widget.presentLectures.toString(),
                       style: TextStyle(
                         fontSize: 13,
                         fontFamily: GoogleFonts.poppins().fontFamily,
@@ -132,7 +117,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
                       ),
                     ),
                     Text(
-                      widget.subject.percentageAttendance.toString(),
+                      widget.percentageAttendance.toString(),
                       style: TextStyle(
                         fontSize: 14,
                         fontFamily: GoogleFonts.poppins().fontFamily,
@@ -157,12 +142,12 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
             Expanded(
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
-                itemCount: subjectAtt.length,
+                itemCount: _events.length,
                 reverse: true,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   String attendance = "";
-                  for (var element in _events[subjectAtt[index].absentDate]!) {
+                  for (var element in _events[_events.keys.elementAt(index)]!) {
                     attendance += element.isAbsent ? "A" : "P";
                   }
                   return Container(
@@ -183,7 +168,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          '${DateTime.parse(subjectAtt[index].absentDate.toString()).day}/${DateTime.parse(subjectAtt[index].absentDate.toString()).month}/${DateTime.parse(subjectAtt[index].absentDate.toString()).year}'
+                          '${DateTime.parse(_events.keys.elementAt(index).toString()).day}/${DateTime.parse(_events.keys.elementAt(index).toString()).month}/${DateTime.parse(_events.keys.elementAt(index).toString()).year}'
                               .toString(),
                           style: const TextStyle(
                             fontSize: 16,
