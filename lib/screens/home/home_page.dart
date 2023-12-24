@@ -342,7 +342,7 @@ class _HomePageState extends State<HomePage> {
                       builder: (BuildContext context,
                           AsyncSnapshot<List<PDPAttendanceData>?> ss) {
                         int presentLectures = 0;
-                        if (ss.data!.isNotEmpty) {
+                        if (ss.data!.isNotEmpty && ss.data != null) {
                           for (var element in ss.data!) {
                             if (element.isInAbsent == false) {
                               presentLectures++;
@@ -359,27 +359,28 @@ class _HomePageState extends State<HomePage> {
                             child: Text('Error fetching data'),
                           );
                         } else if (snapshot.data != null) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            margin: const EdgeInsets.only(left: 18, right: 15),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => PDPAttendanceScreen(
-                                      attendanceData: ss.data!,
-                                      presentLectures: presentLectures,
-                                      percentageAttendance:
-                                          (presentLectures / ss.data!.length) *
-                                              100,
-                                    ),
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PDPAttendanceScreen(
+                                    attendanceData: ss.data!,
+                                    presentLectures: presentLectures,
+                                    percentageAttendance:
+                                        (presentLectures / ss.data!.length) *
+                                            100,
                                   ),
-                                );
-                              },
+                                ),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              margin:
+                                  const EdgeInsets.only(left: 18, right: 15),
                               child: SubjectCard(
                                 totalPresent: presentLectures,
                                 totalClasses: ss.data!.length,
