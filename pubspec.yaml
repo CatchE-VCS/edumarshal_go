@@ -1,5 +1,6 @@
 name: edumarshal
 description: A mini app for akgec edumarshal
+version: 1.0.0+4
 publish_to: 'none'
 
 

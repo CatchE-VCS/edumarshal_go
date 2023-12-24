@@ -1,2 +1,2 @@
 // const url = 'https://akgec-edumarshal-dev.onrender.com/';
-const domain = 'http://api.edumarshal.aeronex.live/';
+const domain = 'https://api.edumarshal.aeronex.live/';
