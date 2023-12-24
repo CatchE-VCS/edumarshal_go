@@ -342,54 +342,64 @@ class _HomePageState extends State<HomePage> {
                       builder: (BuildContext context,
                           AsyncSnapshot<List<PDPAttendanceData>?> ss) {
                         int presentLectures = 0;
-                        if (ss.data!.isNotEmpty && ss.data != null) {
+                        if (ss.data != null) {
+                          if (ss.data!.isEmpty) {
+                            return const Center(
+                              child: Text('No data found'),
+                            );
+                          }
                           for (var element in ss.data!) {
                             if (element.isInAbsent == false) {
                               presentLectures++;
                             }
                           }
-                        }
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else if (snapshot.hasError) {
-                          return const Center(
-                            child: Text('Error fetching data'),
-                          );
-                        } else if (snapshot.data != null) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PDPAttendanceScreen(
-                                    attendanceData: ss.data!,
-                                    presentLectures: presentLectures,
-                                    percentageAttendance:
-                                        (presentLectures / ss.data!.length) *
-                                            100,
+
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (snapshot.hasError) {
+                            return const Center(
+                              child: Text('Error fetching data'),
+                            );
+                          } else if (snapshot.data != null) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PDPAttendanceScreen(
+                                      attendanceData: ss.data!,
+                                      presentLectures: presentLectures,
+                                      percentageAttendance:
+                                          (presentLectures / ss.data!.length) *
+                                              100,
+                                    ),
                                   ),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade200,
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(10),
+                                margin:
+                                    const EdgeInsets.only(left: 18, right: 15),
+                                child: SubjectCard(
+                                  totalPresent: presentLectures,
+                                  totalClasses: ss.data!.length,
+                                  subject: "PDP",
+                                  attendance:
+                                      (presentLectures / ss.data!.length) * 100,
+                                ),
                               ),
-                              margin:
-                                  const EdgeInsets.only(left: 18, right: 15),
-                              child: SubjectCard(
-                                totalPresent: presentLectures,
-                                totalClasses: ss.data!.length,
-                                subject: "PDP",
-                                attendance:
-                                    (presentLectures / ss.data!.length) * 100,
-                              ),
-                            ),
-                          );
+                            );
+                          } else {
+                            return const Center(
+                              child: Text('No data found'),
+                            );
+                          }
                         } else {
                           return const Center(
                             child: Text('No data found'),
