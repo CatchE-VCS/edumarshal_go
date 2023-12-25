@@ -192,14 +192,34 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
                           ),
                         ),
                         const Spacer(),
-                        Text(
-                          attendance,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                        RichText(
+                          text: TextSpan(
+                            children: List.generate(
+                              attendance.length,
+                              (index) {
+                                if (attendance[index] == 'P') {
+                                  return TextSpan(
+                                    text: 'P',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  );
+                                } else {
+                                  return TextSpan(
+                                    text: 'A',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
                           ),
-                        ),
+                        )
                       ],
                     ),
                   );
