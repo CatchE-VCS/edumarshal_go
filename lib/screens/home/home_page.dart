@@ -266,6 +266,25 @@ class _HomePageState extends State<HomePage> {
                           const SizedBox(
                             width: 20,
                           ),
+                          AdditionalInfo(
+                            index: 2,
+                            image: Image.asset(
+                              'assets/images/presentation_760138.png',
+                            ),
+                            label: 'Classes Required for 75%:',
+                            value: (() {
+                              int calculatedValue =
+                                  3 * totalClasses - 4 * totalPresent;
+                              if (calculatedValue < 0) {
+                                return 'Tumse na ho paega';
+                              } else {
+                                return 'Classes Required: $calculatedValue';
+                              }
+                            })(),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
                         ],
                       ),
                     ),
