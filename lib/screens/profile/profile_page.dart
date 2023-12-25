@@ -165,9 +165,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                       child: CircularProgressIndicator(),
                                     );
                                   }, errorBuilder: (context, object, stack) {
-                                    return const Icon(
-                                      Icons.error_outline,
-                                      color: Colors.amber,
+                                    return Container(
+                                      child: Image.network(
+                                          fit: BoxFit.cover,
+                                          "https://beta.edumarshal.com/app/img/no-image-person.png"),
                                     );
                                   })
                                 : const Center(
