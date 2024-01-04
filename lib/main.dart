@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'controllers/model.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() {
   runApp(const App());
 }
