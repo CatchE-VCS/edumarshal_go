@@ -1,7 +1,8 @@
-import 'package:edumarshal/models/pdp_att_model.dart';
-import 'package:edumarshal/screens/subject_attendance/attendance_summary_page.dart';
+import 'package:edumarshal/features/subject_attendance/attendance_summary_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../dashboard/model/pdp_att_model.dart';
 
 class PDPAttendanceScreen extends StatefulWidget {
   final List<PDPAttendanceData?> attendanceData;

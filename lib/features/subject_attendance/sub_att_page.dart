@@ -1,7 +1,8 @@
-import 'package:edumarshal/models/attendance_model.dart';
-import 'package:edumarshal/screens/subject_attendance/attendance_summary_page.dart';
+import 'package:edumarshal/features/subject_attendance/attendance_summary_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../dashboard/model/attendance_model.dart';
 
 class SubjectAttendanceScreen extends StatefulWidget {
   final Subject subject;

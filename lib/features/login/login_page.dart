@@ -1,24 +1,29 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:edumarshal/controllers/auth.dart';
-import 'package:edumarshal/screens/home_nav/hidden_drawer.dart';
+import 'package:edumarshal/core/router/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../utils/snackbar.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+@RoutePage(
+  deferredLoading: true,
+)
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   bool _obscureText = true;
   bool _loading = false;
   String username = '';
   String password = '';
+
   void _togglePasswordVisibility() {
     setState(() {
       _obscureText = !_obscureText;
@@ -30,7 +35,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        shape: RoundedRectangleBorder(),
+        shape: const RoundedRectangleBorder(),
         elevation: 20,
         centerTitle: true,
         title: Text(
@@ -142,20 +147,12 @@ class _LoginState extends State<Login> {
                             .simpleSnackBar(context, 'Logging you in....');
                         String? accessToken =
                             await Controller().login(username, password);
-                        if (accessToken != null) {
-                          if (!mounted) return;
-                          SnackBarUtil().simpleSnackBar(
-                              context, 'Logged in successfully');
-                          _formKey.currentState!.reset();
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      HiddenDrawer(accessToken: accessToken)));
-                        } else {
-                          if (!mounted) return;
-                          SnackBarUtil()
-                              .simpleSnackBar(context, 'Invalid credentials');
-                        }
+                        if (!mounted) return;
+                        SnackBarUtil()
+                            .simpleSnackBar(context, 'Logged in successfully');
+                        _formKey.currentState!.reset();
+                        context.router.replace(
+                            HiddenDrawerRoute(accessToken: accessToken!));
                       }
                       setState(() {
                         _loading = false;

@@ -35,14 +35,14 @@ class HiddenMenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(bottom: 15.0),
+      margin: const EdgeInsets.only(bottom: 15.0),
       child: InkWell(
         onTap: onTap,
         child: Row(
           children: <Widget>[
             if (typeOpen == TypeOpen.FROM_LEFT)
               ClipRRect(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(4.0),
                   bottomRight: Radius.circular(4.0),
                 ),
@@ -69,7 +69,7 @@ class HiddenMenuItem extends StatelessWidget {
             ),
             if (typeOpen == TypeOpen.FROM_RIGHT)
               ClipRRect(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(4.0),
                   bottomLeft: Radius.circular(4.0),
                 ),
@@ -86,12 +86,12 @@ class HiddenMenuItem extends StatelessWidget {
   }
 
   TextStyle? _getStyleSelected() {
-    return this.selected
-        ? this.selectedStyle ?? TextStyle(color: Colors.white)
+    return selected
+        ? selectedStyle ?? const TextStyle(color: Colors.white)
         : null;
   }
 
   TextStyle _getStyle() {
-    return this.baseStyle ?? TextStyle(color: Colors.grey, fontSize: 25.0);
+    return baseStyle ?? const TextStyle(color: Colors.grey, fontSize: 25.0);
   }
 }

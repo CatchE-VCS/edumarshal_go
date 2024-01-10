@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+@RoutePage()
 class TimeTablePage extends StatefulWidget {
   const TimeTablePage({super.key});
 
@@ -149,7 +151,8 @@ class _TimeTablePageState extends State<TimeTablePage> {
                 weekNumberTextStyle: TextStyle(color: Colors.red),
                 weekendTextStyle: TextStyle(color: Colors.pink),
               ),
-              focusedDay: _focusedDay, // focus current day
+              focusedDay: _focusedDay,
+              // focus current day
               firstDay: DateTime(2023),
               lastDay: DateTime(2024),
               calendarFormat: _calendarFormat,

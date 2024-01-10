@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:edumarshal/controllers/db_controller.dart';
-import 'package:edumarshal/controllers/model.dart';
+import 'package:edumarshal/controllers/user_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -58,11 +58,12 @@ class Controller {
           xUserId: jsonDecode(res.body)['X-UserId'],
           xLogoId: jsonDecode(res.body)['X-LogoId'],
           xRx: jsonDecode(res.body)['X-RX'],
-          pChangeSetting: jsonDecode(res.body)['PChangeSetting'],
-          pChangeStatus: jsonDecode(res.body)['PChangeStatus'],
-          sessionId: jsonDecode(res.body)['SessionId'],
-          xToken: jsonDecode(res.body)['X_Token'],
-          issued: jsonDecode(res.body)['.issued'],
+          // pChangeSetting: jsonDecode(res.body)['PChangeSetting'],
+          // pChangeStatus: jsonDecode(res.body)['PChangeStatus'],
+          // sessionId: jsonDecode(res.body)['SessionId'],
+          // xToken: jsonDecode(res.body)['X_Token'],
+          // issued: jsonDecode(res.body)['.issued'],
+          admissionNumber: jsonDecode(res.body)['admissionNumber'],
           expires: jsonDecode(res.body)['.expires'],
         );
 

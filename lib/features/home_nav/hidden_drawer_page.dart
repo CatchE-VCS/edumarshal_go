@@ -1,25 +1,29 @@
+import 'package:auto_route/annotations.dart';
 import 'package:edumarshal/ext_package/hidden_drawer_menu/hidden_drawer_menu.dart';
-import 'package:edumarshal/screens/events/events_page.dart';
-import 'package:edumarshal/screens/home/home_page.dart';
-import 'package:edumarshal/screens/payment/payment_history_page.dart';
-import 'package:edumarshal/screens/profile/profile_page.dart';
-import 'package:edumarshal/screens/time_table/time_table_page.dart';
+import 'package:edumarshal/features/dashboard/dashboard.dart';
+import 'package:edumarshal/features/events/events_page.dart';
+import 'package:edumarshal/features/payment/payment_history_page.dart';
+import 'package:edumarshal/features/profile/view/profile_page.dart';
+import 'package:edumarshal/features/time_table/time_table_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../controllers/db_controller.dart';
 import '../../utils/dialogs.dart';
 
-class HiddenDrawer extends StatefulWidget {
-  const HiddenDrawer({super.key, required this.accessToken});
+@RoutePage(
+  deferredLoading: true,
+)
+class HiddenDrawerPage extends StatefulWidget {
+  const HiddenDrawerPage({super.key, required this.accessToken});
 
   final String accessToken;
 
   @override
-  State<HiddenDrawer> createState() => _HiddenDrawerState();
+  State<HiddenDrawerPage> createState() => _HiddenDrawerState();
 }
 
-class _HiddenDrawerState extends State<HiddenDrawer> {
+class _HiddenDrawerState extends State<HiddenDrawerPage> {
   List<ScreenHiddenDrawer> _pages = [];
 
   late String email;
@@ -52,19 +56,20 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
     _pages = [
       ScreenHiddenDrawer(
         ItemHiddenMenu(
-            name: 'Dashboard',
-            baseStyle: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-            selectedStyle: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-            colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
-        const HomePage(),
+          name: 'Dashboard',
+          baseStyle: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+          selectedStyle: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+          colorLineSelected: const Color.fromARGB(255, 251, 162, 45),
+        ),
+        const DashboardPage(),
       ),
 
       ScreenHiddenDrawer(

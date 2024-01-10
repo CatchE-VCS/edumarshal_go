@@ -1,16 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'model.dart';
+import 'user_model.dart';
 
 class DataBaseCon {
   Future<Database> initializedDB() async {
     return await openDatabase(
-      join(await getDatabasesPath(), 'db_user.db'),
+      join(await getDatabasesPath(), 'db_user_n.db'),
       version: 1,
       onCreate: (Database db, int version) async {
         await db.execute(
-          'CREATE TABLE userCred (id INTEGER PRIMARY KEY, accessToken TEXT NOT NULL, tokenType TEXT, expiresIn INTEGER, xContextId TEXT, xUserId TEXT, xLogoId TEXT, xRx TEXT, pChangeSetting TEXT, pChangeStatus TEXT, sessionId TEXT, xToken TEXT, issued TEXT, expires TEXT)',
+          'CREATE TABLE userDB (id INTEGER PRIMARY KEY, accessToken TEXT NOT NULL, tokenType TEXT, expiresIn INTEGER, xContextId TEXT, xUserId TEXT, xLogoId TEXT, xRx TEXT, expires TEXT, admissionNumber TEXT)',
         );
       },
     );
@@ -47,7 +48,7 @@ class DataBaseCon {
     // userMap['issued'] = user.issued;
     // userMap['expires'] = user.expires;
     final Database db = await initializedDB();
-    result = await db.insert('userCred', user.toMap(),
+    result = await db.insert('userDB', user.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
     return result;
   }
@@ -67,7 +68,7 @@ class DataBaseCon {
 // retrieve data
   Future<List<Object?>> retrieveUser() async {
     final Database db = await initializedDB();
-    final List<Map<String, Object?>> queryResult = await db.query('userCred');
+    final List<Map<String, Object?>> queryResult = await db.query('userDB');
     return queryResult.map((e) => e['accessToken']).toList();
   }
 
@@ -75,16 +76,22 @@ class DataBaseCon {
   Future<User?> getUserById(int userId) async {
     final Database db = await initializedDB();
     final List<Map<String, dynamic>> maps = await db.query(
-      'userCred',
+      'userDB',
       where: 'id = ?',
       whereArgs: [userId],
     );
-    print("object");
+    if (kDebugMode) {
+      print("object");
+    }
     if (maps.isNotEmpty) {
-      print("data got");
+      if (kDebugMode) {
+        print("data got");
+      }
       return User.fromMap(maps.first);
     } else {
-      print("empty");
+      if (kDebugMode) {
+        print("empty");
+      }
       return null;
     }
   }
@@ -100,7 +107,7 @@ class DataBaseCon {
   Future<void> deleteUser(int id) async {
     final db = await initializedDB();
     await db.delete(
-      'userCred',
+      'userDB',
       where: "id = ?",
       whereArgs: [id],
     );
@@ -113,5 +120,24 @@ class DataBaseCon {
       where: "id = ?",
       whereArgs: [id],
     );
+  }
+
+  Future<void> deleteAllUser() async {
+    final db = await initializedDB();
+    await db.delete(
+      'userDB',
+    );
+  }
+
+  Future<void> deleteAllComUser() async {
+    final db = await initializedDB();
+    await db.delete(
+      'checkBoolee',
+    );
+  }
+
+  Future<void> deleteDB() async {
+    Database db = await initializedDB();
+    db.execute("DROP TABLE userDB");
   }
 }

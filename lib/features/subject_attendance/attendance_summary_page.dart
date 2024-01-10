@@ -3,6 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+// @RoutePage(
+//   deferredLoading: true,
+// )
 class AttendanceSummaryPage extends StatefulWidget {
   const AttendanceSummaryPage({
     super.key,

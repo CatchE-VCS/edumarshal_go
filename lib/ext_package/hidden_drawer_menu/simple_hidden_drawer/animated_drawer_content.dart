@@ -56,25 +56,27 @@ class _AnimatedDrawerContentState extends State<AnimatedDrawerContent> {
           slideAmount = ((constraints.maxWidth) / 100 * widget.slidePercent) *
               animatePercent;
 
-          if (widget.enableScaleAnimation)
+          if (widget.enableScaleAnimation) {
             contentScale = 1.0 -
                 (((100 - widget.verticalScalePercent) / 100) * animatePercent);
+          }
 
-          if (widget.enableCornerAnimation)
+          if (widget.enableCornerAnimation) {
             cornerRadius = widget.contentCornerRadius * animatePercent;
+          }
 
           slideAmount = widget.typeOpen == TypeOpen.FROM_LEFT
               ? slideAmount
               : (-1 * slideAmount);
 
           return Transform(
-            transform: new Matrix4.translationValues(slideAmount, 0.0, 0.0)
+            transform: Matrix4.translationValues(slideAmount, 0.0, 0.0)
               ..scale(contentScale, contentScale),
             alignment: widget.typeOpen == TypeOpen.FROM_LEFT
                 ? Alignment.centerLeft
                 : Alignment.centerRight,
             child: Container(
-              decoration: new BoxDecoration(
+              decoration: BoxDecoration(
                 boxShadow: _getShadow(),
               ),
               child: ClipRRect(
@@ -117,9 +119,9 @@ class _AnimatedDrawerContentState extends State<AnimatedDrawerContent> {
     if (widget.withShadow) {
       return widget.boxShadow ??
           [
-            new BoxShadow(
-              color: const Color(0x44000000),
-              offset: const Offset(0.0, 5.0),
+            const BoxShadow(
+              color: Color(0x44000000),
+              offset: Offset(0.0, 5.0),
               blurRadius: BLUR_SHADOW,
               spreadRadius: 5.0,
             ),
@@ -132,7 +134,7 @@ class _AnimatedDrawerContentState extends State<AnimatedDrawerContent> {
   void _myOnHorizontalDragStart(DragStartDetails detail) {
     if (detail.localPosition.dx <= WIDTH_GESTURE &&
         !(widget.withPaddingTop && detail.localPosition.dy <= HEIGHT_APPBAR)) {
-      this.setState(() {
+      setState(() {
         dragging = true;
       });
     }

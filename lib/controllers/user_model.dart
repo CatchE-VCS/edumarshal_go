@@ -7,12 +7,14 @@ class User {
   final String xUserId;
   final String xRx;
   final String xLogoId;
-  final String pChangeSetting;
-  final String sessionId;
-  final String pChangeStatus;
-  final String issued;
-  final String xToken;
+
+  // final String pChangeSetting;
+  // final String sessionId;
+  // final String pChangeStatus;
+  // final String issued;
+  // final String xToken;
   final String expires;
+  final String admissionNumber;
 
   User({
     required this.id,
@@ -23,13 +25,15 @@ class User {
     required this.xUserId,
     required this.xLogoId,
     required this.xRx,
-    required this.pChangeSetting,
-    required this.pChangeStatus,
-    required this.sessionId,
-    required this.xToken,
-    required this.issued,
+    // required this.pChangeSetting,
+    // required this.pChangeStatus,
+    // required this.sessionId,
+    // required this.xToken,
+    // required this.issued,
     required this.expires,
+    required this.admissionNumber,
   });
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -40,11 +44,12 @@ class User {
       'xUserId': xUserId,
       'xLogoId': xLogoId,
       'xRx': xRx,
-      'pChangeSetting': pChangeSetting,
-      'pChangeStatus': pChangeStatus,
-      'sessionId': sessionId,
-      'xToken': xToken,
-      'issued': issued,
+      // 'pChangeSetting': pChangeSetting,
+      // 'pChangeStatus': pChangeStatus,
+      // 'sessionId': sessionId,
+      // 'xToken': xToken,
+      // 'issued': issued,
+      'admissionNumber': admissionNumber,
       'expires': expires,
     };
   }
@@ -58,11 +63,12 @@ class User {
         xUserId = result['xUserId'],
         xLogoId = result['xLogoId'],
         xRx = result['xRx'],
-        pChangeSetting = result['pChangeSetting'],
-        pChangeStatus = result['pChangeStatus'],
-        sessionId = result['sessionId'],
-        xToken = result['xToken'],
-        issued = result['issued'],
+        // pChangeSetting = result['pChangeSetting'],
+        // pChangeStatus = result['pChangeStatus'],
+        // sessionId = result['sessionId'],
+        // xToken = result['xToken'],
+        // issued = result['issued'],
+        admissionNumber = result['admissionNumber'],
         expires = result['expires'];
 // @override
 // String toString() {
@@ -78,6 +84,7 @@ class BoolCom {
     required this.id,
     required this.boole,
   });
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,

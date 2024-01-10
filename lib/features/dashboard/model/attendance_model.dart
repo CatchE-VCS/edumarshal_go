@@ -4,8 +4,8 @@
 
 import 'dart:convert';
 
-AttendanceData attendanceDataFromJson(String str) =>
-    AttendanceData.fromJson(json.decode(str));
+AttendanceData attendanceDataFromJson(Map<String, dynamic> str) =>
+    AttendanceData.fromJson(str);
 
 String attendanceDataToJson(AttendanceData data) => json.encode(data.toJson());
 

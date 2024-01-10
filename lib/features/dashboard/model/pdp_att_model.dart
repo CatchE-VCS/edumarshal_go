@@ -4,9 +4,8 @@
 
 import 'dart:convert';
 
-List<PDPAttendanceData> pdpAttendanceDataFromJson(String str) =>
-    List<PDPAttendanceData>.from(
-        json.decode(str).map((x) => PDPAttendanceData.fromJson(x)));
+List<PDPAttendanceData> pdpAttendanceDataFromJson(List<dynamic> str) =>
+    List<PDPAttendanceData>.from(str.map((x) => PDPAttendanceData.fromJson(x)));
 
 String pdpAttendanceDataToJson(List<PDPAttendanceData> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
