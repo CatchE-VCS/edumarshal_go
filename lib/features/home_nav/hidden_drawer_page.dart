@@ -1,16 +1,16 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:edumarshal/ext_package/hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:edumarshal/features/dashboard/dashboard.dart';
 import 'package:edumarshal/features/events/events_page.dart';
 import 'package:edumarshal/features/payment/payment_history_page.dart';
 import 'package:edumarshal/features/profile/view/profile_page.dart';
 import 'package:edumarshal/features/time_table/time_table_page.dart';
+import 'package:edumarshal/features/widgets/dialogs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/dialogs.dart';
+import '../auth/auth.dart';
 import '../barcode/barcode.dart';
-import '../login/repository/db_controller.dart';
 
 @RoutePage(
   deferredLoading: true,
@@ -34,8 +34,10 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
     super.initState();
 
     // Map<String, dynamic>? jwtDecodedToken;
-    print("Access Token: ");
-    print(widget.accessToken);
+    if (kDebugMode) {
+      print("Access Token: ");
+      print(widget.accessToken);
+    }
     try {
       // jwtDecodedToken = JwtDecoder.decode(widget.accessToken!);
       // if (kDebugMode) {
@@ -191,9 +193,10 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
             color: Colors.white,
           ),
           onTap: () {
-            DataBaseCon handler = DataBaseCon();
-            handler.deleteUser(1);
-            Navigator.pushReplacementNamed(context, '/login');
+            DBRepository handler = DBRepository();
+            handler
+                .deleteUser(1)
+                .then((_) => context.router.replaceNamed('/login'));
           },
           colorLineSelected: const Color.fromARGB(255, 251, 162, 45),
         ),

@@ -3,7 +3,7 @@ import 'package:edumarshal/core/router/router.gr.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../login/repository/db_controller.dart';
+import '../../auth/auth.dart';
 
 @RoutePage(
   deferredLoading: true,
@@ -13,7 +13,7 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DataBaseCon handler = DataBaseCon();
+    DBRepository handler = DBRepository();
     handler
         .getUserById(1)
         .then((value) => value != null

@@ -4,7 +4,9 @@ import 'package:sqflite/sqflite.dart';
 
 import '../model/user_model.dart';
 
-class DataBaseCon {
+class DBRepository {
+  DBRepository();
+
   Future<Database> initializedDB() async {
     return await openDatabase(
       join(await getDatabasesPath(), 'db_user_n.db'),
@@ -19,11 +21,11 @@ class DataBaseCon {
 
   Future<Database> initializedComDB() async {
     return await openDatabase(
-      join(await getDatabasesPath(), 'db_userBoolee.db'),
+      join(await getDatabasesPath(), 'db_userBoole.db'),
       version: 1,
       onCreate: (Database db, int version) async {
         return await db.execute(
-          'CREATE TABLE checkBoolee(id INTEGER PRIMARY KEY, boole INTEGER NOT NULL)',
+          'CREATE TABLE checkBoole(id INTEGER PRIMARY KEY, boole INTEGER NOT NULL)',
         );
       },
     );
@@ -55,12 +57,12 @@ class DataBaseCon {
 
   Future<int> insertCom() async {
     int result = 0;
-    BoolCom boolcom = BoolCom(
+    BoolCom boolCom = BoolCom(
       id: 1,
       boole: 1,
     );
     final Database db = await initializedDB();
-    result = await db.insert('checkBoolee', boolcom.toMap(),
+    result = await db.insert('checkBoole', boolCom.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
     return result;
   }
@@ -98,8 +100,7 @@ class DataBaseCon {
 
   Future<List<BoolCom>> retrieveComUser() async {
     final Database db = await initializedDB();
-    final List<Map<String, Object?>> queryResult =
-        await db.query('checkBoolee');
+    final List<Map<String, Object?>> queryResult = await db.query('checkBoole');
     return queryResult.map((e) => BoolCom.fromMap(e)).toList();
   }
 
@@ -116,7 +117,7 @@ class DataBaseCon {
   Future<void> deleteComUser(int id) async {
     final db = await initializedDB();
     await db.delete(
-      'checkBoolee',
+      'checkBoole',
       where: "id = ?",
       whereArgs: [id],
     );
@@ -132,7 +133,7 @@ class DataBaseCon {
   Future<void> deleteAllComUser() async {
     final db = await initializedDB();
     await db.delete(
-      'checkBoolee',
+      'checkBoole',
     );
   }
 
