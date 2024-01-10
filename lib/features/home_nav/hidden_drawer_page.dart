@@ -8,8 +8,9 @@ import 'package:edumarshal/features/time_table/time_table_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../controllers/db_controller.dart';
 import '../../utils/dialogs.dart';
+import '../barcode/barcode.dart';
+import '../login/repository/db_controller.dart';
 
 @RoutePage(
   deferredLoading: true,
@@ -108,7 +109,6 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
 
       ScreenHiddenDrawer(
         ItemHiddenMenu(
-
             name: 'E-Identity',
             baseStyle: const TextStyle(
               fontSize: 20,

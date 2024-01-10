@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../const/strings.dart';
-import '../../../controllers/db_controller.dart';
+import '../../login/repository/db_controller.dart';
 import '../profile.dart';
 
 final profileRepositoryProvider = Provider((ref) => ProfileRepository());

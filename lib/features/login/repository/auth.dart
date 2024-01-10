@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:edumarshal/controllers/db_controller.dart';
-import 'package:edumarshal/controllers/user_model.dart';
+import 'package:edumarshal/features/login/model/user_model.dart';
+import 'package:edumarshal/features/login/repository/db_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-import '../const/strings.dart';
+import '../../../const/strings.dart';
 
 class Controller {
   static const url = 'https://akgec-edumarshal-dev.onrender.com/';

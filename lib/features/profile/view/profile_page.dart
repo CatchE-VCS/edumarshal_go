@@ -117,19 +117,24 @@ class ProfilePage extends ConsumerWidget {
                           child: ClipRRect(
                               borderRadius: BorderRadius.circular(100),
                               child: photoUrl.isNotEmpty
-                                  ? Image.network(photoUrl, fit: BoxFit.cover,
+                                  ? Image.network(
+                                      photoUrl,
+                                      fit: BoxFit.cover,
                                       loadingBuilder:
                                           (context, child, loadingProgress) {
-                                      if (loadingProgress == null) return child;
-                                      return const Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    }, errorBuilder: (context, object, stack) {
-                                      return const Icon(
-                                        Icons.error_outline,
-                                        color: Colors.amber,
-                                      );
-                                    })
+                                        if (loadingProgress == null) {
+                                          return child;
+                                        }
+                                        return const Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      },
+                                      errorBuilder: (context, object, stack) {
+                                        return Image.network(
+                                            fit: BoxFit.cover,
+                                            "https://beta.edumarshal.com/app/img/no-image-person.png");
+                                      },
+                                    )
                                   : const Center(
                                       child: CircularProgressIndicator(),
                                     )),

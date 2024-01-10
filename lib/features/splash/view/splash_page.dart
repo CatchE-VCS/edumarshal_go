@@ -3,7 +3,7 @@ import 'package:edumarshal/core/router/router.gr.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../../controllers/db_controller.dart';
+import '../../login/repository/db_controller.dart';
 
 @RoutePage(
   deferredLoading: true,

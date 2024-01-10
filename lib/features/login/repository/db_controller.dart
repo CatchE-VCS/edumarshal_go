@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'user_model.dart';
+import '../model/user_model.dart';
 
 class DataBaseCon {
   Future<Database> initializedDB() async {

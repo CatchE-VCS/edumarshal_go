@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:edumarshal/const/strings.dart';
-import 'package:edumarshal/controllers/db_controller.dart';
 import 'package:edumarshal/features/dashboard/dashboard.dart';
+import 'package:edumarshal/features/login/repository/db_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

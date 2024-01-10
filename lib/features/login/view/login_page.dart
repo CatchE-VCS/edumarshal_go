@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:edumarshal/controllers/auth.dart';
 import 'package:edumarshal/core/router/router.gr.dart';
+import 'package:edumarshal/features/login/repository/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../utils/snackbar.dart';
+import '../../../utils/snackbar.dart';
 
 @RoutePage(
   deferredLoading: true,

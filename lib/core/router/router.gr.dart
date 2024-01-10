@@ -13,7 +13,7 @@ import 'package:edumarshal/features/counter/view/counter_page.dart'
     deferred as _i1;
 import 'package:edumarshal/features/home_nav/hidden_drawer_page.dart'
     deferred as _i2;
-import 'package:edumarshal/features/login/login_page.dart' deferred as _i3;
+import 'package:edumarshal/features/login/view/login_page.dart' deferred as _i3;
 import 'package:edumarshal/features/splash/view/splash_page.dart' as _i4;
 import 'package:edumarshal/features/time_table/time_table_page.dart' as _i5;
 import 'package:flutter/foundation.dart' as _i7;
