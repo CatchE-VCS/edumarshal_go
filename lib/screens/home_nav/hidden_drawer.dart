@@ -1,4 +1,6 @@
 import 'package:edumarshal/ext_package/hidden_drawer_menu/hidden_drawer_menu.dart';
+import 'package:edumarshal/main.dart';
+import 'package:edumarshal/screens/Barcode/BarcodeGen.dart';
 import 'package:edumarshal/screens/events/events_page.dart';
 import 'package:edumarshal/screens/home/home_page.dart';
 import 'package:edumarshal/screens/payment/payment_history_page.dart';
@@ -99,6 +101,24 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
             ),
             colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
         const EventsPage(),
+      ),
+
+      ScreenHiddenDrawer(
+        ItemHiddenMenu(
+            
+            name: 'E-Identity',
+            baseStyle: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+            selectedStyle: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+            colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
+        const BarGen(),
       ),
 
       ScreenHiddenDrawer(
