@@ -54,7 +54,7 @@ class _TimeTablePageState extends State<TimeTablePage> {
     // prefs.setString('events', json.encode(mySelectedEvents));
   }
 
-  List _listofDayEvents(DateTime dateTime) {
+  List _listOfDayEvents(DateTime dateTime) {
     if (mySelectedEvents[DateFormat('yyyy-MM-dd').format(dateTime)] != null) {
       return mySelectedEvents[DateFormat('yyyy-MM-dd').format(dateTime)]!;
     } else {
@@ -153,8 +153,8 @@ class _TimeTablePageState extends State<TimeTablePage> {
               ),
               focusedDay: _focusedDay,
               // focus current day
-              firstDay: DateTime(2023),
-              lastDay: DateTime(2024),
+              firstDay: DateTime(DateTime.now().year - 1),
+              lastDay: DateTime(DateTime.now().year + 1),
               calendarFormat: _calendarFormat,
               onDaySelected: (selectedDay, focusedDay) {
                 if (!isSameDay(_selectedDate, selectedDay)) {
@@ -178,9 +178,9 @@ class _TimeTablePageState extends State<TimeTablePage> {
               onPageChanged: (focusedDay) {
                 _focusedDay = focusedDay;
               },
-              eventLoader: _listofDayEvents,
+              eventLoader: _listOfDayEvents,
             ),
-            ..._listofDayEvents(_selectedDate!).map((myEvent) => ListTile(
+            ..._listOfDayEvents(_selectedDate!).map((myEvent) => ListTile(
                   leading: const Icon(
                     Icons.done,
                     color: Colors.green,
