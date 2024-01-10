@@ -34,7 +34,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
   List<Color> selectedColor = [
     Colors.orangeAccent,
     Colors.greenAccent,
-    Colors.cyanAccent,
+    Colors.cyan,
   ];
 
   @override

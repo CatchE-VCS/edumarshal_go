@@ -108,6 +108,24 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
 
       ScreenHiddenDrawer(
         ItemHiddenMenu(
+
+            name: 'E-Identity',
+            baseStyle: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+            selectedStyle: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+            colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
+        const BarGen(),
+      ),
+
+      ScreenHiddenDrawer(
+        ItemHiddenMenu(
             name: 'Calender',
             baseStyle: const TextStyle(
               fontSize: 20,
