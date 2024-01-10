@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class MyProvider extends InheritedWidget {
   final SimpleHiddenDrawerController controller;
 
-  MyProvider({
+  const MyProvider({
     Key? key,
     required this.controller,
     required Widget child,

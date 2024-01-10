@@ -25,7 +25,7 @@ class HiddenMenu extends StatefulWidget {
 
   final TypeOpen typeOpen;
 
-  HiddenMenu(
+  const HiddenMenu(
       {Key? key,
       required this.background,
       required this.items,
@@ -73,13 +73,13 @@ class _HiddenMenuState extends State<HiddenMenu> {
         ),
         child: Center(
           child: Container(
-            padding: EdgeInsets.only(top: 40.0, bottom: 40.0),
+            padding: const EdgeInsets.only(top: 40.0, bottom: 40.0),
             decoration: BoxDecoration(
               boxShadow: widget.enableShadowItemsMenu
                   ? [
-                      new BoxShadow(
-                        color: const Color(0x44000000),
-                        offset: const Offset(0.0, 5.0),
+                      const BoxShadow(
+                        color: Color(0x44000000),
+                        offset: Offset(0.0, 5.0),
                         blurRadius: 50.0,
                         spreadRadius: 30.0,
                       ),
@@ -87,9 +87,9 @@ class _HiddenMenuState extends State<HiddenMenu> {
                   : [],
             ),
             child: ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              padding: EdgeInsets.all(0.0),
+              padding: const EdgeInsets.all(0.0),
               itemCount: widget.items.length,
               itemBuilder: (context, index) {
                 return HiddenMenuItem(

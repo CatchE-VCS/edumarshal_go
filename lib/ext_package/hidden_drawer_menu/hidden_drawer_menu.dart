@@ -158,14 +158,14 @@ class HiddenDrawerMenu extends StatelessWidget {
   }
 
   Widget _buildMenu() {
-    List<ItemHiddenMenu> _itensMenu = [];
+    List<ItemHiddenMenu> itensMenu = [];
 
-    screens.forEach((item) {
-      _itensMenu.add(item.itemMenu);
-    });
+    for (var item in screens) {
+      itensMenu.add(item.itemMenu);
+    }
 
     return HiddenMenu(
-      items: _itensMenu,
+      items: itensMenu,
       background: backgroundMenu,
       backgroundColorMenu: backgroundColorMenu,
       initPositionSelected: initPositionSelected,
@@ -178,7 +178,7 @@ class HiddenDrawerMenu extends StatelessWidget {
     if (typeOpen == TypeOpen.FROM_LEFT) {
       return IconButton(icon: leadingAppBar, onPressed: () => bloc.toggle());
     } else {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
   }
 

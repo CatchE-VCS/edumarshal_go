@@ -76,6 +76,7 @@ android {
         }
         debug {
             signingConfig signingConfigs.debug
+            applicationIdSuffix ".debug"
 //            isDebuggable = true
         }
 
