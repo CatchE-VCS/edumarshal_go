@@ -29,7 +29,7 @@ class AttendanceRepository {
       };
 
       var response = await _dio.get(
-        'api/v1/attendance',
+        'api/v2/attendance',
         options: Options(headers: headers),
       );
 
@@ -60,7 +60,7 @@ class AttendanceRepository {
       };
 
       var response = await _dio.get(
-        'api/v1/pdp-attendance?admissionNumber=${user.admissionNumber}',
+        'api/v2/pdp-attendance?admissionNumber=${user.admissionNumber}',
         options: Options(headers: headers),
       );
 

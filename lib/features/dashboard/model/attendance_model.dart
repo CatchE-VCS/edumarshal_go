@@ -538,7 +538,7 @@ class StudentSubjectAttendance {
   final dynamic previousEducationClass;
   final dynamic firstFeeReceiptNumber;
   final dynamic firstFeeAmount;
-  final bool isDeleted;
+  final bool? isDeleted;
   final int? migrationStatus;
   final int? userCount;
   final DateTime dob;
@@ -552,7 +552,7 @@ class StudentSubjectAttendance {
   final int? salaryPaidDays;
   final int? salaryTotalEarning;
   final int? salaryTotalDeduction;
-  final bool isPaySlipAdded;
+  final bool? isPaySlipAdded;
   final dynamic grossSalary;
   final DateTime dateTimeStampIns;
   final String motherName;
@@ -649,7 +649,7 @@ class StudentSubjectAttendance {
   final dynamic categoryCode;
   final dynamic admissionStatus;
   final int? studentAdmissionType;
-  final bool isSelfMigrated;
+  final bool? isSelfMigrated;
   final dynamic previousClassUserId;
   final int? hostelTaken;
   final dynamic inactiveDate;
@@ -1217,22 +1217,25 @@ class Subject {
   final int? groupId;
   final String code;
   final int? batchId;
-  final dynamic groupName;
-  final dynamic subject;
+
+  // final dynamic groupName;
+  // final dynamic subject;
   final int? subjectGroupType;
   final int? id;
 
   // final int? subjectGroupId;
   // final int? subSubjectId;
   final String name;
-  final bool isAdditionalSubject;
-  final bool isTimeTableSubject;
-  final int? totalExtraLeactureForSubject;
-  final int? presentInExtraLeactureForSubject;
-  final int? absentInExtraLeactureForSubject;
+
+  // final bool isAdditionalSubject;
+  // final bool isTimeTableSubject;
+  // final int? totalExtraLeactureForSubject;
+  // final int? presentInExtraLeactureForSubject;
+  // final int? absentInExtraLeactureForSubject;
   final int? totalLeactures;
   final int? presentLeactures;
-  final int? otherAttendance;
+
+  // final int? otherAttendance;
   final int? absentLeactures;
 
   // final int? averagePresent;
@@ -1255,21 +1258,21 @@ class Subject {
     required this.groupId,
     required this.code,
     required this.batchId,
-    required this.groupName,
-    required this.subject,
+    // required this.groupName,
+    // required this.subject,
     required this.subjectGroupType,
     required this.id,
     // required this.subjectGroupId,
     // required this.subSubjectId,
     required this.name,
-    required this.isAdditionalSubject,
-    required this.isTimeTableSubject,
-    required this.totalExtraLeactureForSubject,
-    required this.presentInExtraLeactureForSubject,
-    required this.absentInExtraLeactureForSubject,
+    // required this.isAdditionalSubject,
+    // required this.isTimeTableSubject,
+    // required this.totalExtraLeactureForSubject,
+    // required this.presentInExtraLeactureForSubject,
+    // required this.absentInExtraLeactureForSubject,
     required this.totalLeactures,
     required this.presentLeactures,
-    required this.otherAttendance,
+    // required this.otherAttendance,
     required this.absentLeactures,
     // required this.averagePresent,
     // required this.averageTotal,
@@ -1291,23 +1294,23 @@ class Subject {
         groupId: json["groupId"],
         code: json["code"],
         batchId: json["batchId"],
-        groupName: json["groupName"],
-        subject: json["subject"],
+        // groupName: json["groupName"],
+        // subject: json["subject"],
         subjectGroupType: json["subjectGroupType"],
         id: json["id"],
         // subjectGroupId: json["subjectGroupId"],
         // subSubjectId: json["subSubjectId"],
         name: json["name"],
-        isAdditionalSubject: json["isAdditionalSubject"],
-        isTimeTableSubject: json["isTimeTableSubject"],
-        totalExtraLeactureForSubject: json["totalExtraLeactureForSubject"],
-        presentInExtraLeactureForSubject:
-            json["presentInExtraLeactureForSubject"],
-        absentInExtraLeactureForSubject:
-            json["absentInExtraLeactureForSubject"],
+        // isAdditionalSubject: json["isAdditionalSubject"],
+        // isTimeTableSubject: json["isTimeTableSubject"],
+        // totalExtraLeactureForSubject: json["totalExtraLeactureForSubject"],
+        // presentInExtraLeactureForSubject:
+        //     json["presentInExtraLeactureForSubject"],
+        // absentInExtraLeactureForSubject:
+        //     json["absentInExtraLeactureForSubject"],
         totalLeactures: json["totalLeactures"],
         presentLeactures: json["presentLeactures"],
-        otherAttendance: json["otherAttendance"],
+        // otherAttendance: json["otherAttendance"],
         absentLeactures: json["absentLeactures"],
         // averagePresent: json["averagePresent"],
         // averageTotal: json["averageTotal"],
@@ -1329,21 +1332,21 @@ class Subject {
         "groupId": groupId,
         "code": code,
         "batchId": batchId,
-        "groupName": groupName,
-        "subject": subject,
+        // "groupName": groupName,
+        // "subject": subject,
         "subjectGroupType": subjectGroupType,
         "id": id,
         // "subjectGroupId": subjectGroupId,
         // "subSubjectId": subSubjectId,
         "name": name,
-        "isAdditionalSubject": isAdditionalSubject,
-        "isTimeTableSubject": isTimeTableSubject,
-        "totalExtraLeactureForSubject": totalExtraLeactureForSubject,
-        "presentInExtraLeactureForSubject": presentInExtraLeactureForSubject,
-        "absentInExtraLeactureForSubject": absentInExtraLeactureForSubject,
+        // "isAdditionalSubject": isAdditionalSubject,
+        // "isTimeTableSubject": isTimeTableSubject,
+        // "totalExtraLeactureForSubject": totalExtraLeactureForSubject,
+        // "presentInExtraLeactureForSubject": presentInExtraLeactureForSubject,
+        // "absentInExtraLeactureForSubject": absentInExtraLeactureForSubject,
         "totalLeactures": totalLeactures,
         "presentLeactures": presentLeactures,
-        "otherAttendance": otherAttendance,
+        // "otherAttendance": otherAttendance,
         "absentLeactures": absentLeactures,
         // "averagePresent": averagePresent,
         // "averageTotal": averageTotal,
