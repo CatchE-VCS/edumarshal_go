@@ -189,12 +189,12 @@ class LoginPage extends ConsumerWidget {
             : () {
                 if (formKey.currentState!.validate()) {
                   FocusManager.instance.primaryFocus?.unfocus();
-// Validate returns true if the form is valid, or false otherwise.
+                  // Validate returns true if the form is valid, or false otherwise.
                   ref.read(authLoadingPod.notifier).startLoading();
 
-// If the form is valid, display a snack-bar. In the real world,
-// you'd often call a server or save the information in a database.
-                  simpleSnackBar(context, 'Logging you in....');
+                  // If the form is valid, display a snack-bar. In the real world,
+                  // you'd often call a server or save the information in a database.
+                  simpleSnackBar(context, 'Logging you in... Please wait');
 
                   ref
                       .read(authRepositoryProvider)

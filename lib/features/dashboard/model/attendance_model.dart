@@ -10,26 +10,26 @@ AttendanceData attendanceDataFromJson(Map<String, dynamic> str) =>
 String attendanceDataToJson(AttendanceData data) => json.encode(data.toJson());
 
 class AttendanceData {
-  final dynamic attendance;
-  final int? businessDays;
-  final dynamic userBusinessDay;
+  // final dynamic attendance;
+  // final int? businessDays;
+  // final dynamic userBusinessDay;
   final List<AttendanceDatum> attendanceData;
   final List<AttendanceCopy> extraLectures;
   final StdSubAtdDetails stdSubAtdDetails;
 
   AttendanceData({
-    required this.attendance,
-    required this.businessDays,
-    required this.userBusinessDay,
+    // required this.attendance,
+    // required this.businessDays,
+    // required this.userBusinessDay,
     required this.attendanceData,
     required this.extraLectures,
     required this.stdSubAtdDetails,
   });
 
   factory AttendanceData.fromJson(Map<String, dynamic> json) => AttendanceData(
-        attendance: json["attendance"],
-        businessDays: json["businessDays"],
-        userBusinessDay: json["userBusinessDay"],
+        // attendance: json["attendance"],
+        // businessDays: json["businessDays"],
+        // userBusinessDay: json["userBusinessDay"],
         attendanceData: List<AttendanceDatum>.from(
             json["attendanceData"].map((x) => AttendanceDatum.fromJson(x))),
         extraLectures: List<AttendanceCopy>.from(
@@ -38,9 +38,9 @@ class AttendanceData {
       );
 
   Map<String, dynamic> toJson() => {
-        "attendance": attendance,
-        "businessDays": businessDays,
-        "userBusinessDay": userBusinessDay,
+        // "attendance": attendance,
+        // "businessDays": businessDays,
+        // "userBusinessDay": userBusinessDay,
         "attendanceData":
             List<dynamic>.from(attendanceData.map((x) => x.toJson())),
         "extraLectures":
@@ -50,392 +50,400 @@ class AttendanceData {
 }
 
 class AttendanceCopy {
-  final int? orgnizationId;
-  final int? absentCount;
-  final int? attendanceId;
-  final int? attendeeUserId;
-  final dynamic batchName;
-  final dynamic courseName;
-  final dynamic departmentName;
-  final dynamic empNumber;
-  final int? organizationId;
-  final dynamic leaveTypeId;
-  final int? profilePictureId;
-  final int? attandanceType;
+  // final int? orgnizationId;
+  // final int? absentCount;
+  // final int? attendanceId;
+  // final int? attendeeUserId;
+
+  // final dynamic batchName;
+  // final dynamic courseName;
+  // final dynamic departmentName;
+  // final dynamic empNumber;
+  // final int? organizationId;
+
+  // final dynamic leaveTypeId;
+  // final int? profilePictureId;
+  // final int? attandanceType;
   final DateTime absentDate;
-  final dynamic absentDateLable;
-  final dynamic oldAttendanceDate;
-  final String comment;
-  final dynamic firstName;
-  final dynamic middleName;
-  final dynamic lastName;
-  final dynamic admissionNumber;
-  final String subjectName;
-  final int? batchId;
-  final int? randomPresent;
+
+  // final dynamic absentDateLable;
+  // final dynamic oldAttendanceDate;
+  // final String comment;
+  // final dynamic firstName;
+  // final dynamic middleName;
+  // final dynamic lastName;
+  // final dynamic admissionNumber;
+  // final String subjectName;
+  // final int? batchId;
+  // final int? randomPresent;
   final int? subjectId;
   final bool isAbsent;
-  final int? markedBy;
-  final int? adjustmentMode;
-  final dynamic isHalfDay;
-  final dynamic subSubjectId;
-  final dynamic smsMobileNumber;
-  final int? lectureAbsentId;
-  final dynamic bulkAttendance;
-  final AttendanceLable? attendanceLable;
-  final int? sequence;
-  final bool repeatAttendance;
-  final dynamic isExtraLecture;
-  final dynamic extraLeactureLable;
-  final int? studentAbsentCount;
-  final int? newBatchId;
-  final int? uiMode;
-  final int? masterSubjectId;
-  final Css? css;
-  final int? userGroupId;
-  final dynamic userDetails;
-  final int? inoutMode;
-  final dynamic outDateTime;
-  final dynamic outDateTimeLable;
-  final dynamic totalAttendace;
-  final dynamic firstClassAttendance;
-  final bool flag;
-  final dynamic dateOfAbsent;
-  final dynamic rollNumber;
-  final dynamic errorMessage;
-  final int? totalPresent;
-  final int? totalAbsent;
-  final dynamic eventCode;
-  final dynamic colour;
-  final dynamic absentLecture;
-  final dynamic selectedStudentId;
-  final dynamic email;
-  final dynamic fatherEmail;
+
+  // final int? markedBy;
+
+  // final int? adjustmentMode;
+  // final dynamic isHalfDay;
+  // final dynamic subSubjectId;
+  // final dynamic smsMobileNumber;
+  // final int? lectureAbsentId;
+  // final dynamic bulkAttendance;
+  // final AttendanceLable? attendanceLable;
+  // final int? sequence;
+  // final bool repeatAttendance;
+  // final dynamic isExtraLecture;
+  // final dynamic extraLeactureLable;
+  // final int? studentAbsentCount;
+  // final int? newBatchId;
+  // final int? uiMode;
+  // final int? masterSubjectId;
+  // final Css? css;
+  // final int? userGroupId;
+  // final dynamic userDetails;
+  // final int? inoutMode;
+  // final dynamic outDateTime;
+  // final dynamic outDateTimeLable;
+  // final dynamic totalAttendace;
+  // final dynamic firstClassAttendance;
+  // final bool flag;
+  // final dynamic dateOfAbsent;
+  // final dynamic rollNumber;
+  // final dynamic errorMessage;
+  // final int? totalPresent;
+  // final int? totalAbsent;
+  // final dynamic eventCode;
+  // final dynamic colour;
+  // final dynamic absentLecture;
+  // final dynamic selectedStudentId;
+  // final dynamic email;
+  // final dynamic fatherEmail;
 
   AttendanceCopy({
-    required this.orgnizationId,
-    required this.absentCount,
-    required this.attendanceId,
-    required this.attendeeUserId,
-    required this.batchName,
-    required this.courseName,
-    required this.departmentName,
-    required this.empNumber,
-    required this.organizationId,
-    required this.leaveTypeId,
-    required this.profilePictureId,
-    required this.attandanceType,
+    // required this.orgnizationId,
+    // required this.absentCount,
+    // required this.attendanceId,
+    // required this.attendeeUserId,
+    // required this.batchName,
+    // required this.courseName,
+    // required this.departmentName,
+    // required this.empNumber,
+    // required this.organizationId,
+    // required this.leaveTypeId,
+    // required this.profilePictureId,
+    // required this.attandanceType,
     required this.absentDate,
-    required this.absentDateLable,
-    required this.oldAttendanceDate,
-    required this.comment,
-    required this.firstName,
-    required this.middleName,
-    required this.lastName,
-    required this.admissionNumber,
-    required this.subjectName,
-    required this.batchId,
-    required this.randomPresent,
+    // required this.absentDateLable,
+    // required this.oldAttendanceDate,
+    // required this.comment,
+    // required this.firstName,
+    // required this.middleName,
+    // required this.lastName,
+    // required this.admissionNumber,
+    // required this.subjectName,
+    // required this.batchId,
+    // required this.randomPresent,
     required this.subjectId,
     required this.isAbsent,
-    required this.markedBy,
-    required this.adjustmentMode,
-    required this.isHalfDay,
-    required this.subSubjectId,
-    required this.smsMobileNumber,
-    required this.lectureAbsentId,
-    required this.bulkAttendance,
-    this.attendanceLable,
-    required this.sequence,
-    required this.repeatAttendance,
-    required this.isExtraLecture,
-    required this.extraLeactureLable,
-    required this.studentAbsentCount,
-    required this.newBatchId,
-    required this.uiMode,
-    required this.masterSubjectId,
-    this.css,
-    required this.userGroupId,
-    required this.userDetails,
-    required this.inoutMode,
-    required this.outDateTime,
-    required this.outDateTimeLable,
-    required this.totalAttendace,
-    required this.firstClassAttendance,
-    required this.flag,
-    required this.dateOfAbsent,
-    required this.rollNumber,
-    required this.errorMessage,
-    required this.totalPresent,
-    required this.totalAbsent,
-    required this.eventCode,
-    required this.colour,
-    required this.absentLecture,
-    required this.selectedStudentId,
-    required this.email,
-    required this.fatherEmail,
+    // required this.markedBy,
+    // required this.adjustmentMode,
+    // required this.isHalfDay,
+    // required this.subSubjectId,
+    // required this.smsMobileNumber,
+    // required this.lectureAbsentId,
+    // required this.bulkAttendance,
+    // this.attendanceLable,
+    // required this.sequence,
+    // required this.repeatAttendance,
+    // required this.isExtraLecture,
+    // required this.extraLeactureLable,
+    // required this.studentAbsentCount,
+    // required this.newBatchId,
+    // required this.uiMode,
+    // required this.masterSubjectId,
+    // this.css,
+    // required this.userGroupId,
+    // required this.userDetails,
+    // required this.inoutMode,
+    // required this.outDateTime,
+    // required this.outDateTimeLable,
+    // required this.totalAttendace,
+    // required this.firstClassAttendance,
+    // required this.flag,
+    // required this.dateOfAbsent,
+    // required this.rollNumber,
+    // required this.errorMessage,
+    // required this.totalPresent,
+    // required this.totalAbsent,
+    // required this.eventCode,
+    // required this.colour,
+    // required this.absentLecture,
+    // required this.selectedStudentId,
+    // required this.email,
+    // required this.fatherEmail,
   });
 
   factory AttendanceCopy.fromJson(Map<String, dynamic> json) => AttendanceCopy(
-        orgnizationId: json["orgnizationId"],
-        absentCount: json["absentCount"],
-        attendanceId: json["attendanceID"],
-        attendeeUserId: json["attendeeUserID"],
-        batchName: json["batchName"],
-        courseName: json["courseName"],
-        departmentName: json["departmentName"],
-        empNumber: json["empNumber"],
-        organizationId: json["organizationId"],
-        leaveTypeId: json["leaveTypeId"],
-        profilePictureId: json["profilePictureId"],
-        attandanceType: json["attandanceType"],
+        // orgnizationId: json["orgnizationId"],
+        // absentCount: json["absentCount"],
+        // attendanceId: json["attendanceID"],
+        // attendeeUserId: json["attendeeUserID"],
+        // batchName: json["batchName"],
+        // courseName: json["courseName"],
+        // departmentName: json["departmentName"],
+        // empNumber: json["empNumber"],
+        // organizationId: json["organizationId"],
+        // leaveTypeId: json["leaveTypeId"],
+        // profilePictureId: json["profilePictureId"],
+        // attandanceType: json["attandanceType"],
         absentDate: DateTime.parse(json["absentDate"]),
-        absentDateLable: json["absentDateLable"],
-        oldAttendanceDate: json["oldAttendanceDate"],
-        comment: json["comment"] ?? "",
-        firstName: json["firstName"],
-        middleName: json["middleName"],
-        lastName: json["lastName"],
-        admissionNumber: json["admissionNumber"],
-        subjectName: json["subjectName"] ?? "",
-        batchId: json["batchId"],
-        randomPresent: json["randomPresent"],
+        // absentDateLable: json["absentDateLable"],
+        // oldAttendanceDate: json["oldAttendanceDate"],
+        // comment: json["comment"] ?? "",
+        // firstName: json["firstName"],
+        // middleName: json["middleName"],
+        // lastName: json["lastName"],
+        // admissionNumber: json["admissionNumber"],
+        // subjectName: json["subjectName"] ?? "",
+        // batchId: json["batchId"],
+        // randomPresent: json["randomPresent"],
         subjectId: json["subjectId"],
         isAbsent: json["isAbsent"],
-        markedBy: json["markedBy"],
-        adjustmentMode: json["adjustmentMode"],
-        isHalfDay: json["isHalfDay"],
-        subSubjectId: json["subSubjectId"],
-        smsMobileNumber: json["smsMobileNumber"],
-        lectureAbsentId: json["lectureAbsentId"],
-        bulkAttendance: json["bulkAttendance"],
-        attendanceLable: attendanceLableValues.map[json["attendanceLable"]],
-        sequence: json["sequence"],
-        repeatAttendance: json["repeatAttendance"],
-        isExtraLecture: json["isExtraLecture"],
-        extraLeactureLable: json["extraLeactureLable"],
-        studentAbsentCount: json["studentAbsentCount"],
-        newBatchId: json["newBatchId"],
-        uiMode: json["uiMode"],
-        masterSubjectId: json["masterSubjectId"],
-        css: cssValues.map[json["css"]],
-        userGroupId: json["userGroupId"],
-        userDetails: json["userDetails"],
-        inoutMode: json["inoutMode"],
-        outDateTime: json["outDateTime"],
-        outDateTimeLable: json["outDateTimeLable"],
-        totalAttendace: json["totalAttendace"],
-        firstClassAttendance: json["firstClassAttendance"],
-        flag: json["flag"],
-        dateOfAbsent: json["dateOfAbsent"],
-        rollNumber: json["rollNumber"],
-        errorMessage: json["errorMessage"],
-        totalPresent: json["totalPresent"],
-        totalAbsent: json["totalAbsent"],
-        eventCode: json["eventCode"],
-        colour: json["colour"],
-        absentLecture: json["absentLecture"],
-        selectedStudentId: json["selectedStudentId"],
-        email: json["email"],
-        fatherEmail: json["fatherEmail"],
+        // markedBy: json["markedBy"],
+        // adjustmentMode: json["adjustmentMode"],
+        // isHalfDay: json["isHalfDay"],
+        // subSubjectId: json["subSubjectId"],
+        // smsMobileNumber: json["smsMobileNumber"],
+        // lectureAbsentId: json["lectureAbsentId"],
+        // bulkAttendance: json["bulkAttendance"],
+        // attendanceLable: attendanceLableValues.map[json["attendanceLable"]],
+        // sequence: json["sequence"],
+        // repeatAttendance: json["repeatAttendance"],
+        // isExtraLecture: json["isExtraLecture"],
+        // extraLeactureLable: json["extraLeactureLable"],
+        // studentAbsentCount: json["studentAbsentCount"],
+        // newBatchId: json["newBatchId"],
+        // uiMode: json["uiMode"],
+        // masterSubjectId: json["masterSubjectId"],
+        // css: cssValues.map[json["css"]],
+        // userGroupId: json["userGroupId"],
+        // userDetails: json["userDetails"],
+        // inoutMode: json["inoutMode"],
+        // outDateTime: json["outDateTime"],
+        // outDateTimeLable: json["outDateTimeLable"],
+        // totalAttendace: json["totalAttendace"],
+        // firstClassAttendance: json["firstClassAttendance"],
+        // flag: json["flag"],
+        // dateOfAbsent: json["dateOfAbsent"],
+        // rollNumber: json["rollNumber"],
+        // errorMessage: json["errorMessage"],
+        // totalPresent: json["totalPresent"],
+        // totalAbsent: json["totalAbsent"],
+        // eventCode: json["eventCode"],
+        // colour: json["colour"],
+        // absentLecture: json["absentLecture"],
+        // selectedStudentId: json["selectedStudentId"],
+        // email: json["email"],
+        // fatherEmail: json["fatherEmail"],
       );
 
   Map<String, dynamic> toJson() => {
-        "orgnizationId": orgnizationId,
-        "absentCount": absentCount,
-        "attendanceID": attendanceId,
-        "attendeeUserID": attendeeUserId,
-        "batchName": batchName,
-        "courseName": courseName,
-        "departmentName": departmentName,
-        "empNumber": empNumber,
-        "organizationId": organizationId,
-        "leaveTypeId": leaveTypeId,
-        "profilePictureId": profilePictureId,
-        "attandanceType": attandanceType,
+        // "orgnizationId": orgnizationId,
+        // "absentCount": absentCount,
+        // "attendanceID": attendanceId,
+        // "attendeeUserID": attendeeUserId,
+        // "batchName": batchName,
+        // "courseName": courseName,
+        // "departmentName": departmentName,
+        // "empNumber": empNumber,
+        // "organizationId": organizationId,
+        // "leaveTypeId": leaveTypeId,
+        // "profilePictureId": profilePictureId,
+        // "attandanceType": attandanceType,
         "absentDate": absentDate.toIso8601String(),
-        "absentDateLable": absentDateLable,
-        "oldAttendanceDate": oldAttendanceDate,
-        "comment": comment,
-        "firstName": firstName,
-        "middleName": middleName,
-        "lastName": lastName,
-        "admissionNumber": admissionNumber,
-        "subjectName": subjectName,
-        "batchId": batchId,
-        "randomPresent": randomPresent,
+        // "absentDateLable": absentDateLable,
+        // "oldAttendanceDate": oldAttendanceDate,
+        // "comment": comment,
+        // "firstName": firstName,
+        // "middleName": middleName,
+        // "lastName": lastName,
+        // "admissionNumber": admissionNumber,
+        // "subjectName": subjectName,
+        // "batchId": batchId,
+        // "randomPresent": randomPresent,
         "subjectId": subjectId,
         "isAbsent": isAbsent,
-        "markedBy": markedBy,
-        "adjustmentMode": adjustmentMode,
-        "isHalfDay": isHalfDay,
-        "subSubjectId": subSubjectId,
-        "smsMobileNumber": smsMobileNumber,
-        "lectureAbsentId": lectureAbsentId,
-        "bulkAttendance": bulkAttendance,
-        "attendanceLable": attendanceLableValues.reverse[attendanceLable],
-        "sequence": sequence,
-        "repeatAttendance": repeatAttendance,
-        "isExtraLecture": isExtraLecture,
-        "extraLeactureLable": extraLeactureLable,
-        "studentAbsentCount": studentAbsentCount,
-        "newBatchId": newBatchId,
-        "uiMode": uiMode,
-        "masterSubjectId": masterSubjectId,
-        "css": cssValues.reverse[css],
-        "userGroupId": userGroupId,
-        "userDetails": userDetails,
-        "inoutMode": inoutMode,
-        "outDateTime": outDateTime,
-        "outDateTimeLable": outDateTimeLable,
-        "totalAttendace": totalAttendace,
-        "firstClassAttendance": firstClassAttendance,
-        "flag": flag,
-        "dateOfAbsent": dateOfAbsent,
-        "rollNumber": rollNumber,
-        "errorMessage": errorMessage,
-        "totalPresent": totalPresent,
-        "totalAbsent": totalAbsent,
-        "eventCode": eventCode,
-        "colour": colour,
-        "absentLecture": absentLecture,
-        "selectedStudentId": selectedStudentId,
-        "email": email,
-        "fatherEmail": fatherEmail,
+        // "markedBy": markedBy,
+        // "adjustmentMode": adjustmentMode,
+        // "isHalfDay": isHalfDay,
+        // "subSubjectId": subSubjectId,
+        // "smsMobileNumber": smsMobileNumber,
+        // "lectureAbsentId": lectureAbsentId,
+        // "bulkAttendance": bulkAttendance,
+        // "attendanceLable": attendanceLableValues.reverse[attendanceLable],
+        // "sequence": sequence,
+        // "repeatAttendance": repeatAttendance,
+        // "isExtraLecture": isExtraLecture,
+        // "extraLeactureLable": extraLeactureLable,
+        // "studentAbsentCount": studentAbsentCount,
+        // "newBatchId": newBatchId,
+        // "uiMode": uiMode,
+        // "masterSubjectId": masterSubjectId,
+        // "css": cssValues.reverse[css],
+        // "userGroupId": userGroupId,
+        // "userDetails": userDetails,
+        // "inoutMode": inoutMode,
+        // "outDateTime": outDateTime,
+        // "outDateTimeLable": outDateTimeLable,
+        // "totalAttendace": totalAttendace,
+        // "firstClassAttendance": firstClassAttendance,
+        // "flag": flag,
+        // "dateOfAbsent": dateOfAbsent,
+        // "rollNumber": rollNumber,
+        // "errorMessage": errorMessage,
+        // "totalPresent": totalPresent,
+        // "totalAbsent": totalAbsent,
+        // "eventCode": eventCode,
+        // "colour": colour,
+        // "absentLecture": absentLecture,
+        // "selectedStudentId": selectedStudentId,
+        // "email": email,
+        // "fatherEmail": fatherEmail,
       };
 }
 
-enum AttendanceLable { A, P }
+// enum AttendanceLable { A, P }
+//
+// final attendanceLableValues =
+//     EnumValues({"A": AttendanceLable.A, "P": AttendanceLable.P});
 
-final attendanceLableValues =
-    EnumValues({"A": AttendanceLable.A, "P": AttendanceLable.P});
-
-enum Css { absent, present }
-
-final cssValues = EnumValues({"absent": Css.absent, "present": Css.present});
+// enum Css { absent, present }
+//
+// final cssValues = EnumValues({"absent": Css.absent, "present": Css.present});
 
 class AttendanceDatum {
-  final int? orgnizationId;
-  final int? absentCount;
+  // final int? orgnizationId;
+  // final int? absentCount;
   final int? attendanceId;
-  final int? attendeeUserId;
-  final int? organizationId;
-  final int? profilePictureId;
-  final int? attandanceType;
+
+  // final int? attendeeUserId;
+  // final int? organizationId;
+  // final int? profilePictureId;
+  // final int? attandanceType;
   final DateTime absentDate;
   final String subjectName;
-  final int? batchId;
-  final int? randomPresent;
+
+  // final int? batchId;
+  // final int? randomPresent;
   final int? subjectId;
   final bool isAbsent;
   final int? markedBy;
-  final int? lectureAbsentId;
-  final int? sequence;
-  final bool repeatAttendance;
-  final int? studentAbsentCount;
-  final int? newBatchId;
-  final int? uiMode;
-  final int? masterSubjectId;
-  final int? userGroupId;
-  final int? inoutMode;
-  final bool flag;
-  final int? totalPresent;
-  final int? totalAbsent;
-  final String comment;
-  final int? adjustmentMode;
+
+  // final int? lectureAbsentId;
+  // final int? sequence;
+  // final bool repeatAttendance;
+  // final int? studentAbsentCount;
+  // final int? newBatchId;
+  // final int? uiMode;
+  // final int? masterSubjectId;
+  // final int? userGroupId;
+  // final int? inoutMode;
+  // final bool flag;
+  // final int? totalPresent;
+  // final int? totalAbsent;
+  // final String comment;
+  // final int? adjustmentMode;
 
   AttendanceDatum({
-    required this.orgnizationId,
-    required this.absentCount,
+    // required this.orgnizationId,
+    // required this.absentCount,
     required this.attendanceId,
-    required this.attendeeUserId,
-    required this.organizationId,
-    required this.profilePictureId,
-    required this.attandanceType,
+    // required this.attendeeUserId,
+    // required this.organizationId,
+    // required this.profilePictureId,
+    // required this.attandanceType,
     required this.absentDate,
     required this.subjectName,
-    required this.batchId,
-    required this.randomPresent,
+    // required this.batchId,
+    // required this.randomPresent,
     required this.subjectId,
     required this.isAbsent,
     required this.markedBy,
-    required this.lectureAbsentId,
-    required this.sequence,
-    required this.repeatAttendance,
-    required this.studentAbsentCount,
-    required this.newBatchId,
-    required this.uiMode,
-    required this.masterSubjectId,
-    required this.userGroupId,
-    required this.inoutMode,
-    required this.flag,
-    required this.totalPresent,
-    required this.totalAbsent,
-    required this.comment,
-    required this.adjustmentMode,
+    // required this.lectureAbsentId,
+    // required this.sequence,
+    // required this.repeatAttendance,
+    // required this.studentAbsentCount,
+    // required this.newBatchId,
+    // required this.uiMode,
+    // required this.masterSubjectId,
+    // required this.userGroupId,
+    // required this.inoutMode,
+    // required this.flag,
+    // required this.totalPresent,
+    // required this.totalAbsent,
+    // required this.comment,
+    // required this.adjustmentMode,
   });
 
   factory AttendanceDatum.fromJson(Map<String, dynamic> json) =>
       AttendanceDatum(
-        orgnizationId: json["orgnizationId"],
-        absentCount: json["absentCount"],
+        // orgnizationId: json["orgnizationId"],
+        // absentCount: json["absentCount"],
         attendanceId: json["attendanceID"],
-        attendeeUserId: json["attendeeUserID"],
-        organizationId: json["organizationId"],
-        profilePictureId: json["profilePictureId"],
-        attandanceType: json["attandanceType"],
+        // attendeeUserId: json["attendeeUserID"],
+        // organizationId: json["organizationId"],
+        // profilePictureId: json["profilePictureId"],
+        // attandanceType: json["attandanceType"],
         absentDate: DateTime.parse(json["absentDate"]),
         subjectName: json["subjectName"] ?? "",
-        batchId: json["batchId"],
-        randomPresent: json["randomPresent"],
+        // batchId: json["batchId"],
+        // randomPresent: json["randomPresent"],
         subjectId: json["subjectId"],
         isAbsent: json["isAbsent"],
         markedBy: json["markedBy"],
-        lectureAbsentId: json["lectureAbsentId"],
-        sequence: json["sequence"],
-        repeatAttendance: json["repeatAttendance"],
-        studentAbsentCount: json["studentAbsentCount"],
-        newBatchId: json["newBatchId"],
-        uiMode: json["uiMode"],
-        masterSubjectId: json["masterSubjectId"],
-        userGroupId: json["userGroupId"],
-        inoutMode: json["inoutMode"],
-        flag: json["flag"],
-        totalPresent: json["totalPresent"],
-        totalAbsent: json["totalAbsent"],
-        comment: json["comment"] ?? "",
-        adjustmentMode: json["adjustmentMode"],
+        // lectureAbsentId: json["lectureAbsentId"],
+        // sequence: json["sequence"],
+        // repeatAttendance: json["repeatAttendance"],
+        // studentAbsentCount: json["studentAbsentCount"],
+        // newBatchId: json["newBatchId"],
+        // uiMode: json["uiMode"],
+        // masterSubjectId: json["masterSubjectId"],
+        // userGroupId: json["userGroupId"],
+        // inoutMode: json["inoutMode"],
+        // flag: json["flag"],
+        // totalPresent: json["totalPresent"],
+        // totalAbsent: json["totalAbsent"],
+        // comment: json["comment"] ?? "",
+        // adjustmentMode: json["adjustmentMode"],
       );
 
   Map<String, dynamic> toJson() => {
-        "orgnizationId": orgnizationId,
-        "absentCount": absentCount,
+        // "orgnizationId": orgnizationId,
+        // "absentCount": absentCount,
         "attendanceID": attendanceId,
-        "attendeeUserID": attendeeUserId,
-        "organizationId": organizationId,
-        "profilePictureId": profilePictureId,
-        "attandanceType": attandanceType,
+        // "attendeeUserID": attendeeUserId,
+        // "organizationId": organizationId,
+        // "profilePictureId": profilePictureId,
+        // "attandanceType": attandanceType,
         "absentDate": absentDate.toIso8601String(),
         "subjectName": subjectName,
-        "batchId": batchId,
-        "randomPresent": randomPresent,
+        // "batchId": batchId,
+        // "randomPresent": randomPresent,
         "subjectId": subjectId,
         "isAbsent": isAbsent,
         "markedBy": markedBy,
-        "lectureAbsentId": lectureAbsentId,
-        "sequence": sequence,
-        "repeatAttendance": repeatAttendance,
-        "studentAbsentCount": studentAbsentCount,
-        "newBatchId": newBatchId,
-        "uiMode": uiMode,
-        "masterSubjectId": masterSubjectId,
-        "userGroupId": userGroupId,
-        "inoutMode": inoutMode,
-        "flag": flag,
-        "totalPresent": totalPresent,
-        "totalAbsent": totalAbsent,
-        "comment": comment,
-        "adjustmentMode": adjustmentMode,
+        // "lectureAbsentId": lectureAbsentId,
+        // "sequence": sequence,
+        // "repeatAttendance": repeatAttendance,
+        // "studentAbsentCount": studentAbsentCount,
+        // "newBatchId": newBatchId,
+        // "uiMode": uiMode,
+        // "masterSubjectId": masterSubjectId,
+        // "userGroupId": userGroupId,
+        // "inoutMode": inoutMode,
+        // "flag": flag,
+        // "totalPresent": totalPresent,
+        // "totalAbsent": totalAbsent,
+        // "comment": comment,
+        // "adjustmentMode": adjustmentMode,
       };
 }
 
@@ -1213,8 +1221,9 @@ class Subject {
   final dynamic subject;
   final int? subjectGroupType;
   final int? id;
-  final int? subjectGroupId;
-  final int? subSubjectId;
+
+  // final int? subjectGroupId;
+  // final int? subSubjectId;
   final String name;
   final bool isAdditionalSubject;
   final bool isTimeTableSubject;
@@ -1225,20 +1234,22 @@ class Subject {
   final int? presentLeactures;
   final int? otherAttendance;
   final int? absentLeactures;
-  final int? averagePresent;
-  final int? averageTotal;
+
+  // final int? averagePresent;
+  // final int? averageTotal;
   final double percentageAttendance;
-  final dynamic subjectMasterId;
-  final int? actualSubjectId;
-  final int? subjectType;
-  final dynamic conversionMark;
-  final bool isSubjectSeleted;
-  final int? sequence;
-  final int? subjectMappingId;
-  final dynamic courseContent;
-  final bool isAttendaceFilled;
-  final bool isExamDateSheetCreated;
-  final bool isSubjectTeacher;
+
+  // final dynamic subjectMasterId;
+  // final int? actualSubjectId;
+  // final int? subjectType;
+  // final dynamic conversionMark;
+  // final bool isSubjectSeleted;
+  // final int? sequence;
+  // final int? subjectMappingId;
+  // final dynamic courseContent;
+  // final bool isAttendaceFilled;
+  // final bool isExamDateSheetCreated;
+  // final bool isSubjectTeacher;
 
   Subject({
     required this.groupId,
@@ -1248,8 +1259,8 @@ class Subject {
     required this.subject,
     required this.subjectGroupType,
     required this.id,
-    required this.subjectGroupId,
-    required this.subSubjectId,
+    // required this.subjectGroupId,
+    // required this.subSubjectId,
     required this.name,
     required this.isAdditionalSubject,
     required this.isTimeTableSubject,
@@ -1260,20 +1271,20 @@ class Subject {
     required this.presentLeactures,
     required this.otherAttendance,
     required this.absentLeactures,
-    required this.averagePresent,
-    required this.averageTotal,
+    // required this.averagePresent,
+    // required this.averageTotal,
     required this.percentageAttendance,
-    required this.subjectMasterId,
-    required this.actualSubjectId,
-    required this.subjectType,
-    required this.conversionMark,
-    required this.isSubjectSeleted,
-    required this.sequence,
-    required this.subjectMappingId,
-    required this.courseContent,
-    required this.isAttendaceFilled,
-    required this.isExamDateSheetCreated,
-    required this.isSubjectTeacher,
+    // required this.subjectMasterId,
+    // required this.actualSubjectId,
+    // required this.subjectType,
+    // required this.conversionMark,
+    // required this.isSubjectSeleted,
+    // required this.sequence,
+    // required this.subjectMappingId,
+    // required this.courseContent,
+    // required this.isAttendaceFilled,
+    // required this.isExamDateSheetCreated,
+    // required this.isSubjectTeacher,
   });
 
   factory Subject.fromJson(Map<String, dynamic> json) => Subject(
@@ -1284,8 +1295,8 @@ class Subject {
         subject: json["subject"],
         subjectGroupType: json["subjectGroupType"],
         id: json["id"],
-        subjectGroupId: json["subjectGroupId"],
-        subSubjectId: json["subSubjectId"],
+        // subjectGroupId: json["subjectGroupId"],
+        // subSubjectId: json["subSubjectId"],
         name: json["name"],
         isAdditionalSubject: json["isAdditionalSubject"],
         isTimeTableSubject: json["isTimeTableSubject"],
@@ -1298,20 +1309,20 @@ class Subject {
         presentLeactures: json["presentLeactures"],
         otherAttendance: json["otherAttendance"],
         absentLeactures: json["absentLeactures"],
-        averagePresent: json["averagePresent"],
-        averageTotal: json["averageTotal"],
+        // averagePresent: json["averagePresent"],
+        // averageTotal: json["averageTotal"],
         percentageAttendance: json["percentageAttendance"].toDouble(),
-        subjectMasterId: json["subjectMasterId"],
-        actualSubjectId: json["actualSubjectId"],
-        subjectType: json["subjectType"],
-        conversionMark: json["conversionMark"],
-        isSubjectSeleted: json["isSubjectSeleted"],
-        sequence: json["sequence"],
-        subjectMappingId: json["subjectMappingId"],
-        courseContent: json["courseContent"],
-        isAttendaceFilled: json["isAttendaceFilled"],
-        isExamDateSheetCreated: json["isExamDateSheetCreated"],
-        isSubjectTeacher: json["isSubjectTeacher"],
+        // subjectMasterId: json["subjectMasterId"],
+        // actualSubjectId: json["actualSubjectId"],
+        // subjectType: json["subjectType"],
+        // conversionMark: json["conversionMark"],
+        // isSubjectSeleted: json["isSubjectSeleted"],
+        // sequence: json["sequence"],
+        // subjectMappingId: json["subjectMappingId"],
+        // courseContent: json["courseContent"],
+        // isAttendaceFilled: json["isAttendaceFilled"],
+        // isExamDateSheetCreated: json["isExamDateSheetCreated"],
+        // isSubjectTeacher: json["isSubjectTeacher"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -1322,8 +1333,8 @@ class Subject {
         "subject": subject,
         "subjectGroupType": subjectGroupType,
         "id": id,
-        "subjectGroupId": subjectGroupId,
-        "subSubjectId": subSubjectId,
+        // "subjectGroupId": subjectGroupId,
+        // "subSubjectId": subSubjectId,
         "name": name,
         "isAdditionalSubject": isAdditionalSubject,
         "isTimeTableSubject": isTimeTableSubject,
@@ -1334,20 +1345,20 @@ class Subject {
         "presentLeactures": presentLeactures,
         "otherAttendance": otherAttendance,
         "absentLeactures": absentLeactures,
-        "averagePresent": averagePresent,
-        "averageTotal": averageTotal,
+        // "averagePresent": averagePresent,
+        // "averageTotal": averageTotal,
         "percentageAttendance": percentageAttendance,
-        "subjectMasterId": subjectMasterId,
-        "actualSubjectId": actualSubjectId,
-        "subjectType": subjectType,
-        "conversionMark": conversionMark,
-        "isSubjectSeleted": isSubjectSeleted,
-        "sequence": sequence,
-        "subjectMappingId": subjectMappingId,
-        "courseContent": courseContent,
-        "isAttendaceFilled": isAttendaceFilled,
-        "isExamDateSheetCreated": isExamDateSheetCreated,
-        "isSubjectTeacher": isSubjectTeacher,
+        // "subjectMasterId": subjectMasterId,
+        // "actualSubjectId": actualSubjectId,
+        // "subjectType": subjectType,
+        // "conversionMark": conversionMark,
+        // "isSubjectSeleted": isSubjectSeleted,
+        // "sequence": sequence,
+        // "subjectMappingId": subjectMappingId,
+        // "courseContent": courseContent,
+        // "isAttendaceFilled": isAttendaceFilled,
+        // "isExamDateSheetCreated": isExamDateSheetCreated,
+        // "isSubjectTeacher": isSubjectTeacher,
       };
 }
 

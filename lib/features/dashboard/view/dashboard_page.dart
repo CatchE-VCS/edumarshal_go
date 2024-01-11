@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:edumarshal/features/subject_attendance/pdp_att_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -275,7 +276,7 @@ class DashboardPage extends ConsumerWidget {
                                 int calculatedValue =
                                     3 * totalClasses - 4 * totalPresent;
                                 if (calculatedValue < 0) {
-                                  return 'Tumse na ho paega';
+                                  return 'You are already above 75%';
                                 } else {
                                   return 'Classes Required: $calculatedValue';
                                 }
@@ -386,6 +387,17 @@ class DashboardPage extends ConsumerWidget {
                   return GestureDetector(
                     onTap: () {
                       // Navigate to PDP Attendance Screen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PDPAttendanceScreen(
+                            attendanceData: ss,
+                            presentLectures: presentLectures,
+                            percentageAttendance:
+                                (presentLectures / ss.length) * 100,
+                          ),
+                        ),
+                      );
                     },
                     child: Container(
                       decoration: BoxDecoration(
