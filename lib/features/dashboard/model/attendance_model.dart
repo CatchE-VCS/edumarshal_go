@@ -52,8 +52,8 @@ class AttendanceData {
 class AttendanceCopy {
   // final int? orgnizationId;
   // final int? absentCount;
-  final int? attendanceId;
-  final int? attendeeUserId;
+  // final int? attendanceId;
+  // final int? attendeeUserId;
 
   // final dynamic batchName;
   // final dynamic courseName;
@@ -63,7 +63,7 @@ class AttendanceCopy {
 
   // final dynamic leaveTypeId;
   // final int? profilePictureId;
-  final int? attandanceType;
+  // final int? attandanceType;
   final DateTime absentDate;
 
   // final dynamic absentDateLable;
@@ -78,7 +78,8 @@ class AttendanceCopy {
   // final int? randomPresent;
   final int? subjectId;
   final bool isAbsent;
-  final int? markedBy;
+
+  // final int? markedBy;
 
   // final int? adjustmentMode;
   // final dynamic isHalfDay;
@@ -86,8 +87,7 @@ class AttendanceCopy {
   // final dynamic smsMobileNumber;
   // final int? lectureAbsentId;
   // final dynamic bulkAttendance;
-  final AttendanceLable? attendanceLable;
-
+  // final AttendanceLable? attendanceLable;
   // final int? sequence;
   // final bool repeatAttendance;
   // final dynamic isExtraLecture;
@@ -96,8 +96,7 @@ class AttendanceCopy {
   // final int? newBatchId;
   // final int? uiMode;
   // final int? masterSubjectId;
-  final Css? css;
-
+  // final Css? css;
   // final int? userGroupId;
   // final dynamic userDetails;
   // final int? inoutMode;
@@ -121,8 +120,8 @@ class AttendanceCopy {
   AttendanceCopy({
     // required this.orgnizationId,
     // required this.absentCount,
-    required this.attendanceId,
-    required this.attendeeUserId,
+    // required this.attendanceId,
+    // required this.attendeeUserId,
     // required this.batchName,
     // required this.courseName,
     // required this.departmentName,
@@ -130,7 +129,7 @@ class AttendanceCopy {
     // required this.organizationId,
     // required this.leaveTypeId,
     // required this.profilePictureId,
-    required this.attandanceType,
+    // required this.attandanceType,
     required this.absentDate,
     // required this.absentDateLable,
     // required this.oldAttendanceDate,
@@ -144,14 +143,14 @@ class AttendanceCopy {
     // required this.randomPresent,
     required this.subjectId,
     required this.isAbsent,
-    required this.markedBy,
+    // required this.markedBy,
     // required this.adjustmentMode,
     // required this.isHalfDay,
     // required this.subSubjectId,
     // required this.smsMobileNumber,
     // required this.lectureAbsentId,
     // required this.bulkAttendance,
-    this.attendanceLable,
+    // this.attendanceLable,
     // required this.sequence,
     // required this.repeatAttendance,
     // required this.isExtraLecture,
@@ -160,7 +159,7 @@ class AttendanceCopy {
     // required this.newBatchId,
     // required this.uiMode,
     // required this.masterSubjectId,
-    this.css,
+    // this.css,
     // required this.userGroupId,
     // required this.userDetails,
     // required this.inoutMode,
@@ -185,8 +184,8 @@ class AttendanceCopy {
   factory AttendanceCopy.fromJson(Map<String, dynamic> json) => AttendanceCopy(
         // orgnizationId: json["orgnizationId"],
         // absentCount: json["absentCount"],
-        attendanceId: json["attendanceID"],
-        attendeeUserId: json["attendeeUserID"],
+        // attendanceId: json["attendanceID"],
+        // attendeeUserId: json["attendeeUserID"],
         // batchName: json["batchName"],
         // courseName: json["courseName"],
         // departmentName: json["departmentName"],
@@ -194,7 +193,7 @@ class AttendanceCopy {
         // organizationId: json["organizationId"],
         // leaveTypeId: json["leaveTypeId"],
         // profilePictureId: json["profilePictureId"],
-        attandanceType: json["attandanceType"],
+        // attandanceType: json["attandanceType"],
         absentDate: DateTime.parse(json["absentDate"]),
         // absentDateLable: json["absentDateLable"],
         // oldAttendanceDate: json["oldAttendanceDate"],
@@ -208,14 +207,14 @@ class AttendanceCopy {
         // randomPresent: json["randomPresent"],
         subjectId: json["subjectId"],
         isAbsent: json["isAbsent"],
-        markedBy: json["markedBy"],
+        // markedBy: json["markedBy"],
         // adjustmentMode: json["adjustmentMode"],
         // isHalfDay: json["isHalfDay"],
         // subSubjectId: json["subSubjectId"],
         // smsMobileNumber: json["smsMobileNumber"],
         // lectureAbsentId: json["lectureAbsentId"],
         // bulkAttendance: json["bulkAttendance"],
-        attendanceLable: attendanceLableValues.map[json["attendanceLable"]],
+        // attendanceLable: attendanceLableValues.map[json["attendanceLable"]],
         // sequence: json["sequence"],
         // repeatAttendance: json["repeatAttendance"],
         // isExtraLecture: json["isExtraLecture"],
@@ -224,7 +223,7 @@ class AttendanceCopy {
         // newBatchId: json["newBatchId"],
         // uiMode: json["uiMode"],
         // masterSubjectId: json["masterSubjectId"],
-        css: cssValues.map[json["css"]],
+        // css: cssValues.map[json["css"]],
         // userGroupId: json["userGroupId"],
         // userDetails: json["userDetails"],
         // inoutMode: json["inoutMode"],
@@ -249,8 +248,8 @@ class AttendanceCopy {
   Map<String, dynamic> toJson() => {
         // "orgnizationId": orgnizationId,
         // "absentCount": absentCount,
-        "attendanceID": attendanceId,
-        "attendeeUserID": attendeeUserId,
+        // "attendanceID": attendanceId,
+        // "attendeeUserID": attendeeUserId,
         // "batchName": batchName,
         // "courseName": courseName,
         // "departmentName": departmentName,
@@ -258,7 +257,7 @@ class AttendanceCopy {
         // "organizationId": organizationId,
         // "leaveTypeId": leaveTypeId,
         // "profilePictureId": profilePictureId,
-        "attandanceType": attandanceType,
+        // "attandanceType": attandanceType,
         "absentDate": absentDate.toIso8601String(),
         // "absentDateLable": absentDateLable,
         // "oldAttendanceDate": oldAttendanceDate,
@@ -272,14 +271,14 @@ class AttendanceCopy {
         // "randomPresent": randomPresent,
         "subjectId": subjectId,
         "isAbsent": isAbsent,
-        "markedBy": markedBy,
+        // "markedBy": markedBy,
         // "adjustmentMode": adjustmentMode,
         // "isHalfDay": isHalfDay,
         // "subSubjectId": subSubjectId,
         // "smsMobileNumber": smsMobileNumber,
         // "lectureAbsentId": lectureAbsentId,
         // "bulkAttendance": bulkAttendance,
-        "attendanceLable": attendanceLableValues.reverse[attendanceLable],
+        // "attendanceLable": attendanceLableValues.reverse[attendanceLable],
         // "sequence": sequence,
         // "repeatAttendance": repeatAttendance,
         // "isExtraLecture": isExtraLecture,
@@ -288,7 +287,7 @@ class AttendanceCopy {
         // "newBatchId": newBatchId,
         // "uiMode": uiMode,
         // "masterSubjectId": masterSubjectId,
-        "css": cssValues.reverse[css],
+        // "css": cssValues.reverse[css],
         // "userGroupId": userGroupId,
         // "userDetails": userDetails,
         // "inoutMode": inoutMode,
@@ -311,24 +310,24 @@ class AttendanceCopy {
       };
 }
 
-enum AttendanceLable { A, P }
+// enum AttendanceLable { A, P }
+//
+// final attendanceLableValues =
+//     EnumValues({"A": AttendanceLable.A, "P": AttendanceLable.P});
 
-final attendanceLableValues =
-    EnumValues({"A": AttendanceLable.A, "P": AttendanceLable.P});
-
-enum Css { absent, present }
-
-final cssValues = EnumValues({"absent": Css.absent, "present": Css.present});
+// enum Css { absent, present }
+//
+// final cssValues = EnumValues({"absent": Css.absent, "present": Css.present});
 
 class AttendanceDatum {
   // final int? orgnizationId;
   // final int? absentCount;
   final int? attendanceId;
-  final int? attendeeUserId;
-  final int? organizationId;
 
+  // final int? attendeeUserId;
+  // final int? organizationId;
   // final int? profilePictureId;
-  final int? attandanceType;
+  // final int? attandanceType;
   final DateTime absentDate;
   final String subjectName;
 
@@ -357,10 +356,10 @@ class AttendanceDatum {
     // required this.orgnizationId,
     // required this.absentCount,
     required this.attendanceId,
-    required this.attendeeUserId,
-    required this.organizationId,
+    // required this.attendeeUserId,
+    // required this.organizationId,
     // required this.profilePictureId,
-    required this.attandanceType,
+    // required this.attandanceType,
     required this.absentDate,
     required this.subjectName,
     // required this.batchId,
@@ -389,10 +388,10 @@ class AttendanceDatum {
         // orgnizationId: json["orgnizationId"],
         // absentCount: json["absentCount"],
         attendanceId: json["attendanceID"],
-        attendeeUserId: json["attendeeUserID"],
-        organizationId: json["organizationId"],
+        // attendeeUserId: json["attendeeUserID"],
+        // organizationId: json["organizationId"],
         // profilePictureId: json["profilePictureId"],
-        attandanceType: json["attandanceType"],
+        // attandanceType: json["attandanceType"],
         absentDate: DateTime.parse(json["absentDate"]),
         subjectName: json["subjectName"] ?? "",
         // batchId: json["batchId"],
@@ -420,10 +419,10 @@ class AttendanceDatum {
         // "orgnizationId": orgnizationId,
         // "absentCount": absentCount,
         "attendanceID": attendanceId,
-        "attendeeUserID": attendeeUserId,
-        "organizationId": organizationId,
+        // "attendeeUserID": attendeeUserId,
+        // "organizationId": organizationId,
         // "profilePictureId": profilePictureId,
-        "attandanceType": attandanceType,
+        // "attandanceType": attandanceType,
         "absentDate": absentDate.toIso8601String(),
         "subjectName": subjectName,
         // "batchId": batchId,
