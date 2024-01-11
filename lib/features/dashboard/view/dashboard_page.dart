@@ -275,7 +275,7 @@ class DashboardPage extends ConsumerWidget {
                                 int calculatedValue =
                                     3 * totalClasses - 4 * totalPresent;
                                 if (calculatedValue < 0) {
-                                  return 'Tumse na ho paega';
+                                  return 'You are already above 75%';
                                 } else {
                                   return 'Classes Required: $calculatedValue';
                                 }
