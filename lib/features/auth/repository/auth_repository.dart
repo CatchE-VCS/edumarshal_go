@@ -57,7 +57,7 @@ class AuthRepository {
         print(res.data);
       }
       if (res.statusCode == 200) {
-        return 'Check your registered email';
+        return 'Please change your password through the link sent on your email';
       } else {
         return 'Invalid Credentials';
       }

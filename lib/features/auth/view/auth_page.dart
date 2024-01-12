@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:edumarshal/core/theme/theme_controller.dart';
+import 'package:edumarshal/features/auth/controller/controllers_state_pod.dart';
 import 'package:edumarshal/features/widgets/custom_text_form_field.dart';
 import 'package:edumarshal/features/widgets/snackbar.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -19,10 +20,7 @@ class LoginPage extends ConsumerWidget {
   const LoginPage({Key? key}) : super(key: key);
   static final formKey = GlobalKey<FormState>();
 
-  static TextEditingController usernameController = TextEditingController();
-  static TextEditingController passwordController = TextEditingController();
   static Function simpleSnackBar = SnackBarUtil().simpleSnackBar;
-  static TextEditingController selectedDateController = TextEditingController();
 
   String formatSelectedDate(DateTime selectedDate) {
     return DateFormat('yyyy-MM-dd').format(selectedDate);
@@ -30,6 +28,8 @@ class LoginPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final usernameController = ref.watch(usernameControllerPod);
+    final passwordController = ref.watch(passwordControllerPod);
     final currentTheme = ref.watch(themecontrollerProvider);
     var brightness = Theme.of(context).brightness;
     final isDark = brightness == Brightness.dark;
@@ -71,9 +71,13 @@ class LoginPage extends ConsumerWidget {
                           'https://lottie.host/e812138e-b6b4-4c4c-b187-b3b402574740/3qniRfkxZa.json'),
                     ),
                     CustomTextFormField(
-                      controller: usernameController,
                       autofillHints: const [AutofillHints.username],
                       inputType: TextInputType.text,
+                      onChanged: (value) {
+                        ref
+                            .read(usernameControllerPod.notifier)
+                            .updateUsername(value);
+                      },
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Enter your Edumarshal username',
@@ -91,10 +95,14 @@ class LoginPage extends ConsumerWidget {
                       height: 20,
                     ),
                     CustomTextFormField(
-                      controller: passwordController,
                       autofillHints: const [AutofillHints.password],
                       inputType: TextInputType.visiblePassword,
                       obscure: obscureText,
+                      onChanged: (value) {
+                        ref
+                            .read(passwordControllerPod.notifier)
+                            .updatePassword(value);
+                      },
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         hintText: 'Enter your password',
@@ -123,7 +131,8 @@ class LoginPage extends ConsumerWidget {
                             FocusManager.instance.primaryFocus?.unfocus();
                             TextEditingController admissionController =
                                 TextEditingController();
-
+                            TextEditingController selectedDateController =
+                                TextEditingController();
                             showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
@@ -155,44 +164,92 @@ class LoginPage extends ConsumerWidget {
                                           },
                                         ),
                                       ),
-                                      SizedBox(height: 10),
+                                      const SizedBox(height: 10),
                                       TextFormField(
+                                        onTap: () {
+                                          showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime(
+                                                DateTime.now().year - 6),
+                                            firstDate: DateTime(1900),
+                                            lastDate: DateTime(
+                                                DateTime.now().year - 6),
+                                          ).then(
+                                            (pickedDate) {
+                                              if (pickedDate != null) {
+                                                selectedDateController.text =
+                                                    formatSelectedDate(
+                                                        pickedDate);
+                                              }
+                                            },
+                                          );
+                                        },
                                         controller: selectedDateController,
                                         readOnly: true,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           border: OutlineInputBorder(),
                                           hintText: 'Date Of Birth',
                                           labelText: 'DOB',
+                                          suffixIcon: Icon(
+                                            Icons.calendar_today_outlined,
+                                          ),
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
                                 actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(1900),
-                                        lastDate: DateTime.now(),
-                                      ).then(
-                                        (pickedDate) {
-                                          if (pickedDate != null) {
-                                            selectedDateController.text =
-                                                formatSelectedDate(pickedDate);
-                                          }
-                                        },
-                                        // child: Text('Pick a Date'),
+                                  // TextButton(
+                                  //   onPressed: () {
+                                  //     showDatePicker(
+                                  //       context: context,
+                                  //       initialDate: DateTime.now(),
+                                  //       firstDate: DateTime(1900),
+                                  //       lastDate: DateTime.now(),
+                                  //     ).then(
+                                  //       (pickedDate) {
+                                  //         if (pickedDate != null) {
+                                  //           selectedDateController.text =
+                                  //               formatSelectedDate(pickedDate);
+                                  //         }
+                                  //       },
+                                  //       // child: Text('Pick a Date'),
+                                  //     );
+                                  //   },
+                                  //   child: const Text('Open Calender'),
+                                  // ),
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      if (admissionController.text.isEmpty ||
+                                          selectedDateController.text.isEmpty) {
+                                        simpleSnackBar(
+                                          context,
+                                          'Please enter all the details',
+                                        );
+                                        return;
+                                      }
+
+                                      await ref
+                                          .read(authRepositoryProvider)
+                                          .forgotPassword(
+                                              admissionController.text,
+                                              selectedDateController.text)
+                                          .then((value) {
+                                        simpleSnackBar(
+                                          context,
+                                          value.toString(),
+                                        );
+                                        context.router.pop();
+                                      }).catchError(
+                                        (e) => simpleSnackBar(
+                                          context,
+                                          e.toString(),
+                                        ),
                                       );
                                     },
-                                    child: const Text('Open Calander'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('Enter'),
+                                    child: const Text('Submit'),
                                   ),
                                 ],
                               ),
@@ -255,11 +312,10 @@ class LoginPage extends ConsumerWidget {
                       });
                       return null;
                     }
+
+                    ref.read(usernameControllerPod.notifier).clearUsername();
+                    ref.read(passwordControllerPod.notifier).clearPassword();
                     simpleSnackBar(context, 'Logged in successfully');
-                    usernameController.text = '';
-                    passwordController.text = '';
-                    usernameController.clear();
-                    passwordController.clear();
                     formKey.currentState!.reset();
 
                     ref.read(authLoadingPod.notifier).stopLoading();
