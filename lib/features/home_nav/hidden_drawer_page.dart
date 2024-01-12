@@ -2,13 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:edumarshal/ext_package/hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:edumarshal/features/dashboard/dashboard.dart';
 import 'package:edumarshal/features/events/events_page.dart';
-import 'package:edumarshal/features/payment/payment_history_page.dart';
 import 'package:edumarshal/features/profile/view/profile_page.dart';
 import 'package:edumarshal/features/time_table/time_table_page.dart';
 import 'package:edumarshal/features/widgets/dialogs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/theme/theme_controller.dart';
 import '../auth/auth.dart';
 import '../barcode/barcode.dart';
 
@@ -63,12 +64,12 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
           baseStyle: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            // color: Colors.white,
           ),
           selectedStyle: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            // color: Colors.white,
           ),
           colorLineSelected: const Color.fromARGB(255, 251, 162, 45),
         ),
@@ -81,12 +82,12 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
             baseStyle: const TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              // color: Colors.white,
             ),
             selectedStyle: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              // color: Colors.white,
             ),
             colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
         const ProfilePage(),
@@ -98,12 +99,12 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
             baseStyle: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              // color: Colors.white,
             ),
             selectedStyle: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              // color: Colors.white,
             ),
             colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
         const EventsPage(),
@@ -115,12 +116,12 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
             baseStyle: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              // color: Colors.white,
             ),
             selectedStyle: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              // color: Colors.white,
             ),
             colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
         const BarGen(),
@@ -128,37 +129,38 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
 
       ScreenHiddenDrawer(
         ItemHiddenMenu(
-            name: 'Calender',
-            baseStyle: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-            selectedStyle: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-            colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
+          name: 'Calender',
+          baseStyle: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            // color: Colors.white,
+          ),
+          selectedStyle: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            // color: Colors.white,
+          ),
+          // colorLineSelected: const Color.fromARGB(255, 251, 162, 45),
+        ),
         const TimeTablePage(),
       ),
 
-      ScreenHiddenDrawer(
-        ItemHiddenMenu(
-            name: 'Payment',
-            baseStyle: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-            selectedStyle: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-            colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
-        const PaymentHistoryPage(),
-      ),
+      // ScreenHiddenDrawer(
+      //   ItemHiddenMenu(
+      //       name: 'Payment',
+      //       baseStyle: const TextStyle(
+      //         fontSize: 20,
+      //         fontWeight: FontWeight.bold,
+      //         // color: Colors.white,
+      //       ),
+      //       selectedStyle: const TextStyle(
+      //         fontSize: 20,
+      //         fontWeight: FontWeight.bold,
+      //         // color: Colors.white,
+      //       ),
+      //       colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
+      //   const PaymentHistoryPage(),
+      // ),
 
       //  ScreenHiddenDrawer(
       //   ItemHiddenMenu(
@@ -185,12 +187,12 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
           baseStyle: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            // color: Colors.white,
           ),
           selectedStyle: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            // color: Colors.white,
           ),
           onTap: () {
             DBRepository handler = DBRepository();
@@ -212,16 +214,34 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
         return await Dialogs().showExitConfirmationDialog(context);
       },
       child: HiddenDrawerMenu(
-        backgroundColorAppBar: const Color(0xFF1E1E1E),
+        // backgroundColorAppBar: const Color(0xFF1E1E1E),
         disableAppBarDefault: false,
-        actionsAppBar: const <Widget>[],
-        backgroundColorMenu: const Color(0xFF1E1E1E),
+        actionsAppBar: <Widget>[
+          Consumer(
+            builder: (context, ref, child) {
+              return IconButton(
+                icon: Icon(
+                  ref.watch(themecontrollerProvider) == ThemeMode.light
+                      ? Icons.dark_mode
+                      : ref.watch(themecontrollerProvider) == ThemeMode.dark
+                          ? Icons.brightness_auto
+                          : Icons.light_mode,
+                ),
+                onPressed: () {
+                  ref.read(themecontrollerProvider.notifier).changeThemeMode();
+                },
+              );
+            },
+          ),
+        ],
+        // backgroundColorMenu: const Color(0xFF1E1E1E),
         screens: _pages,
+
         initPositionSelected: 0,
         slidePercent: 50,
         leadingAppBar: const Icon(
           Icons.menu,
-          color: Colors.white,
+          // color: Colors.white,
         ),
         contentCornerRadius: 25,
         boxShadow: const [],

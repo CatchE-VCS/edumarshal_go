@@ -65,7 +65,7 @@ class ProfilePage extends ConsumerWidget {
                       Text(
                         name,
                         style: const TextStyle(
-                          color: Color.fromARGB(255, 175, 139, 238),
+                          // color: Color.fromARGB(255, 175, 139, 238),
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
@@ -74,7 +74,7 @@ class ProfilePage extends ConsumerWidget {
                       Text(
                         email,
                         style: const TextStyle(
-                          color: Color.fromARGB(255, 175, 139, 238),
+                          // color: Color.fromARGB(255, 175, 139, 238),
                           fontSize: 16,
                           fontWeight: FontWeight.normal,
                         ),
@@ -107,12 +107,12 @@ class ProfilePage extends ConsumerWidget {
                         child: Container(
                           height: 140,
                           width: 140,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 214, 196, 238),
-                              width: 8,
-                            ),
+                            // border: Border.all(
+                            //   // color: const Color.fromARGB(255, 214, 196, 238),
+                            //   width: 8,
+                            // ),
                           ),
                           child: ClipRRect(
                               borderRadius: BorderRadius.circular(100),
@@ -144,7 +144,7 @@ class ProfilePage extends ConsumerWidget {
                       const Text(
                         'Student Details',
                         style: TextStyle(
-                          color: Color.fromARGB(255, 175, 139, 238),
+                          // color: Color.fromARGB(255, 175, 139, 238),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -160,7 +160,7 @@ class ProfilePage extends ConsumerWidget {
                           24.0,
                         ),
                         decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 141, 150, 218),
+                          // color: Color.fromARGB(255, 141, 150, 218),
                           shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.all(
                             Radius.circular(16.0),
@@ -184,19 +184,19 @@ class ProfilePage extends ConsumerWidget {
                                       'Personal Information',
                                       style: TextStyle(
                                         fontSize: 22,
-                                        color: Colors.white,
+                                        // color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     const SizedBox(
-                                      height: 4,
+                                      height: 6,
                                     ),
                                     Text(
                                       'Name: $name',
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.normal,
-                                        color: Colors.white,
+                                        // color: Colors.white,
                                       ),
                                     ),
                                     Text(
@@ -204,7 +204,7 @@ class ProfilePage extends ConsumerWidget {
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.normal,
-                                        color: Colors.white,
+                                        // color: Colors.white,
                                       ),
                                     ),
                                     Text(
@@ -212,7 +212,7 @@ class ProfilePage extends ConsumerWidget {
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.normal,
-                                        color: Colors.white,
+                                        // color: Colors.white,
                                       ),
                                     ),
                                     Text(
@@ -220,7 +220,7 @@ class ProfilePage extends ConsumerWidget {
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.normal,
-                                        color: Colors.white,
+                                        // color: Colors.white,
                                       ),
                                     ),
                                     Text(
@@ -228,7 +228,7 @@ class ProfilePage extends ConsumerWidget {
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.normal,
-                                        color: Colors.white,
+                                        // color: Colors.white,
                                       ),
                                     ),
                                     Text(
@@ -236,7 +236,7 @@ class ProfilePage extends ConsumerWidget {
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.normal,
-                                        color: Colors.white,
+                                        // color: Colors.white,
                                       ),
                                     ),
                                     Text(
@@ -244,7 +244,7 @@ class ProfilePage extends ConsumerWidget {
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.normal,
-                                        color: Colors.white,
+                                        // color: Colors.white,
                                       ),
                                     ),
                                   ],
@@ -267,7 +267,7 @@ class ProfilePage extends ConsumerWidget {
                           24.0,
                         ),
                         decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 141, 150, 218),
+                          // color: Color.fromARGB(255, 141, 150, 218),
                           shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.all(
                             Radius.circular(16.0),
@@ -288,7 +288,7 @@ class ProfilePage extends ConsumerWidget {
                                   'Parents Details',
                                   style: TextStyle(
                                     fontSize: 22,
-                                    color: Colors.white,
+                                    // color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -300,7 +300,7 @@ class ProfilePage extends ConsumerWidget {
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.normal,
-                                    color: Colors.white,
+                                    // color: Colors.white,
                                   ),
                                 ),
                                 Text(
@@ -308,7 +308,7 @@ class ProfilePage extends ConsumerWidget {
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.normal,
-                                    color: Colors.white,
+                                    // color: Colors.white,
                                   ),
                                 ),
                                 // Text(
@@ -334,7 +334,7 @@ class ProfilePage extends ConsumerWidget {
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.normal,
-                                    color: Colors.white,
+                                    // color: Colors.white,
                                   ),
                                 ),
 
@@ -343,7 +343,7 @@ class ProfilePage extends ConsumerWidget {
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.normal,
-                                    color: Colors.white,
+                                    // color: Colors.white,
                                   ),
                                 ),
                               ],

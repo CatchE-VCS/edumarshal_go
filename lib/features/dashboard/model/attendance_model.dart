@@ -15,7 +15,7 @@ class AttendanceData {
   // final dynamic userBusinessDay;
   final List<AttendanceDatum> attendanceData;
   final List<AttendanceCopy> extraLectures;
-  final StdSubAtdDetails stdSubAtdDetails;
+  final StdSubAtdDetails? stdSubAtdDetails;
 
   AttendanceData({
     // required this.attendance,
@@ -45,7 +45,7 @@ class AttendanceData {
             List<dynamic>.from(attendanceData.map((x) => x.toJson())),
         "extraLectures":
             List<dynamic>.from(extraLectures.map((x) => x.toJson())),
-        "stdSubAtdDetails": stdSubAtdDetails.toJson(),
+        "stdSubAtdDetails": stdSubAtdDetails?.toJson(),
       };
 }
 

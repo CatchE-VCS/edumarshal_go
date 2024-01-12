@@ -2,12 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
-///This class defines light theme and dark theme
 ///Here we used flex color scheme
 class Themes {
   static ThemeData get theme => FlexThemeData.light(
-        scheme: FlexScheme.brandBlue,
+        scheme: FlexScheme.material,
         surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
+        appBarStyle: FlexAppBarStyle.primary,
         blendLevel: 20,
         appBarOpacity: 0.95,
         swapColors: true,
@@ -36,11 +36,13 @@ class Themes {
 
         ///
       );
+
   static ThemeData get darkTheme => FlexThemeData.dark(
-        scheme: FlexScheme.brandBlue,
+        scheme: FlexScheme.material,
+        appBarStyle: FlexAppBarStyle.material,
         surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
         blendLevel: 15,
-        appBarStyle: FlexAppBarStyle.background,
+        // appBarStyle: FlexAppBarStyle.background,
         appBarOpacity: 0.90,
         tabBarStyle: FlexTabBarStyle.forBackground,
         subThemesData: const FlexSubThemesData(
@@ -63,6 +65,32 @@ class Themes {
         // To use the playground font, add GoogleFonts package and uncomment
         // fontFamily: GoogleFonts.getFont('Lato').fontFamily,
       );
+
+// static ThemeData get theme => ThemeData.light(
+//       useMaterial3: true,
+//     ).copyWith(
+//       colorScheme: const ColorScheme.light(
+//         primary: Colors.blue,
+//         secondary: Colors.blue,
+//         background: Colors.white,
+//       ),
+//       appBarTheme: const AppBarTheme(
+//         backgroundColor: Colors.white,
+//         foregroundColor: Colors.black,
+//         titleTextStyle: TextStyle(
+//           color: Colors.black,
+//           fontSize: 20,
+//           fontWeight: FontWeight.bold,
+//           fontFamily: 'Montserrat',
+//         ),
+//       ),
+//     );
+//
+// static ThemeData get darkTheme => ThemeData.dark(
+//       useMaterial3: true,
+//     ).copyWith(
+//       colorScheme: const ColorScheme.dark(),
+//     );
 // If you do not have a themeMode switch, uncomment this line
 // to let the device system mode control the theme mode:
 // themeMode: ThemeMode.system,
