@@ -43,7 +43,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
       alignment: Alignment.center,
       height: 240,
       padding: const EdgeInsets.all(8.0),
-      width: 220,
+      width: 200,
       decoration: BoxDecoration(
         color: selectedColor[widget.index],
         shape: BoxShape.rectangle,
@@ -73,7 +73,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
             widget.label,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 16,
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontFamily: GoogleFonts.poppins().fontFamily,
@@ -86,7 +86,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
             widget.value,
             style: TextStyle(
               color: Colors.white,
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: FontWeight.bold,
               fontFamily: GoogleFonts.poppins().fontFamily,
             ),

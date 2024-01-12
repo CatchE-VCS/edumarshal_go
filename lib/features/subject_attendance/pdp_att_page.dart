@@ -193,14 +193,34 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
                               ),
                             ),
                             const Spacer(),
-                            Text(
-                              attendance,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                // color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                            RichText(
+                              text: TextSpan(
+                                children: List.generate(
+                                  attendance.length,
+                                  (index) {
+                                    if (attendance[index] == 'P') {
+                                      return const TextSpan(
+                                        text: 'P',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      );
+                                    } else {
+                                      return const TextSpan(
+                                        text: 'A',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
                               ),
-                            ),
+                            )
                           ],
                         ),
                       );

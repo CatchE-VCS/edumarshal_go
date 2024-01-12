@@ -256,7 +256,7 @@ class DashboardPage extends ConsumerWidget {
                                   .toString(),
                             ),
                             const SizedBox(
-                              width: 20,
+                              width: 10,
                             ),
                             AdditionalInfo(
                               index: 1,
@@ -268,7 +268,7 @@ class DashboardPage extends ConsumerWidget {
                                   'Total Present: $totalPresent\nTotal Lectures: $totalClasses',
                             ),
                             const SizedBox(
-                              width: 20,
+                              width: 10,
                             ),
                             AdditionalInfo(
                               index: 2,
