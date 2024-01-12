@@ -6,6 +6,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../core/router/router.gr.dart';
@@ -21,6 +22,11 @@ class LoginPage extends ConsumerWidget {
   static TextEditingController usernameController = TextEditingController();
   static TextEditingController passwordController = TextEditingController();
   static Function simpleSnackBar = SnackBarUtil().simpleSnackBar;
+  static TextEditingController selectedDateController = TextEditingController();
+
+  String formatSelectedDate(DateTime selectedDate) {
+    return DateFormat('yyyy-MM-dd').format(selectedDate);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -122,45 +128,71 @@ class LoginPage extends ConsumerWidget {
                               context: context,
                               builder: (context) => AlertDialog(
                                 title: const Text('Reset Password'),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SizedBox(
-                                      height: 60,
-                                      width: 300,
-                                      child: TextFormField(
-                                        controller: admissionController,
-                                        keyboardType: TextInputType.text,
-                                        decoration: const InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          hintText: 'Admission No.',
-                                          labelText: 'Admission No.',
+                                content: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        height: 60,
+                                        width: 300,
+                                        child: TextFormField(
+                                          controller: admissionController,
+                                          keyboardType: TextInputType.text,
+                                          decoration: const InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            hintText: 'Admission No.',
+                                            labelText: 'Admission No.',
+                                          ),
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please enter your Username';
+                                            }
+                                            return null;
+                                          },
                                         ),
-                                        style: const TextStyle(
-                                          fontSize: 18,
-                                        ),
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please enter your Username';
-                                          }
-                                          return null;
-                                        },
                                       ),
-                                    ),
-                                    DatePickerDialog(
-                                      confirmText: 'OK',
-                                      firstDate: DateTime(1900),
-                                      lastDate: DateTime.now(),
-                                      initialDate: DateTime.now(),
-                                    )
-                                  ],
+                                      SizedBox(height: 10),
+                                      TextFormField(
+                                        controller: selectedDateController,
+                                        readOnly: true,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          hintText: 'Date Of Birth',
+                                          labelText: 'DOB',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
+                                      showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(1900),
+                                        lastDate: DateTime.now(),
+                                      ).then(
+                                        (pickedDate) {
+                                          if (pickedDate != null) {
+                                            selectedDateController.text =
+                                                formatSelectedDate(pickedDate);
+                                          }
+                                        },
+                                        // child: Text('Pick a Date'),
+                                      );
+                                    },
+                                    child: const Text('Open Calander'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
                                       Navigator.pop(context);
                                     },
-                                    child: const Text('OK'),
+                                    child: const Text('Enter'),
                                   ),
                                 ],
                               ),
