@@ -23,6 +23,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
   // String capitalizeFirstLetters(String input) {
   late DateTime _firstDay;
   late DateTime _lastDay;
+  bool startAnimation = false;
 
   // late Offset _offset;
   late Map<DateTime, List<AttendanceEntry>> _events;
@@ -65,6 +66,12 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
         ];
       }
     }
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {
+        startAnimation = true;
+      });
+    });
   }
 
   @override
@@ -169,78 +176,14 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
                   for (var element in _events[subjectAtt[index].absentDate]!) {
                     attendance += element.isAbsent ? "A" : "P";
                   }
-                  return Consumer(
-                    builder: (context, ref, child) {
-                      final currentTheme = ref.watch(themecontrollerProvider);
-                      var brightness =
-                          MediaQuery.of(context).platformBrightness;
-                      final isDarkMode = brightness == Brightness.dark;
-                      return Container(
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 12,
-                          horizontal: 32,
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 16.0,
-                          horizontal: 24.0,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: currentTheme == ThemeMode.dark
-                              ? Colors.grey.shade900
-                              : currentTheme == ThemeMode.light
-                                  ? Colors.grey.shade200
-                                  : isDarkMode
-                                      ? Colors.grey.shade900
-                                      : Colors.grey.shade200,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              '${DateTime.parse(subjectAtt[index].absentDate.toString()).day}/${DateTime.parse(subjectAtt[index].absentDate.toString()).month}/${DateTime.parse(subjectAtt[index].absentDate.toString()).year}'
-                                  .toString(),
-                              style: const TextStyle(
-                                fontSize: 16,
-                                // color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const Spacer(),
-                            RichText(
-                              text: TextSpan(
-                                children: List.generate(
-                                  attendance.length,
-                                  (index) {
-                                    if (attendance[index] == 'P') {
-                                      return const TextSpan(
-                                        text: 'P',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.green,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      );
-                                    } else {
-                                      return const TextSpan(
-                                        text: 'A',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      );
-                                    }
-                                  },
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                  );
+
+                  return Consumer(builder: (context, ref, child) {
+                    final currentTheme = ref.watch(themecontrollerProvider);
+                    var brightness = MediaQuery.of(context).platformBrightness;
+                    final isDarkMode = brightness == Brightness.dark;
+
+                    return item(index, attendance, currentTheme, isDarkMode);
+                  });
                 },
               ),
             ),
@@ -297,4 +240,160 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
       ),
     );
   }
+
+  // AnimatedContainer item(
+  //     int index, String attendance, ThemeMode currentTheme, bool isDarkMode) {
+  //   double screenWidth = MediaQuery.of(context).size.width;
+  //   return AnimatedContainer(
+  //     duration: Duration(milliseconds: 300 + (index * 100)),
+  //     width: screenWidth,
+  //     transform:
+  //         Matrix4.translationValues(startAnimation ? 0 : screenWidth, 0, 0),
+  //     curve: Curves.easeInOut,
+  //     margin: const EdgeInsets.symmetric(
+  //       vertical: 12,
+  //       horizontal: 32,
+  //     ),
+  //     padding: const EdgeInsets.symmetric(
+  //       vertical: 16.0,
+  //       horizontal: 24.0,
+  //     ),
+  //     decoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(16),
+  //       // color: const Color.fromARGB(255, 183, 146, 247),
+
+  //       color: currentTheme == ThemeMode.dark
+  //           ? Colors.grey.shade900
+  //           : currentTheme == ThemeMode.light
+  //               ? Colors.grey.shade200
+  //               : isDarkMode
+  //                   ? Colors.grey.shade900
+  //                   : Colors.grey.shade200,
+  //     ),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //       crossAxisAlignment: CrossAxisAlignment.center,
+  //       children: [
+  //         Text(
+  //           '${DateTime.parse(subjectAtt[index].absentDate.toString()).day}/${DateTime.parse(subjectAtt[index].absentDate.toString()).month}/${DateTime.parse(subjectAtt[index].absentDate.toString()).year}'
+  //               .toString(),
+  //           style: const TextStyle(
+  //             fontSize: 16,
+  //             color: currentTheme == ThemeMode.dark ? Colors.white : Colors.black,
+  //             fontWeight: FontWeight.bold,
+  //           ),
+  //         ),
+  //         const Spacer(),
+  //         RichText(
+  //           text: TextSpan(
+  //             children: List.generate(
+  //               attendance.length,
+  //               (index) {
+  //                 if (attendance[index] == 'P') {
+  //                   return TextSpan(
+  //                     text: 'P',
+  //                     style: TextStyle(
+  //                       fontSize: 16,
+  //                       color: Colors.green,
+  //                       fontWeight: FontWeight.bold,
+  //                     ),
+  //                   );
+  //                 } else {
+  //                   return TextSpan(
+  //                     text: 'A',
+  //                     style: TextStyle(
+  //                       fontSize: 16,
+  //                       color: Colors.red,
+  //                       fontWeight: FontWeight.bold,
+  //                     ),
+  //                   );
+  //                 }
+  //               },
+  //             ),
+  //           ),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
+
+
+
+AnimatedContainer item(int index, String attendance, ThemeMode currentTheme, bool isDarkMode) {
+  double screenWidth = MediaQuery.of(context).size.width;
+  return AnimatedContainer(
+    duration: Duration(milliseconds: 300 + (index * 100)),
+    width: screenWidth,
+    transform: Matrix4.translationValues(startAnimation ? 0 : screenWidth, 0, 0),
+    curve: Curves.easeInOut,
+    margin: const EdgeInsets.symmetric(
+      vertical: 12,
+      horizontal: 32,
+    ),
+    padding: const EdgeInsets.symmetric(
+      vertical: 16.0,
+      horizontal: 24.0,
+    ),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(16),
+      color: currentTheme == ThemeMode.dark
+          ? Colors.grey.shade900
+          : currentTheme == ThemeMode.light
+              ? Colors.grey.shade200
+              : isDarkMode
+                  ? Colors.grey.shade900
+                  : Colors.grey.shade200,
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          '${DateTime.parse(subjectAtt[index].absentDate.toString()).day}/${DateTime.parse(subjectAtt[index].absentDate.toString()).month}/${DateTime.parse(subjectAtt[index].absentDate.toString()).year}'
+              .toString(),
+          style: TextStyle(
+            fontSize: 16,
+            color: currentTheme == ThemeMode.dark ? Colors.white : Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const Spacer(),
+        RichText(
+          text: TextSpan(
+            children: List.generate(
+              attendance.length,
+              (index) {
+                if (attendance[index] == 'P') {
+                  return TextSpan(
+                    text: 'P',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.green,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                } else {
+                  return TextSpan(
+                    text: 'A',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
+        )
+      ],
+    ),
+  );
+}
+
+
+
+
+
+
 }

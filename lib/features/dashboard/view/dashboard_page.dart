@@ -221,6 +221,7 @@ class DashboardPage extends ConsumerWidget {
                       child: SwipeCardsScreen(
                         totalSubjects: totalSubjects,
                         overallPercentage: overallPercentage,
+                        subjectsList: subjectsList,
                       ),
                     ),
                     Padding(
@@ -256,7 +257,7 @@ class DashboardPage extends ConsumerWidget {
                                   .toString(),
                             ),
                             const SizedBox(
-                              width: 10,
+                              width: 15,
                             ),
                             AdditionalInfo(
                               index: 1,
@@ -268,7 +269,7 @@ class DashboardPage extends ConsumerWidget {
                                   'Total Present: $totalPresent\nTotal Lectures: $totalClasses',
                             ),
                             const SizedBox(
-                              width: 10,
+                              width: 15,
                             ),
                             AdditionalInfo(
                               index: 2,
@@ -523,14 +524,19 @@ class SubjectCard extends StatelessWidget {
         Container(
           alignment: Alignment.center,
           width: 50,
-          child: CircularProgressIndicator(
-            value: attendance / 100,
-            backgroundColor: Colors.white60,
-            color: attendance >= 75
-                ? Colors.green
-                : attendance >= 50
-                    ? Colors.orange
-                    : Colors.red,
+          child: TweenAnimationBuilder(
+            tween: Tween<double>(begin: 0, end: attendance / 100),
+            duration: Duration(seconds: 3),
+            builder: (BuildContext context, double value, Widget? child) =>
+                CircularProgressIndicator(
+              value: value,
+              backgroundColor: Colors.white60,
+              color: attendance >= 75
+                  ? Colors.green
+                  : attendance >= 50
+                      ? Colors.orange
+                      : Colors.red,
+            ),
           ),
         )
       ],
