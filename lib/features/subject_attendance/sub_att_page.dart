@@ -203,7 +203,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
                                   .toString(),
                               style: const TextStyle(
                                 fontSize: 16,
-                                color: Colors.white,
+                                // color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

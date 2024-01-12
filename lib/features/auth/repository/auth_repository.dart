@@ -44,6 +44,31 @@ class AuthRepository {
     }
   }
 
+  Future<String> forgotPassword(String admissionNumber, String dob) async {
+    try {
+      var res = await _dio.post(
+        'api/v1/login/forget',
+        data: {
+          'admissionNumber': admissionNumber,
+          'dob': dob,
+        },
+      );
+      if (kDebugMode) {
+        print(res.data);
+      }
+      if (res.statusCode == 200) {
+        return 'Check your registered email';
+      } else {
+        return 'Invalid Credentials';
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return 'Try again later';
+    }
+  }
+
   Future<String?> login(username, password) async {
     try {
       if (kDebugMode) {

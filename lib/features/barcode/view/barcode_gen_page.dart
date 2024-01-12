@@ -3,6 +3,8 @@ import 'package:edumarshal/features/profile/controller/profile_state_pod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/theme/theme_controller.dart';
+
 class BarGen extends ConsumerWidget {
   const BarGen({super.key});
 
@@ -49,67 +51,108 @@ class BarGen extends ConsumerWidget {
           //     ? int.parse(data.sectionName!)
           //     : 1;
           // DateTime? dob = data.dob;
-          String? bloodG = data.batchName;
+          // String? bloodG = data.batchName;
           String? fatherPhone = data.parentMobileNumber;
           String? address = data.address;
-          String? branch;
-          // int? batchid = data.batchId;
+          // String? branch;
+          // int? batchId = data.batchId;
+          final currentTheme = ref.watch(themecontrollerProvider);
+          var brightness = Theme.of(context).brightness;
+          final isDark = brightness == Brightness.dark;
           return Scaffold(
             body: Container(
               width: double.maxFinite,
               padding: const EdgeInsets.only(
-                top: 107,
+                top: 100,
+                left: 30,
+                right: 30,
               ),
               child: Column(
                 children: [
                   SizedBox(
-                      width: 250,
-                      height: 50,
-                      // decoration: AppDecoration.fillWhiteA,
-                      child: BarcodeWidget(
-                        drawText: false,
-                        barcode: Barcode.code39(),
-                        data: admissionNo.toString(),
-                      )),
-                  const SizedBox(height: 13),
-                  Text(
-                    "Student Number -$admissionNo",
-                    // style: CustomTextStyles.titleLargePrimary,
+                    width: 250,
+                    height: 50,
+                    // decoration: AppDecoration.fillWhiteA,
+                    child: BarcodeWidget(
+                      drawText: false,
+                      color: currentTheme == ThemeMode.dark
+                          ? Colors.white
+                          : currentTheme == ThemeMode.light
+                              ? Colors.black
+                              : isDark
+                                  ? Colors.white
+                                  : Colors.black,
+                      barcode: Barcode.code39(),
+                      data: admissionNo.toString(),
+                    ),
                   ),
-                  const SizedBox(height: 6),
-                  Text(
-                    "Student Name -$name",
-                    // style: CustomTextStyles.titleLargePrimary,
+                  const SizedBox(height: 40),
+                  Container(
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Student Number: $admissionNo",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        const SizedBox(height: 8),
+                        Text(
+                          "Student Name: $name",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "Address: $address",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        // Text("$branch"
+                        //     // style: CustomTextStyles.titleLargePrimary,
+                        //     ),
+                        // const SizedBox(height: 6),
+                        // Text(
+                        //   "$bloodG",
+                        //   // style: CustomTextStyles.titleLargePrimary,
+                        // ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "Mobile No: $smsMobileNumber",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "Father's Name: $fatherName",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "$fatherPhone",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 6),
-                  Text(
-                    "Address-$address",
-                    // style: CustomTextStyles.titleLargePrimary,
-                  ),
-                  Text("$branch"
-                      // style: CustomTextStyles.titleLargePrimary,
-                      ),
-                  const SizedBox(height: 6),
-                  Text(
-                    "$bloodG",
-                    // style: CustomTextStyles.titleLargePrimary,
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    "Mobile No-$smsMobileNumber",
-                    // style: CustomTextStyles.titleLargePrimary,
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    "Father's Name-$fatherName",
-                    // style: CustomTextStyles.titleLargePrimary,
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    "$fatherPhone",
-                    // style: CustomTextStyles.titleLargePrimary,
-                  ),
-                  const SizedBox(height: 5),
                 ],
               ),
             ),
