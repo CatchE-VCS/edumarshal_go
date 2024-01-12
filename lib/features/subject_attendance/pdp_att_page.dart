@@ -1,13 +1,16 @@
+import 'package:edumarshal/core/theme/theme_controller.dart';
 import 'package:edumarshal/features/subject_attendance/attendance_summary_page.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../dashboard/model/pdp_att_model.dart';
 
 class PDPAttendanceScreen extends StatefulWidget {
   final List<PDPAttendanceData?> attendanceData;
-  final int presentLectures;
-  final double percentageAttendance;
+  final int? presentLectures;
+  final double? percentageAttendance;
 
   const PDPAttendanceScreen(
       {super.key,
@@ -151,43 +154,57 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
                   for (var element in _events[_events.keys.elementAt(index)]!) {
                     attendance += element.isAbsent ? "A" : "P";
                   }
-                  return Container(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: 32,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 16.0,
-                      horizontal: 24.0,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: const Color.fromARGB(255, 183, 146, 247),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          '${DateTime.parse(_events.keys.elementAt(index).toString()).day}/${DateTime.parse(_events.keys.elementAt(index).toString()).month}/${DateTime.parse(_events.keys.elementAt(index).toString()).year}'
-                              .toString(),
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                  return Consumer(
+                    builder: (context, ref, child) {
+                      final currentTheme = ref.watch(themecontrollerProvider);
+                      var brightness =
+                          MediaQuery.of(context).platformBrightness;
+                      final isDarkMode = brightness == Brightness.dark;
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: 32,
                         ),
-                        const Spacer(),
-                        Text(
-                          attendance,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 16.0,
+                          horizontal: 24.0,
                         ),
-                      ],
-                    ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: currentTheme == ThemeMode.dark
+                              ? Colors.grey.shade900
+                              : currentTheme == ThemeMode.light
+                                  ? Colors.grey.shade200
+                                  : isDarkMode
+                                      ? Colors.grey.shade900
+                                      : Colors.grey.shade200,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              '${DateTime.parse(_events.keys.elementAt(index).toString()).day}/${DateTime.parse(_events.keys.elementAt(index).toString()).month}/${DateTime.parse(_events.keys.elementAt(index).toString()).year}'
+                                  .toString(),
+                              style: const TextStyle(
+                                fontSize: 16,
+                                // color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const Spacer(),
+                            Text(
+                              attendance,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                // color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   );
                 },
               ),
@@ -199,34 +216,49 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        isExtended: true,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AttendanceSummaryPage(
-                entries: _events,
-                firstDay: _firstDay,
-                lastDay: _lastDay,
+      floatingActionButton: Consumer(
+        builder: (context, ref, child) {
+          final currentTheme = ref.watch(themecontrollerProvider);
+          var brightness = MediaQuery.of(context).platformBrightness;
+          final isDarkMode = brightness == Brightness.dark;
+          return FloatingActionButton.extended(
+            isExtended: true,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AttendanceSummaryPage(
+                    entries: _events,
+                    firstDay: _firstDay,
+                    lastDay: _lastDay,
+                  ),
+                ),
+              );
+            },
+            icon: const Icon(
+              Icons.calendar_month_sharp,
+              color: Colors.white,
+            ),
+            backgroundColor: currentTheme == ThemeMode.dark
+                ? FlexColor.schemes[FlexScheme.material]?.dark.primaryContainer
+                : currentTheme == ThemeMode.light
+                    ? FlexColor.schemes[FlexScheme.material]?.light.appBarColor
+                    : isDarkMode
+                        ? FlexColor
+                            .schemes[FlexScheme.material]?.dark.primaryContainer
+                        : FlexColor
+                            .schemes[FlexScheme.material]?.light.appBarColor,
+            label: Text(
+              "Summary",
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontFamily: GoogleFonts.poppins().fontFamily,
               ),
             ),
           );
         },
-        icon: const Icon(
-          Icons.calendar_month_sharp,
-          color: Colors.white,
-        ),
-        backgroundColor: const Color.fromARGB(255, 183, 146, 247),
-        label: Text(
-          "Summary",
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            fontFamily: GoogleFonts.poppins().fontFamily,
-          ),
-        ),
       ),
     );
   }

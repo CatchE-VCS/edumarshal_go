@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -143,9 +144,9 @@ class _AttendanceSummaryPageState extends State<AttendanceSummaryPage> {
                 horizontal: MediaQuery.of(context).devicePixelRatio * 32,
                 vertical: 32,
               ),
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: const BorderRadius.all(
+              decoration: const BoxDecoration(
+                // color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.all(
                   Radius.circular(20),
                 ),
               ),
@@ -155,13 +156,13 @@ class _AttendanceSummaryPageState extends State<AttendanceSummaryPage> {
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 fontFamily: GoogleFonts.poppins().fontFamily,
-                color: Colors.white,
+                // color: Colors.white,
               ),
             ),
             calendarStyle: CalendarStyle(
               outsideDaysVisible: false,
               weekendTextStyle: TextStyle(
-                color: Colors.red,
+                // color: Colors.red,
                 fontFamily: GoogleFonts.poppins().fontFamily,
               ),
               // weekendDecoration: const BoxDecoration(
@@ -169,22 +170,22 @@ class _AttendanceSummaryPageState extends State<AttendanceSummaryPage> {
               //   color: Colors.white,
               // ),
               holidayTextStyle: TextStyle(
-                color: Colors.pinkAccent,
+                // color: Colors.pinkAccent,
                 fontFamily: GoogleFonts.poppins().fontFamily,
               ),
               selectedTextStyle: TextStyle(
-                color: Colors.blue,
+                // color: Colors.blue,
                 fontFamily: GoogleFonts.poppins().fontFamily,
               ),
             ),
             daysOfWeekStyle: DaysOfWeekStyle(
               weekendStyle: TextStyle(
-                color: Colors.pinkAccent,
+                // color: Colors.pinkAccent,
                 fontFamily: GoogleFonts.poppins().fontFamily,
                 fontSize: 10,
               ),
               weekdayStyle: TextStyle(
-                color: Colors.black,
+                // color: Colors.black,
                 fontFamily: GoogleFonts.poppins().fontFamily,
                 fontSize: 10,
               ),
@@ -194,7 +195,9 @@ class _AttendanceSummaryPageState extends State<AttendanceSummaryPage> {
               widget.entries
                   .map((key, value) => MapEntry(key, value))
                   .forEach((key, value) {
-                print(key);
+                if (kDebugMode) {
+                  print(key);
+                }
                 if (key.year == day.year &&
                     key.month == day.month &&
                     key.day == day.day) {
@@ -301,15 +304,20 @@ class _AttendanceSummaryPageState extends State<AttendanceSummaryPage> {
           //     },
           //   ),
           // ),
+          GestureDetector(
+            onTap: () {
+              // AutoRouter.of(context).pop();
+              // AutoRouter.of(context).pushNamed('/qr-scan');
+              if (kDebugMode) {
+                print('Scanning document...');
+              }
+            },
+            child: Expanded(
+              child: Container(),
+            ),
+          ),
         ],
       ),
     );
   }
-
-// @override
-// void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-//   super.debugFillProperties(properties);
-//   properties.add(DiagnosticsProperty<Map<DateTime, List<AttendanceDatum>>>(
-//       '_events', _events));
-// }
 }

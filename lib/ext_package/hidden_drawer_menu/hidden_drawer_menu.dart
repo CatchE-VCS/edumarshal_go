@@ -24,7 +24,7 @@ class HiddenDrawerMenu extends StatelessWidget {
   final int initPositionSelected;
 
   /// Decocator that allows us to add backgroud in the content(color)
-  final Color backgroundColorContent;
+  final Color? backgroundColorContent;
 
   //AppBar
   /// enable auto title in appbar with menu item name
@@ -56,7 +56,7 @@ class HiddenDrawerMenu extends StatelessWidget {
   final DecorationImage? backgroundMenu;
 
   /// that allows us to add backgroud in the menu(color)
-  final Color backgroundColorMenu;
+  final Color? backgroundColorMenu;
 
   /// that allows us to add shadow above menu items
   final bool enableShadowItensMenu;
@@ -98,8 +98,8 @@ class HiddenDrawerMenu extends StatelessWidget {
     this.elevationAppBar = 4.0,
     this.leadingAppBar = const Icon(Icons.menu),
     this.backgroundMenu,
-    required this.backgroundColorMenu,
-    this.backgroundColorContent = Colors.white,
+    this.backgroundColorMenu,
+    this.backgroundColorContent,
     this.withAutoTittleName = true,
     this.styleAutoTittleName,
     this.actionsAppBar,
@@ -207,7 +207,7 @@ class HiddenDrawerMenu extends StatelessWidget {
 
     return AppBar(
       titleTextStyle: TextStyle(
-        color: Colors.white,
+        // color: Colors.white,
         fontSize: 20,
         fontWeight: FontWeight.bold,
         fontFamily: GoogleFonts.montserrat().fontFamily,

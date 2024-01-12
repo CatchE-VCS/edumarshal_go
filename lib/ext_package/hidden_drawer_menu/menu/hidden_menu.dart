@@ -12,7 +12,7 @@ class HiddenMenu extends StatefulWidget {
   final bool enableShadowItemsMenu;
 
   /// that allows us to add backgroud in the menu(color)
-  final Color backgroundColorMenu;
+  final Color? backgroundColorMenu;
 
   /// Items of the menu
   final List<ItemHiddenMenu> items;
@@ -31,13 +31,13 @@ class HiddenMenu extends StatefulWidget {
       required this.items,
       this.selectedListen,
       required this.initPositionSelected,
-      required this.backgroundColorMenu,
+      this.backgroundColorMenu,
       this.enableShadowItemsMenu = false,
       this.typeOpen = TypeOpen.FROM_LEFT})
       : super(key: key);
 
   @override
-  _HiddenMenuState createState() => _HiddenMenuState();
+  State<HiddenMenu> createState() => _HiddenMenuState();
 }
 
 class _HiddenMenuState extends State<HiddenMenu> {

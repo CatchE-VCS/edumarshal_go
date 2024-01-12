@@ -47,10 +47,10 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
       decoration: BoxDecoration(
         color: selectedColor[widget.index],
         shape: BoxShape.rectangle,
-        border: Border.all(
-          color: Colors.white,
-          width: 2,
-        ),
+        // border: Border.all(
+        //   // color: Colors.white,
+        //   width: 2,
+        // ),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(

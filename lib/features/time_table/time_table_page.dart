@@ -147,10 +147,10 @@ class _TimeTablePageState extends State<TimeTablePage> {
           children: [
             TableCalendar(
               calendarStyle: const CalendarStyle(
-                defaultTextStyle: TextStyle(color: Colors.blue),
-                weekNumberTextStyle: TextStyle(color: Colors.red),
-                weekendTextStyle: TextStyle(color: Colors.pink),
-              ),
+                  // defaultTextStyle: TextStyle(color: Colors.blue),
+                  // weekNumberTextStyle: TextStyle(color: Colors.red),
+                  // weekendTextStyle: TextStyle(color: Colors.pink),
+                  ),
               focusedDay: _focusedDay,
               // focus current day
               firstDay: DateTime(DateTime.now().year - 1),
@@ -183,7 +183,7 @@ class _TimeTablePageState extends State<TimeTablePage> {
             ..._listOfDayEvents(_selectedDate!).map((myEvent) => ListTile(
                   leading: const Icon(
                     Icons.done,
-                    color: Colors.green,
+                    // color: Colors.green,
                   ),
                   title: Padding(
                     padding: const EdgeInsets.only(bottom: 10),
@@ -195,30 +195,30 @@ class _TimeTablePageState extends State<TimeTablePage> {
             const SizedBox(
               height: 80,
             ),
-            InkWell(
-              onTap: () {
-                _showAddEventsDialog();
-              },
-              child: Container(
-                alignment: Alignment.center,
-                height: 50,
-                width: 120,
-                decoration: BoxDecoration(
-                    color: Colors.cyan,
-                    borderRadius: BorderRadius.circular(20)),
-                child: const Padding(
-                  padding: EdgeInsets.all(0.0),
-                  child: Text(
-                    "add events",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
-            )
+            // InkWell(
+            //   onTap: () {
+            //     _showAddEventsDialog();
+            //   },
+            //   child: Container(
+            //     alignment: Alignment.center,
+            //     height: 50,
+            //     width: 120,
+            //     decoration: BoxDecoration(
+            //         color: Colors.cyan,
+            //         borderRadius: BorderRadius.circular(20)),
+            //     child: const Padding(
+            //       padding: EdgeInsets.all(0.0),
+            //       child: Text(
+            //         "add events",
+            //         style: TextStyle(
+            //           color: Colors.white,
+            //           fontWeight: FontWeight.bold,
+            //           fontSize: 20,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),

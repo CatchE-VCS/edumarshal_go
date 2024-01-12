@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:edumarshal/core/theme/theme_controller.dart';
 import 'package:edumarshal/features/subject_attendance/pdp_att_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class DashboardPage extends ConsumerWidget {
               loading: () {
                 // Check the connection state
                 return SizedBox(
-                  height: MediaQuery.of(context).size.height - 100,
+                  height: MediaQuery.of(context).size.height - 200,
                   child: const Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -54,7 +55,7 @@ class DashboardPage extends ConsumerWidget {
               error: (e, s) {
                 // Error fetching data
                 return SizedBox(
-                  height: MediaQuery.of(context).size.height - 100,
+                  height: MediaQuery.of(context).size.height - 200,
                   child: const Center(
                     child: Text('Error fetching data'),
                   ),
@@ -65,9 +66,9 @@ class DashboardPage extends ConsumerWidget {
                 // print("Refreshed");
                 // If no error occurred
                 if (data == null) {
-                  return const SizedBox(
-                    height: 100,
-                    child: Center(
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height - 200,
+                    child: const Center(
                       child: Text(
                         'No data found',
                         style: TextStyle(fontSize: 20),
@@ -77,31 +78,48 @@ class DashboardPage extends ConsumerWidget {
                 }
                 // String profilePhotoUrl =
                 //     "https://akgecerp.edumarshal.com/api/fileblob/${snapshot.data!.stdSubAtdDetails.studentSubjectAttendance[0].userDetails == null ? null : jsonDecode(snapshot.data!.stdSubAtdDetails.studentSubjectAttendance[0].userDetails)['profilePictureId']}";
-
+                String name = '';
+                String email = '';
                 print(data
-                    .stdSubAtdDetails.studentSubjectAttendance[0].userDetails);
-                String name = jsonDecode(data
-                        .stdSubAtdDetails
-                        .studentSubjectAttendance
-                        .first
-                        .userDetails)['firstName'] +
-                    ' ' +
-                    jsonDecode(data.stdSubAtdDetails.studentSubjectAttendance
-                        .first.userDetails)['lastName'];
-                String email = jsonDecode(data.stdSubAtdDetails
-                    .studentSubjectAttendance.first.userDetails)['email'];
-                int totalSubjects = data.stdSubAtdDetails
+                    .stdSubAtdDetails!.studentSubjectAttendance[0].userDetails);
+                if (jsonDecode(data
+                        .stdSubAtdDetails!
+                        .studentSubjectAttendance[0]
+                        .userDetails)['firstName'] !=
+                    null) {
+                  name = jsonDecode(data
+                          .stdSubAtdDetails!
+                          .studentSubjectAttendance
+                          .first
+                          .userDetails)['firstName'] +
+                      ' ' +
+                      jsonDecode(data.stdSubAtdDetails!.studentSubjectAttendance
+                          .first.userDetails)['lastName'];
+                  email = jsonDecode(data.stdSubAtdDetails!
+                      .studentSubjectAttendance.first.userDetails)['email'];
+                } else {
+                  name =
+                      '${data.stdSubAtdDetails!.studentSubjectAttendance.first.firstName} ${data.stdSubAtdDetails!.studentSubjectAttendance.first.lastName}';
+
+                  email = data.stdSubAtdDetails!.studentSubjectAttendance.first
+                          .email ??
+                      '';
+                }
+                int totalSubjects = data.stdSubAtdDetails!
                     .studentSubjectAttendance[0].subjects.length;
                 double overallPercentage =
-                    data.stdSubAtdDetails.overallPercentage;
+                    data.stdSubAtdDetails!.overallPercentage;
                 List<Subject> subjectsList =
-                    data.stdSubAtdDetails.studentSubjectAttendance[0].subjects;
-                int totalPresent = data.stdSubAtdDetails.overallPresent!;
-                int totalClasses = data.stdSubAtdDetails.overallLecture!;
+                    data.stdSubAtdDetails!.studentSubjectAttendance[0].subjects;
+                int? totalPresent = data.stdSubAtdDetails?.overallPresent!;
+                int? totalClasses = data.stdSubAtdDetails?.overallLecture!;
                 // int totalAbsent = totalClasses - totalPresent;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 10),
@@ -114,28 +132,14 @@ class DashboardPage extends ConsumerWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  RichText(
-                                    text: TextSpan(
-                                      text: "Hello, ",
-                                      style: GoogleFonts.poppins(
-                                        textStyle: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                  Text(
+                                    "Hello, $name",
+                                    style: GoogleFonts.poppins(
+                                      textStyle: const TextStyle(
+                                        fontSize: 23,
+                                        fontWeight: FontWeight.bold,
+                                        // color: Colors.black,
                                       ),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text: name,
-                                          style: GoogleFonts.poppins(
-                                            textStyle: const TextStyle(
-                                              fontSize: 23,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
                                     ),
                                   ),
                                   Text(
@@ -143,7 +147,7 @@ class DashboardPage extends ConsumerWidget {
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.normal,
-                                      color: Colors.black,
+                                      // color: Colors.black,
                                       fontFamily:
                                           GoogleFonts.poppins().fontFamily,
                                     ),
@@ -246,7 +250,7 @@ class DashboardPage extends ConsumerWidget {
                                   'assets/images/school_7214224.png'),
                               label: 'Course',
                               value: jsonDecode(data
-                                      .stdSubAtdDetails
+                                      .stdSubAtdDetails!
                                       .studentSubjectAttendance[0]
                                       .userDetails)['selectedCourse']
                                   .toString(),
@@ -274,7 +278,7 @@ class DashboardPage extends ConsumerWidget {
                               label: 'Classes Required for 75%:',
                               value: (() {
                                 int calculatedValue =
-                                    3 * totalClasses - 4 * totalPresent;
+                                    3 * totalClasses! - 4 * totalPresent!;
                                 if (calculatedValue < 0) {
                                   return 'You are already above 75%';
                                 } else {
@@ -307,31 +311,48 @@ class DashboardPage extends ConsumerWidget {
                       height: 10,
                     ),
                     for (int i = 0; i < totalSubjects; i++) ...[
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        margin: const EdgeInsets.only(left: 18, right: 15),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SubjectAttendanceScreen(
-                                  attendanceData: data,
-                                  subject: subjectsList[i],
-                                ),
+                      Consumer(
+                        builder: (context, ref, child) {
+                          final currentTheme =
+                              ref.watch(themecontrollerProvider);
+                          var brightness =
+                              MediaQuery.of(context).platformBrightness;
+                          bool isDarkMode = brightness == Brightness.dark;
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: currentTheme == ThemeMode.dark
+                                  ? Colors.grey.shade900
+                                  : currentTheme == ThemeMode.light
+                                      ? Colors.grey.shade200
+                                      : isDarkMode
+                                          ? Colors.grey.shade900
+                                          : Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            margin: const EdgeInsets.only(left: 18, right: 15),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        SubjectAttendanceScreen(
+                                      attendanceData: data,
+                                      subject: subjectsList[i],
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: SubjectCard(
+                                totalPresent: subjectsList[i].presentLeactures,
+                                totalClasses: subjectsList[i].totalLeactures,
+                                subject: subjectsList[i].name,
+                                attendance:
+                                    subjectsList[i].percentageAttendance,
                               ),
-                            );
-                          },
-                          child: SubjectCard(
-                            totalPresent: subjectsList[i].presentLeactures,
-                            totalClasses: subjectsList[i].totalLeactures,
-                            subject: subjectsList[i].name,
-                            attendance: subjectsList[i].percentageAttendance,
-                          ),
-                        ),
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(
                         height: 10,
@@ -340,20 +361,6 @@ class DashboardPage extends ConsumerWidget {
                   ],
                 );
               },
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Text(
-                'PDP Attendance',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: GoogleFonts.poppins().fontFamily,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
             ),
             ref.watch(pdpAttendanceDataProvider).when(
               loading: () {
@@ -372,9 +379,6 @@ class DashboardPage extends ConsumerWidget {
                   if (ss.isEmpty) {
                     return const SizedBox(
                       height: 100,
-                      child: Center(
-                        child: Text('No data found'),
-                      ),
                     );
                   }
 
@@ -384,44 +388,72 @@ class DashboardPage extends ConsumerWidget {
                     }
                   }
 
-                  return GestureDetector(
-                    onTap: () {
-                      // Navigate to PDP Attendance Screen
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PDPAttendanceScreen(
-                            attendanceData: ss,
-                            presentLectures: presentLectures,
-                            percentageAttendance:
-                                (presentLectures / ss.length) * 100,
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: Text(
+                          'PDP Attendance',
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: GoogleFonts.poppins().fontFamily,
                           ),
                         ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(10),
                       ),
-                      margin: const EdgeInsets.only(left: 18, right: 15),
-                      child: SubjectCard(
-                        totalPresent: presentLectures,
-                        totalClasses: ss.length,
-                        subject: "PDP",
-                        attendance: (presentLectures / ss.length) * 100,
+                      const SizedBox(
+                        height: 10,
                       ),
-                    ),
+                      GestureDetector(
+                        onTap: () {
+                          // Navigate to PDP Attendance Screen
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PDPAttendanceScreen(
+                                attendanceData: ss,
+                                presentLectures: presentLectures,
+                                percentageAttendance:
+                                    (presentLectures / ss.length) * 100,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Consumer(
+                          builder: (context, ref, child) {
+                            final currentTheme =
+                                ref.watch(themecontrollerProvider);
+                            var brightness =
+                                MediaQuery.of(context).platformBrightness;
+                            bool isDarkMode = brightness == Brightness.dark;
+                            return Container(
+                              decoration: BoxDecoration(
+                                color: currentTheme == ThemeMode.dark
+                                    ? Colors.grey.shade900
+                                    : currentTheme == ThemeMode.light
+                                        ? Colors.grey.shade200
+                                        : isDarkMode
+                                            ? Colors.grey.shade900
+                                            : Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              margin:
+                                  const EdgeInsets.only(left: 18, right: 15),
+                              child: SubjectCard(
+                                totalPresent: presentLectures,
+                                totalClasses: ss.length,
+                                subject: "PDP",
+                                attendance: (presentLectures / ss.length) * 100,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   );
                 } else {
                   return const SizedBox(
                     height: 100,
-                    child: Center(
-                      child: Text(
-                        'No data found',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
                   );
                 }
               },
@@ -469,7 +501,7 @@ class SubjectCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black54,
+                  // color: Colors.black54,
                   fontFamily: GoogleFonts.poppins().fontFamily,
                 ),
               ),
@@ -482,7 +514,7 @@ class SubjectCard extends StatelessWidget {
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                   fontFamily: GoogleFonts.poppins().fontFamily,
-                  color: Colors.black45,
+                  // color: Colors.black45,
                 ),
               ),
             ],

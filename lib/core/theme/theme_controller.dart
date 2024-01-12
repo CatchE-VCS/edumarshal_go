@@ -1,6 +1,6 @@
+import 'package:edumarshal/core/local_storage/app_storage_pod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:edumarshal/core/local_storage/app_storage_pod.dart';
 
 ///This provider stores the ThemeModeController
 final themecontrollerProvider =
@@ -31,5 +31,15 @@ class ThemeModeController extends AutoDisposeNotifier<ThemeMode> {
   Future<void> changeTheme(ThemeMode theme) async {
     state = theme;
     await ref.read(appStorageProvider).put(key: _themeKey, value: theme.name);
+  }
+
+  Future<void> changeThemeMode() async {
+    if (state == ThemeMode.light) {
+      await changeTheme(ThemeMode.dark);
+    } else if (state == ThemeMode.dark) {
+      await changeTheme(ThemeMode.system);
+    } else {
+      await changeTheme(ThemeMode.light);
+    }
   }
 }
