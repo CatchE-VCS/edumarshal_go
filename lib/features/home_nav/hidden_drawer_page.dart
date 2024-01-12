@@ -47,6 +47,7 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
       // print(jwtDecodedToken);
       // print("---------------------");
       // }
+      
     } catch (e) {
       if (kDebugMode) {
         print('Error decoding token: $e');
