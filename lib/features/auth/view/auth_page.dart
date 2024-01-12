@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:edumarshal/core/theme/theme_controller.dart';
 import 'package:edumarshal/features/widgets/custom_text_form_field.dart';
 import 'package:edumarshal/features/widgets/snackbar.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,6 +24,9 @@ class LoginPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(themecontrollerProvider);
+    var brightness = Theme.of(context).brightness;
+    final isDark = brightness == Brightness.dark;
     bool obscureText = ref.watch(passwordVisibilityPod);
     bool loading = ref.watch(authLoadingPod);
 
@@ -103,76 +108,76 @@ class LoginPage extends ConsumerWidget {
                           : 'Please enter your password',
                     ),
                     const SizedBox(height: 10),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.end,
-                    //   children: [
-                    //     InkWell(
-                    //       onTap: () {
-                    //         // Unfocus textfield before pushing route
-                    //         FocusManager.instance.primaryFocus?.unfocus();
-                    //         TextEditingController admissionController =
-                    //             TextEditingController();
-                    //
-                    //         showDialog(
-                    //           context: context,
-                    //           builder: (context) => AlertDialog(
-                    //             title: const Text('Reset Password'),
-                    //             content: Column(
-                    //               mainAxisSize: MainAxisSize.min,
-                    //               children: [
-                    //                 SizedBox(
-                    //                   height: 60,
-                    //                   width: 300,
-                    //                   child: TextFormField(
-                    //                     controller: admissionController,
-                    //                     keyboardType: TextInputType.text,
-                    //                     decoration: const InputDecoration(
-                    //                       border: OutlineInputBorder(),
-                    //                       hintText: 'Admission No.',
-                    //                       labelText: 'Admission No.',
-                    //                     ),
-                    //                     style: const TextStyle(
-                    //                       fontSize: 18,
-                    //                     ),
-                    //                     validator: (value) {
-                    //                       if (value == null || value.isEmpty) {
-                    //                         return 'Please enter your Username';
-                    //                       }
-                    //                       return null;
-                    //                     },
-                    //                   ),
-                    //                 ),
-                    //                 DatePickerDialog(
-                    //                   confirmText: 'OK',
-                    //                   firstDate: DateTime(1900),
-                    //                   lastDate: DateTime.now(),
-                    //                   initialDate: DateTime.now(),
-                    //                 )
-                    //               ],
-                    //             ),
-                    //             actions: [
-                    //               TextButton(
-                    //                 onPressed: () {
-                    //                   Navigator.pop(context);
-                    //                 },
-                    //                 child: const Text('OK'),
-                    //               ),
-                    //             ],
-                    //           ),
-                    //         );
-                    //       },
-                    //       child: const Padding(
-                    //         padding: EdgeInsets.symmetric(vertical: 8.0),
-                    //         child: Text(
-                    //           'Forgot password?',
-                    //           style: TextStyle(
-                    //             fontSize: 15,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            // Unfocused text field before pushing route
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            TextEditingController admissionController =
+                                TextEditingController();
+
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Reset Password'),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SizedBox(
+                                      height: 60,
+                                      width: 300,
+                                      child: TextFormField(
+                                        controller: admissionController,
+                                        keyboardType: TextInputType.text,
+                                        decoration: const InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          hintText: 'Admission No.',
+                                          labelText: 'Admission No.',
+                                        ),
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter your Username';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                    ),
+                                    DatePickerDialog(
+                                      confirmText: 'OK',
+                                      firstDate: DateTime(1900),
+                                      lastDate: DateTime.now(),
+                                      initialDate: DateTime.now(),
+                                    )
+                                  ],
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8.0),
+                            child: Text(
+                              'Forgot password?',
+                              style: TextStyle(
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     SizedBox(height: MediaQuery.of(context).size.height / 16),
                   ],
                 ),
@@ -184,6 +189,14 @@ class LoginPage extends ConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         extendedIconLabelSpacing: 20,
         isExtended: true,
+        backgroundColor: currentTheme == ThemeMode.dark
+            ? FlexColor.schemes[FlexScheme.material]?.dark.primaryContainer
+            : currentTheme == ThemeMode.light
+                ? FlexColor.schemes[FlexScheme.material]?.light.appBarColor
+                : isDark
+                    ? FlexColor
+                        .schemes[FlexScheme.material]?.dark.primaryContainer
+                    : FlexColor.schemes[FlexScheme.material]?.light.appBarColor,
         onPressed: loading
             ? null
             : () {
