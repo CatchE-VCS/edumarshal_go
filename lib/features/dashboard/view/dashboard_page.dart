@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../subject_attendance/sub_att_page.dart';
 import '../../widgets/additional_info.dart';
-import '../../widgets/test.dart';
+import '../../widgets/swipe_card_widget.dart';
 import '../dashboard.dart';
 
 class DashboardPage extends ConsumerWidget {
@@ -221,12 +221,13 @@ class DashboardPage extends ConsumerWidget {
                       child: SwipeCardsScreen(
                         totalSubjects: totalSubjects,
                         overallPercentage: overallPercentage,
+                        subjectsList: subjectsList,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20.0,
-                        vertical: 10,
+                        vertical: 2,
                       ),
                       child: Text(
                         'Your Statistics',
@@ -237,13 +238,16 @@ class DashboardPage extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    SizedBox(
+                      height: 270,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         physics: const BouncingScrollPhysics(),
                         child: Row(
                           children: [
+                            const SizedBox(
+                              width: 15,
+                            ),
                             AdditionalInfo(
                               index: 0,
                               image: Image.asset(
@@ -256,7 +260,7 @@ class DashboardPage extends ConsumerWidget {
                                   .toString(),
                             ),
                             const SizedBox(
-                              width: 10,
+                              width: 15,
                             ),
                             AdditionalInfo(
                               index: 1,
@@ -268,7 +272,7 @@ class DashboardPage extends ConsumerWidget {
                                   'Total Present: $totalPresent\nTotal Lectures: $totalClasses',
                             ),
                             const SizedBox(
-                              width: 10,
+                              width: 15,
                             ),
                             AdditionalInfo(
                               index: 2,
@@ -523,14 +527,19 @@ class SubjectCard extends StatelessWidget {
         Container(
           alignment: Alignment.center,
           width: 50,
-          child: CircularProgressIndicator(
-            value: attendance / 100,
-            backgroundColor: Colors.white60,
-            color: attendance >= 75
-                ? Colors.green
-                : attendance >= 50
-                    ? Colors.orange
-                    : Colors.red,
+          child: TweenAnimationBuilder(
+            tween: Tween<double>(begin: 0, end: attendance / 100),
+            duration: const Duration(seconds: 3),
+            builder: (BuildContext context, double value, Widget? child) =>
+                CircularProgressIndicator(
+              value: value,
+              backgroundColor: Colors.white60,
+              color: attendance >= 75
+                  ? Colors.green
+                  : attendance >= 50
+                      ? Colors.orange
+                      : Colors.red,
+            ),
           ),
         )
       ],
