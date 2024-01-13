@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../subject_attendance/sub_att_page.dart';
 import '../../widgets/additional_info.dart';
-import '../../widgets/test.dart';
+import '../../widgets/swipe_card_widget.dart';
 import '../dashboard.dart';
 
 class DashboardPage extends ConsumerWidget {
@@ -238,62 +238,62 @@ class DashboardPage extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Container(
-                        height: 270,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          physics: const BouncingScrollPhysics(),
-                          child: Row(
-                            children: [
-                              AdditionalInfo(
-                                index: 0,
-                                image: Image.asset(
-                                    'assets/images/school_7214224.png'),
-                                label: 'Course',
-                                value: jsonDecode(data
-                                        .stdSubAtdDetails!
-                                        .studentSubjectAttendance[0]
-                                        .userDetails)['selectedCourse']
-                                    .toString(),
+                    SizedBox(
+                      height: 270,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            AdditionalInfo(
+                              index: 0,
+                              image: Image.asset(
+                                  'assets/images/school_7214224.png'),
+                              label: 'Course',
+                              value: jsonDecode(data
+                                      .stdSubAtdDetails!
+                                      .studentSubjectAttendance[0]
+                                      .userDetails)['selectedCourse']
+                                  .toString(),
+                            ),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            AdditionalInfo(
+                              index: 1,
+                              image: Image.asset(
+                                'assets/images/presentation_760138.png',
                               ),
-                              const SizedBox(
-                                width: 15,
+                              label: 'Attendance Preview',
+                              value:
+                                  'Total Present: $totalPresent\nTotal Lectures: $totalClasses',
+                            ),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            AdditionalInfo(
+                              index: 2,
+                              image: Image.asset(
+                                'assets/images/presentation_760138.png',
                               ),
-                              AdditionalInfo(
-                                index: 1,
-                                image: Image.asset(
-                                  'assets/images/presentation_760138.png',
-                                ),
-                                label: 'Attendance Preview',
-                                value:
-                                    'Total Present: $totalPresent\nTotal Lectures: $totalClasses',
-                              ),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              AdditionalInfo(
-                                index: 2,
-                                image: Image.asset(
-                                  'assets/images/presentation_760138.png',
-                                ),
-                                label: 'Classes Required for 75%:',
-                                value: (() {
-                                  int calculatedValue =
-                                      3 * totalClasses! - 4 * totalPresent!;
-                                  if (calculatedValue < 0) {
-                                    return 'You are already above 75%';
-                                  } else {
-                                    return 'Classes Required: $calculatedValue';
-                                  }
-                                })(),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                            ],
-                          ),
+                              label: 'Classes Required for 75%:',
+                              value: (() {
+                                int calculatedValue =
+                                    3 * totalClasses! - 4 * totalPresent!;
+                                if (calculatedValue < 0) {
+                                  return 'You are already above 75%';
+                                } else {
+                                  return 'Classes Required: $calculatedValue';
+                                }
+                              })(),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -529,7 +529,7 @@ class SubjectCard extends StatelessWidget {
           width: 50,
           child: TweenAnimationBuilder(
             tween: Tween<double>(begin: 0, end: attendance / 100),
-            duration: Duration(seconds: 3),
+            duration: const Duration(seconds: 3),
             builder: (BuildContext context, double value, Widget? child) =>
                 CircularProgressIndicator(
               value: value,

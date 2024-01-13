@@ -1,8 +1,4 @@
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class EventsPage extends StatefulWidget {
   const EventsPage({super.key});
@@ -17,31 +13,31 @@ class _EventsPageState extends State<EventsPage> {
   @override
   void initState() {
     super.initState();
-    fetchData();
+    // fetchData();
   }
 
-  Future<void> fetchData() async {
-    var headers = {'Content-Type': 'application/json'};
-    var request =
-        http.Request('GET', Uri.parse('https://erp.anaskhan.site/api/events/'));
-    request.body = json.encode({"id": "all"});
-    request.headers.addAll(headers);
-
-    http.StreamedResponse response = await request.send();
-
-    if (response.statusCode == 200) {
-      String data = await response.stream.bytesToString();
-      List<dynamic> jsonData = json.decode(data);
-
-      setState(() {
-        eventData = List<Map<String, dynamic>>.from(jsonData);
-      });
-    } else {
-      if (kDebugMode) {
-        print(response.reasonPhrase);
-      }
-    }
-  }
+  // Future<void> fetchData() async {
+  //   var headers = {'Content-Type': 'application/json'};
+  //   var request =
+  //       http.Request('GET', Uri.parse('https://erp.anaskhan.site/api/events/'));
+  //   request.body = json.encode({"id": "all"});
+  //   request.headers.addAll(headers);
+  //
+  //   http.StreamedResponse response = await request.send();
+  //
+  //   if (response.statusCode == 200) {
+  //     String data = await response.stream.bytesToString();
+  //     List<dynamic> jsonData = json.decode(data);
+  //
+  //     setState(() {
+  //       eventData = List<Map<String, dynamic>>.from(jsonData);
+  //     });
+  //   } else {
+  //     if (kDebugMode) {
+  //       print(response.reasonPhrase);
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

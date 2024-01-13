@@ -3,39 +3,52 @@ import 'package:edumarshal/features/dashboard/model/attendance_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SwipeCardsScreen extends StatefulWidget {
+//
+// final initialAttAnimationPod = Provider((ref) => false);
+//
+// class AttAnimationNotifier extends Notifier<bool>{
+//   @override
+//   bool build() {
+//     return ref.watch(initialAttAnimationPod);
+//   }
+// }
+//
+// final attAnimationPod = NotifierProvider<AttAnimationNotifier, bool>(
+//   AttAnimationNotifier.new,
+//   name: 'attAnimationPod',
+// );
+
+final class SwipeCardsScreen extends StatefulWidget {
   const SwipeCardsScreen(
       {super.key,
       required this.overallPercentage,
       required this.totalSubjects,
       required this.subjectsList});
+
   final double overallPercentage;
   final int totalSubjects;
   final List<Subject> subjectsList;
+
   @override
   State<SwipeCardsScreen> createState() => _SwipeCardsScreenState();
 }
 
 class _SwipeCardsScreenState extends State<SwipeCardsScreen> {
-  List<String> cardData = ['First Card', 'Second Card', 'Third Card'];
-  int topCardIndex = 0;
+  // static List<String> cardData = ['Only one'];
+  double _targetSize = 0;
+
+  @override
+  void initState() {
+    _targetSize = widget.overallPercentage / 100;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      itemCount: cardData.length,
-      onPageChanged: (index) {
-        setState(() {
-          topCardIndex = index;
-        });
-      },
-      itemBuilder: (context, index) {
-        return _buildCard(cardData[index]);
-      },
-    );
-  }
-
-  Widget _buildCard(String text) {
+    // int topCardIndex = 0;
+    var tween = Tween<double>(begin: 0, end: _targetSize);
+    // AnimationController animationController = AnimationController(vsync: this)
+    //   ..repeat();
     return Card(
       elevation: 8.0,
       margin: const EdgeInsets.all(16.0),
@@ -44,7 +57,7 @@ class _SwipeCardsScreenState extends State<SwipeCardsScreen> {
         width: 300,
         height: 150,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           child: Row(
             children: [
               Column(
@@ -61,27 +74,23 @@ class _SwipeCardsScreenState extends State<SwipeCardsScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 8,
+                    height: 4,
                   ),
                   Text(
-                    '${widget.totalSubjects} Subjects (incl. Labs)',
+                    '${widget.totalSubjects} Subjects (incl. Labs):',
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.normal,
                       color: Colors.white,
                     ),
                   ),
-                  Text(
-                    'Subjects:- ',
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                  ),
-                  Container(
+                  const SizedBox(height: 8),
+                  SizedBox(
                     height: 43,
                     width: 260,
-                    child: Expanded(
-                        child: AnimatedText(
+                    child: AnimatedText(
                       subjectsList: widget.subjectsList,
-                    )),
+                    ),
                   ),
                 ],
               ),
@@ -95,27 +104,41 @@ class _SwipeCardsScreenState extends State<SwipeCardsScreen> {
                     height: 80,
                     width: 80,
                     padding: const EdgeInsets.all(16),
-                    child: TweenAnimationBuilder(
-                        tween: Tween<double>(
-                            begin: 0, end: widget.overallPercentage / 100),
-                        duration: Duration(milliseconds: 1500),
-                        builder: (BuildContext context, double value,
-                                Widget? child) =>
-                            Stack(
-                              fit: StackFit.expand,
-                              children: [
-                                CircularProgressIndicator(
-                                  strokeWidth: 9,
-                                  value: value,
-                                  backgroundColor: Colors.white,
-                                  color: widget.overallPercentage >= 75
-                                      ? Colors.greenAccent
-                                      : widget.overallPercentage >= 50
-                                          ? Colors.orangeAccent
-                                          : Colors.redAccent,
-                                ),
-                              ],
-                            )),
+                    child: TweenAnimationBuilder<double>(
+                      onEnd: () {
+                        if (_targetSize == 0) {
+                          setState(() {
+                            _targetSize = widget.overallPercentage / 100;
+                          });
+                        } else {
+                          Future.delayed(
+                            const Duration(seconds: 3),
+                            () => setState(() {
+                              _targetSize = 0;
+                            }),
+                          );
+                        }
+                      },
+                      tween: tween,
+                      duration: const Duration(milliseconds: 2000),
+                      builder:
+                          (BuildContext context, double value, Widget? child) =>
+                              Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          CircularProgressIndicator(
+                            strokeWidth: 9,
+                            value: value,
+                            backgroundColor: Colors.white,
+                            color: widget.overallPercentage >= 75
+                                ? Colors.greenAccent
+                                : widget.overallPercentage >= 50
+                                    ? Colors.orangeAccent
+                                    : Colors.redAccent,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   Text(
                     '${widget.overallPercentage}%',
@@ -138,7 +161,7 @@ class _SwipeCardsScreenState extends State<SwipeCardsScreen> {
 class AnimatedText extends StatelessWidget {
   final List<Subject> subjectsList;
 
-  AnimatedText({Key? key, required this.subjectsList}) : super(key: key);
+  const AnimatedText({Key? key, required this.subjectsList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -148,6 +171,10 @@ class AnimatedText extends StatelessWidget {
             (subject) => TyperAnimatedText(
               subject.name,
               speed: const Duration(milliseconds: 70),
+              textStyle: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
             ),
           )
           .toList(),

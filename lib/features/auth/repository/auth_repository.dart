@@ -105,6 +105,9 @@ class AuthRepository {
           admissionNumber: res.data['admissionNumber'],
           expires: res.data['.expires'],
         );
+        if (int.parse(res.data['X-RX']) > 1) {
+          return null;
+        }
 
         await DBRepository().insertUser(user);
         return res.data['access_token'];

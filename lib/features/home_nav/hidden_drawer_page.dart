@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:edumarshal/ext_package/hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:edumarshal/features/dashboard/dashboard.dart';
-import 'package:edumarshal/features/events/events_page.dart';
 import 'package:edumarshal/features/profile/view/profile_page.dart';
 import 'package:edumarshal/features/time_table/time_table_page.dart';
 import 'package:edumarshal/features/widgets/dialogs.dart';
@@ -47,7 +46,6 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
       // print(jwtDecodedToken);
       // print("---------------------");
       // }
-      
     } catch (e) {
       if (kDebugMode) {
         print('Error decoding token: $e');
@@ -94,22 +92,22 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
         const ProfilePage(),
       ),
 
-      ScreenHiddenDrawer(
-        ItemHiddenMenu(
-            name: 'Events',
-            baseStyle: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              // color: Colors.white,
-            ),
-            selectedStyle: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              // color: Colors.white,
-            ),
-            colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
-        const EventsPage(),
-      ),
+      // ScreenHiddenDrawer(
+      //   ItemHiddenMenu(
+      //       name: 'Events',
+      //       baseStyle: const TextStyle(
+      //         fontSize: 20,
+      //         fontWeight: FontWeight.bold,
+      //         // color: Colors.white,
+      //       ),
+      //       selectedStyle: const TextStyle(
+      //         fontSize: 20,
+      //         fontWeight: FontWeight.bold,
+      //         // color: Colors.white,
+      //       ),
+      //       colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
+      //   const EventsPage(),
+      // ),
 
       ScreenHiddenDrawer(
         ItemHiddenMenu(
