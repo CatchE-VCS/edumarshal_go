@@ -221,12 +221,13 @@ class DashboardPage extends ConsumerWidget {
                       child: SwipeCardsScreen(
                         totalSubjects: totalSubjects,
                         overallPercentage: overallPercentage,
+                        subjectsList: subjectsList,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20.0,
-                        vertical: 10,
+                        vertical: 2,
                       ),
                       child: Text(
                         'Your Statistics',
@@ -239,57 +240,60 @@ class DashboardPage extends ConsumerWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        physics: const BouncingScrollPhysics(),
-                        child: Row(
-                          children: [
-                            AdditionalInfo(
-                              index: 0,
-                              image: Image.asset(
-                                  'assets/images/school_7214224.png'),
-                              label: 'Course',
-                              value: jsonDecode(data
-                                      .stdSubAtdDetails!
-                                      .studentSubjectAttendance[0]
-                                      .userDetails)['selectedCourse']
-                                  .toString(),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            AdditionalInfo(
-                              index: 1,
-                              image: Image.asset(
-                                'assets/images/presentation_760138.png',
+                      child: Container(
+                        height: 270,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
+                          child: Row(
+                            children: [
+                              AdditionalInfo(
+                                index: 0,
+                                image: Image.asset(
+                                    'assets/images/school_7214224.png'),
+                                label: 'Course',
+                                value: jsonDecode(data
+                                        .stdSubAtdDetails!
+                                        .studentSubjectAttendance[0]
+                                        .userDetails)['selectedCourse']
+                                    .toString(),
                               ),
-                              label: 'Attendance Preview',
-                              value:
-                                  'Total Present: $totalPresent\nTotal Lectures: $totalClasses',
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            AdditionalInfo(
-                              index: 2,
-                              image: Image.asset(
-                                'assets/images/presentation_760138.png',
+                              const SizedBox(
+                                width: 15,
                               ),
-                              label: 'Classes Required for 75%:',
-                              value: (() {
-                                int calculatedValue =
-                                    3 * totalClasses! - 4 * totalPresent!;
-                                if (calculatedValue < 0) {
-                                  return 'You are already above 75%';
-                                } else {
-                                  return 'Classes Required: $calculatedValue';
-                                }
-                              })(),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                          ],
+                              AdditionalInfo(
+                                index: 1,
+                                image: Image.asset(
+                                  'assets/images/presentation_760138.png',
+                                ),
+                                label: 'Attendance Preview',
+                                value:
+                                    'Total Present: $totalPresent\nTotal Lectures: $totalClasses',
+                              ),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              AdditionalInfo(
+                                index: 2,
+                                image: Image.asset(
+                                  'assets/images/presentation_760138.png',
+                                ),
+                                label: 'Classes Required for 75%:',
+                                value: (() {
+                                  int calculatedValue =
+                                      3 * totalClasses! - 4 * totalPresent!;
+                                  if (calculatedValue < 0) {
+                                    return 'You are already above 75%';
+                                  } else {
+                                    return 'Classes Required: $calculatedValue';
+                                  }
+                                })(),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -523,14 +527,19 @@ class SubjectCard extends StatelessWidget {
         Container(
           alignment: Alignment.center,
           width: 50,
-          child: CircularProgressIndicator(
-            value: attendance / 100,
-            backgroundColor: Colors.white60,
-            color: attendance >= 75
-                ? Colors.green
-                : attendance >= 50
-                    ? Colors.orange
-                    : Colors.red,
+          child: TweenAnimationBuilder(
+            tween: Tween<double>(begin: 0, end: attendance / 100),
+            duration: Duration(seconds: 3),
+            builder: (BuildContext context, double value, Widget? child) =>
+                CircularProgressIndicator(
+              value: value,
+              backgroundColor: Colors.white60,
+              color: attendance >= 75
+                  ? Colors.green
+                  : attendance >= 50
+                      ? Colors.orange
+                      : Colors.red,
+            ),
           ),
         )
       ],
