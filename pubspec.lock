@@ -25,6 +25,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.11.3"
+  animated_text_kit:
+    dependency: "direct main"
+    description:
+      name: animated_text_kit
+      sha256: "37392a5376c9a1a503b02463c38bc0342ef814ddbb8f9977bc90f2a84b22fa92"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.2"
   ansicolor:
     dependency: transitive
     description:
@@ -493,6 +501,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.3.4"
+  hero_animation:
+    dependency: "direct main"
+    description:
+      name: hero_animation
+      sha256: e862b27e3bddea486923922bd436cf52b9a28d1a35a342f150e91367647f3215
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.4"
   hive:
     dependency: transitive
     description:
