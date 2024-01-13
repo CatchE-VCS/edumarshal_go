@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:edumarshal/ext_package/hidden_drawer_menu/hidden_drawer_menu.dart';
-import 'package:edumarshal/features/assign/assignment.dart';
+import 'package:edumarshal/features/assignment/view/assignment_page.dart';
 import 'package:edumarshal/features/dashboard/dashboard.dart';
 import 'package:edumarshal/features/profile/view/profile_page.dart';
 import 'package:edumarshal/features/time_table/time_table_page.dart';
@@ -106,7 +106,7 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
               // color: Colors.white,
             ),
             colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
-        const Assign(),
+        const AssignmentPage(),
       ),
 
       // ScreenHiddenDrawer(
