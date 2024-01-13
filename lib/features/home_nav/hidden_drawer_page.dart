@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:edumarshal/ext_package/hidden_drawer_menu/hidden_drawer_menu.dart';
+import 'package:edumarshal/features/assign/assignment.dart';
 import 'package:edumarshal/features/dashboard/dashboard.dart';
 import 'package:edumarshal/features/events/events_page.dart';
 import 'package:edumarshal/features/profile/view/profile_page.dart';
@@ -91,6 +92,22 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
             ),
             colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
         const ProfilePage(),
+      ),
+      ScreenHiddenDrawer(
+        ItemHiddenMenu(
+            name: 'Assignment',
+            baseStyle: const TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              // color: Colors.white,
+            ),
+            selectedStyle: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              // color: Colors.white,
+            ),
+            colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
+        const Assign(),
       ),
 
       ScreenHiddenDrawer(
