@@ -12,11 +12,12 @@ class PDPAttendanceScreen extends StatefulWidget {
   final int? presentLectures;
   final double? percentageAttendance;
 
-  const PDPAttendanceScreen(
-      {super.key,
-      required this.attendanceData,
-      required this.presentLectures,
-      required this.percentageAttendance});
+  const PDPAttendanceScreen({
+    super.key,
+    required this.attendanceData,
+    required this.presentLectures,
+    required this.percentageAttendance,
+  });
 
   @override
   State<PDPAttendanceScreen> createState() => _PDPAttendanceScreenState();

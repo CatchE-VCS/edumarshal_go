@@ -496,7 +496,7 @@ class StudentSubjectAttendance {
   final int? userId;
   final dynamic familyId;
   final String firstName;
-  final String middleName;
+  final String? middleName;
   final String lastName;
   final String smsMobileNumber;
   final String admissionNumber;
@@ -523,7 +523,7 @@ class StudentSubjectAttendance {
   final dynamic religion;
   final dynamic caste;
   final dynamic parentMobileNumber;
-  final String mothersMobileNumber;
+  final String? mothersMobileNumber;
   final dynamic motherFullName;
   final dynamic parentOccupation;
   final dynamic routeNumber;

@@ -41,7 +41,6 @@ class _AttendanceSummaryPageState extends State<AttendanceSummaryPage> {
   @override
   void initState() {
     super.initState();
-
     _selectedDate = widget.lastDay;
 
     // for (var element in widget.subjectAtt) {

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:edumarshal/core/theme/theme_controller.dart';
 import 'package:edumarshal/features/subject_attendance/pdp_att_page.dart';
 import 'package:flutter/foundation.dart';
@@ -42,6 +44,68 @@ class DashboardPage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.all(12),
+              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
+              decoration: BoxDecoration(
+                color: ref.watch(themecontrollerProvider) == ThemeMode.dark
+                    ? Colors.grey.shade900
+                    : ref.watch(themecontrollerProvider) == ThemeMode.light
+                        ? Colors.grey.shade200
+                        : Theme.of(context).brightness == Brightness.dark
+                            ? Colors.grey.shade900
+                            : Colors.grey.shade200,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 5,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width - 180,
+                    child: AnimatedTextKit(
+                      animatedTexts: [
+                        TypewriterAnimatedText(
+                          'Check out what we have done for you!',
+                          textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: GoogleFonts.poppins().fontFamily,
+                          ),
+                          speed: const Duration(milliseconds: 100),
+                        ),
+                      ],
+                      repeatForever: true,
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      context.router.pushNamed('/what-we-have-done');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Text(
+                      'View All',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: GoogleFonts.poppins().fontFamily,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             ref.watch(attendanceDataProvider).when(
               loading: () {
                 // Check the connection state
@@ -76,8 +140,6 @@ class DashboardPage extends ConsumerWidget {
                     ),
                   );
                 }
-                // String profilePhotoUrl =
-                //     "https://akgecerp.edumarshal.com/api/fileblob/${snapshot.data!.stdSubAtdDetails.studentSubjectAttendance[0].userDetails == null ? null : jsonDecode(snapshot.data!.stdSubAtdDetails.studentSubjectAttendance[0].userDetails)['profilePictureId']}";
                 String name = '';
                 String email = '';
                 print(data

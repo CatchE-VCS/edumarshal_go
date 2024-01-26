@@ -277,8 +277,13 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
                 .toString(),
             style: TextStyle(
               fontSize: 16,
-              color:
-                  currentTheme == ThemeMode.dark ? Colors.white : Colors.black,
+              color: currentTheme == ThemeMode.dark
+                  ? Colors.white
+                  : currentTheme == ThemeMode.light
+                      ? Colors.black
+                      : isDarkMode
+                          ? Colors.white
+                          : Colors.black,
               fontWeight: FontWeight.bold,
             ),
           ),
