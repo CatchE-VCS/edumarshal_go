@@ -16,6 +16,8 @@ class AttendanceData {
   final List<AttendanceDatum> attendanceData;
   final List<AttendanceCopy> extraLectures;
   final StdSubAtdDetails? stdSubAtdDetails;
+  final double actualDataKiloBytes;
+  final double compressedDataKiloBytes;
 
   AttendanceData({
     // required this.attendance,
@@ -24,6 +26,8 @@ class AttendanceData {
     required this.attendanceData,
     required this.extraLectures,
     required this.stdSubAtdDetails,
+    required this.actualDataKiloBytes,
+    required this.compressedDataKiloBytes,
   });
 
   factory AttendanceData.fromJson(Map<String, dynamic> json) => AttendanceData(
@@ -35,6 +39,8 @@ class AttendanceData {
         extraLectures: List<AttendanceCopy>.from(
             json["extraLectures"].map((x) => AttendanceCopy.fromJson(x))),
         stdSubAtdDetails: StdSubAtdDetails.fromJson(json["stdSubAtdDetails"]),
+        actualDataKiloBytes: json["actualDataKiloBytes"],
+        compressedDataKiloBytes: json["compressedDataKiloBytes"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -46,6 +52,8 @@ class AttendanceData {
         "extraLectures":
             List<dynamic>.from(extraLectures.map((x) => x.toJson())),
         "stdSubAtdDetails": stdSubAtdDetails?.toJson(),
+        "actualDataKiloBytes": actualDataKiloBytes,
+        "compressedDataKiloBytes": compressedDataKiloBytes,
       };
 }
 
