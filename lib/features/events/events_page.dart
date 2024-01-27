@@ -19,7 +19,7 @@ class _EventsPageState extends State<EventsPage> {
   // Future<void> fetchData() async {
   //   var headers = {'Content-Type': 'application/json'};
   //   var request =
-  //       http.Request('GET', Uri.parse('https://erp.anaskhan.site/api/events/'));
+  //       http.Request('GET', Uri.parse('https://api.edumarshal.com/events'));
   //   request.body = json.encode({"id": "all"});
   //   request.headers.addAll(headers);
   //
