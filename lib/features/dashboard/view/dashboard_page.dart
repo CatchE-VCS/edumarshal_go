@@ -148,21 +148,28 @@ class DashboardPage extends ConsumerWidget {
                 String email = '';
                 print(data
                     .stdSubAtdDetails!.studentSubjectAttendance[0].userDetails);
-                if (jsonDecode(data
-                        .stdSubAtdDetails!
-                        .studentSubjectAttendance[0]
-                        .userDetails)['firstName'] !=
+                if (data.stdSubAtdDetails!.studentSubjectAttendance[0]
+                        .userDetails !=
                     null) {
-                  name = jsonDecode(data
+                  if (jsonDecode(data
                           .stdSubAtdDetails!
-                          .studentSubjectAttendance
-                          .first
-                          .userDetails)['firstName'] +
-                      ' ' +
-                      jsonDecode(data.stdSubAtdDetails!.studentSubjectAttendance
-                          .first.userDetails)['lastName'];
-                  email = jsonDecode(data.stdSubAtdDetails!
-                      .studentSubjectAttendance.first.userDetails)['email'];
+                          .studentSubjectAttendance[0]
+                          .userDetails!)['firstName'] !=
+                      null) {
+                    name = jsonDecode(data
+                            .stdSubAtdDetails!
+                            .studentSubjectAttendance
+                            .first
+                            .userDetails!)['firstName'] +
+                        ' ' +
+                        jsonDecode(data
+                            .stdSubAtdDetails!
+                            .studentSubjectAttendance
+                            .first
+                            .userDetails!)['lastName'];
+                    email = jsonDecode(data.stdSubAtdDetails!
+                        .studentSubjectAttendance.first.userDetails!)['email'];
+                  }
                 } else {
                   name =
                       '${data.stdSubAtdDetails!.studentSubjectAttendance.first.firstName} ${data.stdSubAtdDetails!.studentSubjectAttendance.first.lastName}';
@@ -319,11 +326,17 @@ class DashboardPage extends ConsumerWidget {
                               image: Image.asset(
                                   'assets/images/school_7214224.png'),
                               label: 'Course',
-                              value: jsonDecode(data
-                                      .stdSubAtdDetails!
-                                      .studentSubjectAttendance[0]
-                                      .userDetails)['selectedCourse']
-                                  .toString(),
+                              value: data
+                                          .stdSubAtdDetails!
+                                          .studentSubjectAttendance[0]
+                                          .userDetails !=
+                                      null
+                                  ? jsonDecode(data
+                                          .stdSubAtdDetails!
+                                          .studentSubjectAttendance[0]
+                                          .userDetails!)['selectedCourse']
+                                      .toString()
+                                  : '',
                             ),
                             const SizedBox(
                               width: 15,
@@ -416,7 +429,7 @@ class DashboardPage extends ConsumerWidget {
                               child: SubjectCard(
                                 totalPresent: subjectsList[i].presentLeactures,
                                 totalClasses: subjectsList[i].totalLeactures,
-                                subject: subjectsList[i].name,
+                                subject: subjectsList[i].name ?? '',
                                 attendance:
                                     subjectsList[i].percentageAttendance,
                               ),

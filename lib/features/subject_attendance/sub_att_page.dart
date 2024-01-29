@@ -79,7 +79,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          (widget.subject.name),
+          widget.subject.name ?? "Subject",
           style: TextStyle(
             // fontSize: 24,
             // fontWeight: FontWeight.bold,

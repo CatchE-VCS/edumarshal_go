@@ -10,7 +10,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:in_app_update/in_app_update.dart';
+
+// import 'package:in_app_update/in_app_update.dart';
 
 import '../../core/theme/theme_controller.dart';
 import '../auth/auth.dart';
@@ -32,6 +33,7 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
   List<ScreenHiddenDrawer> _pages = [];
 
   late String email;
+
   // late bool _flexibleUpdateAvailable;
 
   @override
@@ -43,63 +45,63 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
       print("Access Token: ");
       print(widget.accessToken);
     }
-    () async {
-      var x = await InAppUpdate.checkForUpdate();
-      if (x.updateAvailability == UpdateAvailability.updateAvailable) {
-        InAppUpdate.startFlexibleUpdate().then((_) {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text('UPDATE',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontFamily: GoogleFonts.roboto().fontFamily,
-                    )),
-                content: Text(
-                  'A new update is available. Please update the app to continue using it.',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: GoogleFonts.roboto().fontFamily,
-                  ),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      InAppUpdate.completeFlexibleUpdate().then((_) {
-                        Navigator.pop(context);
-                      });
-                    },
-                    child: const Text(
-                      'Update',
-                      style: TextStyle(
-                        color: Colors.green,
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-          );
-        }).catchError((e) {
-          if (kDebugMode) {
-            print(e);
-          }
-        });
-      }
-    }();
+    // () async {
+    //   var x = await InAppUpdate.checkForUpdate();
+    //   if (x.updateAvailability == UpdateAvailability.updateAvailable) {
+    //     InAppUpdate.startFlexibleUpdate().then((_) {
+    //       showDialog(
+    //         context: context,
+    //         builder: (context) {
+    //           return AlertDialog(
+    //             title: Text('UPDATE',
+    //                 textAlign: TextAlign.center,
+    //                 style: TextStyle(
+    //                   fontSize: 20,
+    //                   fontFamily: GoogleFonts.roboto().fontFamily,
+    //                 )),
+    //             content: Text(
+    //               'A new update is available. Please update the app to continue using it.',
+    //               style: TextStyle(
+    //                 fontSize: 16,
+    //                 fontFamily: GoogleFonts.roboto().fontFamily,
+    //               ),
+    //             ),
+    //             actions: [
+    //               TextButton(
+    //                 onPressed: () {
+    //                   Navigator.pop(context);
+    //                 },
+    //                 child: const Text(
+    //                   'Cancel',
+    //                   style: TextStyle(
+    //                     color: Colors.red,
+    //                   ),
+    //                 ),
+    //               ),
+    //               TextButton(
+    //                 onPressed: () {
+    //                   InAppUpdate.completeFlexibleUpdate().then((_) {
+    //                     Navigator.pop(context);
+    //                   });
+    //                 },
+    //                 child: const Text(
+    //                   'Update',
+    //                   style: TextStyle(
+    //                     color: Colors.green,
+    //                   ),
+    //                 ),
+    //               ),
+    //             ],
+    //           );
+    //         },
+    //       );
+    //     }).catchError((e) {
+    //       if (kDebugMode) {
+    //         print(e);
+    //       }
+    //     });
+    //   }
+    // }();
 
     try {
       // jwtDecodedToken = JwtDecoder.decode(widget.accessToken!);

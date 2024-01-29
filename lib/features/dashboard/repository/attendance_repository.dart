@@ -27,6 +27,7 @@ class AttendanceRepository {
         'X-ContextId': user.xContextId,
         'X-UserId': user.xUserId,
       };
+      print(headers);
 
       var response = await _dio.get(
         'api/v2/attendance',

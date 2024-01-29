@@ -169,7 +169,7 @@ class AnimatedText extends StatelessWidget {
       animatedTexts: subjectsList
           .map(
             (subject) => TyperAnimatedText(
-              subject.name,
+              subject.name ?? '',
               speed: const Duration(milliseconds: 70),
               textStyle: const TextStyle(
                 color: Colors.white,

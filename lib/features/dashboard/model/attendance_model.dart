@@ -337,7 +337,7 @@ class AttendanceDatum {
   // final int? profilePictureId;
   // final int? attandanceType;
   final DateTime absentDate;
-  final String subjectName;
+  final String? subjectName;
 
   // final int? batchId;
   // final int? randomPresent;
@@ -488,14 +488,14 @@ class StdSubAtdDetails {
 }
 
 class StudentSubjectAttendance {
-  final String userDetails;
+  final String? userDetails;
   final dynamic userType;
   final bool userStatus;
   final int? batchId;
-  final String rollNumber;
+  final String? rollNumber;
   final int? studentSequence;
   final int? categoryId;
-  final String fatherName;
+  final String? fatherName;
   final dynamic batchName;
   final dynamic email;
   final dynamic addressLine1;
@@ -505,9 +505,9 @@ class StudentSubjectAttendance {
   final dynamic familyId;
   final String firstName;
   final String? middleName;
-  final String lastName;
-  final String smsMobileNumber;
-  final String admissionNumber;
+  final String? lastName;
+  final String? smsMobileNumber;
+  final String? admissionNumber;
   final dynamic boardRegistrationNumber;
   final dynamic registrationNumberNine;
   final dynamic motherbusiness;
@@ -563,19 +563,19 @@ class StudentSubjectAttendance {
   final bool? isPaySlipAdded;
   final dynamic grossSalary;
   final DateTime dateTimeStampIns;
-  final String motherName;
-  final String address;
+  final String? motherName;
+  final String? address;
   final dynamic parentFullName;
   final dynamic bloodGroup;
   final int? age;
   final int? courseId;
-  final String gender;
+  final String? gender;
   final dynamic financialYear;
   final dynamic semester;
   final dynamic deviceId;
   final dynamic remarkSettingKey;
   final List<Subject> subjects;
-  final String loginName;
+  final String? loginName;
   final dynamic qrCodeImagePath;
   final int? loginHistoryId;
   final int? loginMode;
