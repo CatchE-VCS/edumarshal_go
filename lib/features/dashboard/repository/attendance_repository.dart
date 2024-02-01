@@ -13,7 +13,7 @@ class AttendanceRepository {
 
   final _dio = Dio(
     BaseOptions(
-      baseUrl: AppUrls.domain,
+      baseUrl: AppUrls.domain!,
       connectTimeout: const Duration(seconds: 45),
       receiveTimeout: const Duration(minutes: 3),
     ),

@@ -1,4 +1,3 @@
-import 'dart:html' as html;
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -57,20 +56,21 @@ class DBRepository {
     // userMap['xToken'] = user.xToken;
     // userMap['issued'] = user.issued;
     // userMap['expires'] = user.expires;
-    if (kIsWeb) {
-      cookie = Cookie('accessToken', user.accessToken);
-      cookie3 = Cookie('xContextId', user.xContextId);
-      cookie4 = Cookie('xUserId', user.xUserId);
-      // cookie12 = Cookie('expires', user.expires);
-      cookie13 = Cookie('admissionNumber', user.admissionNumber);
-      html.window.localStorage['accessToken'] = user.accessToken;
-      html.window.localStorage['xContextId'] = user.xContextId;
-      html.window.localStorage['xUserId'] = user.xUserId;
-      html.window.localStorage['admissionNumber'] = user.admissionNumber;
-
-      result = 1;
-      return result;
-    }
+    // if (kIsWeb) {
+    //   cookie = Cookie('accessToken', user.accessToken);
+    //   cookie3 = Cookie('xContextId', user.xContextId);
+    //   cookie4 = Cookie('xUserId', user.xUserId);
+    //   // cookie12 = Cookie('expires', user.expires);
+    //   cookie13 = Cookie('admissionNumber', user.admissionNumber);
+    //
+    //   html.window.localStorage['accessToken'] = user.accessToken;
+    //   html.window.localStorage['xContextId'] = user.xContextId;
+    //   html.window.localStorage['xUserId'] = user.xUserId;
+    //   html.window.localStorage['admissionNumber'] = user.admissionNumber;
+    //
+    //   result = 1;
+    //   return result;
+    // }
     if (Platform.isAndroid) {
       final Database db = await initializedDB();
       result = await db.insert('userDB', user.toMap(),
@@ -110,21 +110,21 @@ class DBRepository {
 
   // get user by id
   Future<User?> getUserById(int userId) async {
-    if (kIsWeb) {
-      User user = User(
-        id: 1,
-        accessToken: html.window.localStorage['accessToken'] ?? '',
-        xContextId: html.window.localStorage['xContextId'] ?? '',
-        xUserId: html.window.localStorage['xUserId'] ?? '',
-        admissionNumber: html.window.localStorage['admissionNumber'] ?? '',
-        tokenType: '',
-        expiresIn: 0,
-        xLogoId: '',
-        xRx: '',
-        expires: '',
-      );
-      return user;
-    }
+    // if (kIsWeb) {
+    //   User user = User(
+    //     id: 1,
+    //     accessToken: html.window.localStorage['accessToken'] ?? '',
+    //     xContextId: html.window.localStorage['xContextId'] ?? '',
+    //     xUserId: html.window.localStorage['xUserId'] ?? '',
+    //     admissionNumber: html.window.localStorage['admissionNumber'] ?? '',
+    //     tokenType: '',
+    //     expiresIn: 0,
+    //     xLogoId: '',
+    //     xRx: '',
+    //     expires: '',
+    //   );
+    //   return user;
+    // }
 
     final Database db = await initializedDB();
     final List<Map<String, dynamic>> maps = await db.query(

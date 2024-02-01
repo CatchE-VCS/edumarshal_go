@@ -1,13 +1,16 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:platform_info/platform_info.dart';
+
 import 'package:edumarshal/core/local_storage/app_storage_pod.dart';
 import 'package:edumarshal/init.dart';
 import 'package:edumarshal/shared/riverpod_ext/riverpod_observer.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:platform_info/platform_info.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 // coverage:ignore-file
@@ -44,6 +47,8 @@ Future<void> bootstrap(
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+  MobileAds.instance.initialize();
   unawaited(init());
   await Hive.initFlutter();
   final appBox = await Hive.openBox('appBox');

@@ -9,11 +9,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:in_app_review/in_app_review.dart';
 
 import '../../subject_attendance/sub_att_page.dart';
 import '../../widgets/additional_info.dart';
 import '../../widgets/swipe_card_widget.dart';
+import '../controller/dashboard_banner_ad_pod.dart';
 import '../dashboard.dart';
 
 class DashboardPage extends ConsumerWidget {
@@ -23,6 +25,7 @@ class DashboardPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final GlobalKey drawerKey = GlobalKey();
     final InAppReview inAppReview = InAppReview.instance;
+    final BannerAd myBanner = ref.watch(bannerAdProvider);
 
     return RefreshIndicator(
       strokeWidth: 3,
@@ -540,6 +543,19 @@ class DashboardPage extends ConsumerWidget {
                   );
                 }
               },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: (MediaQuery.of(context).size.width -
+                        myBanner.size.width.toDouble()) /
+                    2,
+              ),
+              width: myBanner.size.width.toDouble(),
+              height: myBanner.size.height.toDouble(),
+              child: AdWidget(ad: myBanner),
             ),
             const SizedBox(
               height: 10,

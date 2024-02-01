@@ -15,7 +15,7 @@ class AuthRepository {
 
   final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: AppUrls.domain,
+      baseUrl: AppUrls.domain!,
       headers: {
         "Accept": "application/json",
         "Access-Control_Allow_Origin": "*"
