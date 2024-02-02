@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:edumarshal/features/profile/view/glassview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -167,87 +168,117 @@ class ProfilePage extends ConsumerWidget {
                           ),
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(20),
                           child: BackdropFilter(
                             filter: ImageFilter.blur(
-                              sigmaX: 5,
-                              sigmaY: 5,
+                              sigmaX: 0.0,
+                              sigmaY: 0.0,
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      'Personal Information',
-                                      style: TextStyle(
-                                        fontSize: 22,
-                                        // color: Colors.white,
-                                        fontWeight: FontWeight.bold,
+                                Container(
+                                  height: 270,
+                                  width: 350,
+                                  child: Stack(children: [
+                                    BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                        sigmaX: 15.0,
+                                        sigmaY: 15.0,
+                                      ),
+                                      child: Container(),
+                                    ),
+                                    Container(
+                                      height: 270,
+                                      width: 350,
+                                      decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight,
+                                              colors: [
+                                            Colors.white.withOpacity(0.2),
+                                            // Colors.white.withOpacity(0.2),
+                                            Colors.grey.shade400
+                                                .withOpacity(0.1)
+                                          ])),
+                                    ),
+                                    Center(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            'Personal Information',
+                                            style: TextStyle(
+                                              fontSize: 22,
+                                              // color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 6,
+                                          ),
+                                          Text(
+                                            'Name: $name',
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.normal,
+                                              // color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Contact No: $smsMobileNumber',
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.normal,
+                                              // color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Roll number: $rollNumber',
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.normal,
+                                              // color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Semester: $semester',
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.normal,
+                                              // color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Section: $section',
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.normal,
+                                              // color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            'DOB: ${DateTime.parse(dob.toString()).day}/${DateTime.parse(dob.toString()).month}/${DateTime.parse(dob.toString()).year}',
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.normal,
+                                              // color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Address: $address',
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.normal,
+                                              // color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    const SizedBox(
-                                      height: 6,
-                                    ),
-                                    Text(
-                                      'Name: $name',
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal,
-                                        // color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Contact No: $smsMobileNumber',
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal,
-                                        // color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Roll number: $rollNumber',
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal,
-                                        // color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Semester: $semester',
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal,
-                                        // color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Section: $section',
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal,
-                                        // color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      'DOB: ${DateTime.parse(dob.toString()).day}/${DateTime.parse(dob.toString()).month}/${DateTime.parse(dob.toString()).year}',
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal,
-                                        // color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Address: $address',
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal,
-                                        // color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
+                                  ]),
                                 ),
                               ],
                             ),
