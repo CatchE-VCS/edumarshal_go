@@ -23,8 +23,8 @@ class DashboardPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final GlobalKey drawerKey = GlobalKey();
-    final InAppReview inAppReview = InAppReview.instance;
+    // final GlobalKey drawerKey = GlobalKey();
+    // final InAppReview inAppReview = InAppReview.instance;
     final BannerAd myBanner = ref.watch(bannerAdProvider);
 
     return RefreshIndicator(
@@ -149,8 +149,10 @@ class DashboardPage extends ConsumerWidget {
                 }
                 String name = '';
                 String email = '';
-                print(data
-                    .stdSubAtdDetails!.studentSubjectAttendance[0].userDetails);
+                if (kDebugMode) {
+                  print(data.stdSubAtdDetails!.studentSubjectAttendance[0]
+                      .userDetails);
+                }
                 if (data.stdSubAtdDetails!.studentSubjectAttendance[0]
                         .userDetails !=
                     null) {
@@ -416,7 +418,7 @@ class DashboardPage extends ConsumerWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             margin: const EdgeInsets.only(left: 18, right: 15),
-                            child: GestureDetector(
+                            child: InkWell(
                               onTap: () {
                                 Navigator.push(
                                   context,
@@ -432,7 +434,7 @@ class DashboardPage extends ConsumerWidget {
                               child: SubjectCard(
                                 totalPresent: subjectsList[i].presentLeactures,
                                 totalClasses: subjectsList[i].totalLeactures,
-                                subject: subjectsList[i].name ?? '',
+                                subject: subjectsList[i].name,
                                 attendance:
                                     subjectsList[i].percentageAttendance,
                               ),
@@ -490,7 +492,7 @@ class DashboardPage extends ConsumerWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      GestureDetector(
+                      InkWell(
                         onTap: () {
                           // Navigate to PDP Attendance Screen
                           Navigator.push(
@@ -608,7 +610,47 @@ class SubjectCard extends StatelessWidget {
                 height: 6.0,
               ),
               Text(
-                'Attendance: $totalPresent / $totalClasses ($attendance%)',
+                'Attendance: $attendance%',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: GoogleFonts.poppins().fontFamily,
+                  // color: Colors.black45,
+                ),
+              ),
+              const SizedBox(
+                height: 6.0,
+              ),
+              Row(
+                children: [
+                  Text(
+                    'Total Present: $totalPresent',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: GoogleFonts.poppins().fontFamily,
+                      // color: Colors.black45,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Total Classes: $totalClasses',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: GoogleFonts.poppins().fontFamily,
+                      // color: Colors.black45,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 6.0,
+              ),
+              Text(
+                'Classes Required for 75%: ${((3 * totalClasses! - 4 * totalPresent! > 0) ? 3 * totalClasses! - 4 * totalPresent! : 0)}',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -619,24 +661,44 @@ class SubjectCard extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          alignment: Alignment.center,
-          width: 50,
-          child: TweenAnimationBuilder(
-            tween: Tween<double>(begin: 0, end: attendance / 100),
-            duration: const Duration(seconds: 3),
-            builder: (BuildContext context, double value, Widget? child) =>
-                CircularProgressIndicator(
-              value: value,
-              backgroundColor: Colors.white60,
-              color: attendance >= 75
-                  ? Colors.green
-                  : attendance >= 50
-                      ? Colors.orange
-                      : Colors.red,
+        Column(
+          children: [
+            Container(
+              alignment: Alignment.center,
+              width: 50,
+              child: TweenAnimationBuilder(
+                tween: Tween<double>(begin: 0, end: attendance / 100),
+                duration: const Duration(seconds: 3),
+                builder: (BuildContext context, double value, Widget? child) =>
+                    CircularProgressIndicator(
+                  value: value,
+                  backgroundColor: Colors.white60,
+                  color: attendance >= 75
+                      ? Colors.green
+                      : attendance >= 50
+                          ? Colors.orange
+                          : Colors.red,
+                ),
+              ),
             ),
-          ),
-        )
+            const SizedBox(
+              height: 6.0,
+            ),
+            Text(
+              'Click here',
+              style: TextStyle(
+                fontSize: 12,
+
+                fontFamily: GoogleFonts.poppins().fontFamily,
+                fontWeight: FontWeight.bold,
+                // color: Colors.black45,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          width: 2,
+        ),
       ],
     );
   }

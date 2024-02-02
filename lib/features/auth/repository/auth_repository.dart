@@ -25,12 +25,6 @@ class AuthRepository {
     ),
   );
 
-  // static const url = 'https://akgec-edumarshal-dev.onrender.com/';
-  // static const loginUrl = '${domain}api/v1/login';
-
-  // static const localUrl = 'http://localhost:8000/api/v1/login';
-  // static const localUrl2 = 'http://192.168.29.111:8000/api/v1/login';
-
   void decodeBase64(String base64String) {
     try {
       List<int> decoded = base64.decode(base64String);

@@ -1,8 +1,10 @@
 import 'package:edumarshal/features/subject_attendance/attendance_summary_page.dart';
+import 'package:edumarshal/features/subject_attendance/controller/att_page_banner_ad_pod.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../core/theme/theme_controller.dart';
 import '../dashboard/model/attendance_model.dart';
@@ -190,53 +192,80 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
             const SizedBox(
               height: 10,
             ),
+            Consumer(
+              builder: (context, ref, child) {
+                final BannerAd myBanner = ref.watch(subAttBannerAdProvider);
+                return Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: (MediaQuery.of(context).size.width -
+                            myBanner.size.width.toDouble()) /
+                        2,
+                  ),
+                  width: myBanner.size.width.toDouble(),
+                  height: myBanner.size.height.toDouble(),
+                  child: AdWidget(ad: myBanner),
+                );
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
           ],
         ),
       ),
+      extendBody: true,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Consumer(
-        builder: (context, ref, child) {
-          final currentTheme = ref.watch(themecontrollerProvider);
-          var brightness = MediaQuery.of(context).platformBrightness;
-          bool isDarkMode = brightness == Brightness.dark;
-          return FloatingActionButton.extended(
-            isExtended: true,
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AttendanceSummaryPage(
-                    entries: _events,
-                    firstDay: _firstDay,
-                    lastDay: _lastDay,
+      floatingActionButton: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: SizedBox(
+          child: Consumer(
+            builder: (context, ref, child) {
+              final currentTheme = ref.watch(themecontrollerProvider);
+              var brightness = MediaQuery.of(context).platformBrightness;
+              bool isDarkMode = brightness == Brightness.dark;
+              return FloatingActionButton.extended(
+                isExtended: true,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AttendanceSummaryPage(
+                        entries: _events,
+                        firstDay: _firstDay,
+                        lastDay: _lastDay,
+                      ),
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.calendar_month_sharp,
+                  color: Colors.white,
+                  size: 32,
+                ),
+                backgroundColor: currentTheme == ThemeMode.dark
+                    ? FlexColor
+                        .schemes[FlexScheme.material]?.dark.primaryContainer
+                    : currentTheme == ThemeMode.light
+                        ? FlexColor
+                            .schemes[FlexScheme.material]?.light.appBarColor
+                        : isDarkMode
+                            ? FlexColor.schemes[FlexScheme.material]?.dark
+                                .primaryContainer
+                            : FlexColor.schemes[FlexScheme.material]?.light
+                                .appBarColor,
+                label: Text(
+                  "Summary",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontFamily: GoogleFonts.poppins().fontFamily,
                   ),
                 ),
               );
             },
-            icon: const Icon(
-              Icons.calendar_month_sharp,
-              color: Colors.white,
-            ),
-            backgroundColor: currentTheme == ThemeMode.dark
-                ? FlexColor.schemes[FlexScheme.material]?.dark.primaryContainer
-                : currentTheme == ThemeMode.light
-                    ? FlexColor.schemes[FlexScheme.material]?.light.appBarColor
-                    : isDarkMode
-                        ? FlexColor
-                            .schemes[FlexScheme.material]?.dark.primaryContainer
-                        : FlexColor
-                            .schemes[FlexScheme.material]?.light.appBarColor,
-            label: Text(
-              "Summary",
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontFamily: GoogleFonts.poppins().fontFamily,
-              ),
-            ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }
@@ -251,8 +280,8 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
           Matrix4.translationValues(startAnimation ? 0 : screenWidth, 0, 0),
       curve: Curves.easeInOut,
       margin: const EdgeInsets.symmetric(
-        vertical: 12,
-        horizontal: 32,
+        vertical: 6,
+        horizontal: 24,
       ),
       padding: const EdgeInsets.symmetric(
         vertical: 16.0,
