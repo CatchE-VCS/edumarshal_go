@@ -25,11 +25,10 @@ class Glass extends StatelessWidget {
             // for creating blur effect
             BackdropFilter(
               filter: ImageFilter.blur(
-                sigmaX: 5.0, 
-                sigmaY: 5.0, 
+                sigmaX: 5.0,
+                sigmaY: 5.0,
               ),
               child: Container(),
-              
             ),
             Container(
               decoration: BoxDecoration(
@@ -41,7 +40,7 @@ class Glass extends StatelessWidget {
                     colors: Theme.of(context).brightness == Brightness.light
                         ? [
                             Colors.white.withOpacity(0.5),
-                            Color.fromARGB(255, 118, 152, 170).withOpacity(0.7)
+                            Color.fromARGB(255, 119, 156, 176).withOpacity(0.7)
                           ]
                         : [
                             Colors.grey.shade800.withOpacity(0.5),
