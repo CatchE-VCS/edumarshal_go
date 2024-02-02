@@ -23,5 +23,9 @@ class AppRouter extends $AppRouter {
       page: HiddenDrawerRoute.page,
       path: '/hidden-drawer',
     ),
+    AutoRoute(
+      page: WhatWeHaveDoneRoute.page,
+      path: '/what-we-have-done',
+    ),
   ];
 }

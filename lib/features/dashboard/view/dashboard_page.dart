@@ -1,15 +1,21 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:edumarshal/core/theme/theme_controller.dart';
 import 'package:edumarshal/features/subject_attendance/pdp_att_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:in_app_review/in_app_review.dart';
 
 import '../../subject_attendance/sub_att_page.dart';
 import '../../widgets/additional_info.dart';
-import '../../widgets/test.dart';
+import '../../widgets/swipe_card_widget.dart';
+import '../controller/dashboard_banner_ad_pod.dart';
 import '../dashboard.dart';
 
 class DashboardPage extends ConsumerWidget {
@@ -18,6 +24,9 @@ class DashboardPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final GlobalKey drawerKey = GlobalKey();
+    final InAppReview inAppReview = InAppReview.instance;
+    final BannerAd myBanner = ref.watch(bannerAdProvider);
+
     return RefreshIndicator(
       strokeWidth: 3,
       triggerMode: RefreshIndicatorTriggerMode.anywhere,
@@ -42,6 +51,68 @@ class DashboardPage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.all(12),
+              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
+              decoration: BoxDecoration(
+                color: ref.watch(themecontrollerProvider) == ThemeMode.dark
+                    ? Colors.grey.shade900
+                    : ref.watch(themecontrollerProvider) == ThemeMode.light
+                        ? Colors.grey.shade200
+                        : Theme.of(context).brightness == Brightness.dark
+                            ? Colors.grey.shade900
+                            : Colors.grey.shade200,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 5,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width - 180,
+                    child: AnimatedTextKit(
+                      animatedTexts: [
+                        TypewriterAnimatedText(
+                          'Check out what we have done for you!',
+                          textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: GoogleFonts.poppins().fontFamily,
+                          ),
+                          speed: const Duration(milliseconds: 100),
+                        ),
+                      ],
+                      repeatForever: true,
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      context.router.pushNamed('/what-we-have-done');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Text(
+                      'View All',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: GoogleFonts.poppins().fontFamily,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             ref.watch(attendanceDataProvider).when(
               loading: () {
                 // Check the connection state
@@ -76,27 +147,32 @@ class DashboardPage extends ConsumerWidget {
                     ),
                   );
                 }
-                // String profilePhotoUrl =
-                //     "https://akgecerp.edumarshal.com/api/fileblob/${snapshot.data!.stdSubAtdDetails.studentSubjectAttendance[0].userDetails == null ? null : jsonDecode(snapshot.data!.stdSubAtdDetails.studentSubjectAttendance[0].userDetails)['profilePictureId']}";
                 String name = '';
                 String email = '';
                 print(data
                     .stdSubAtdDetails!.studentSubjectAttendance[0].userDetails);
-                if (jsonDecode(data
-                        .stdSubAtdDetails!
-                        .studentSubjectAttendance[0]
-                        .userDetails)['firstName'] !=
+                if (data.stdSubAtdDetails!.studentSubjectAttendance[0]
+                        .userDetails !=
                     null) {
-                  name = jsonDecode(data
+                  if (jsonDecode(data
                           .stdSubAtdDetails!
-                          .studentSubjectAttendance
-                          .first
-                          .userDetails)['firstName'] +
-                      ' ' +
-                      jsonDecode(data.stdSubAtdDetails!.studentSubjectAttendance
-                          .first.userDetails)['lastName'];
-                  email = jsonDecode(data.stdSubAtdDetails!
-                      .studentSubjectAttendance.first.userDetails)['email'];
+                          .studentSubjectAttendance[0]
+                          .userDetails!)['firstName'] !=
+                      null) {
+                    name = jsonDecode(data
+                            .stdSubAtdDetails!
+                            .studentSubjectAttendance
+                            .first
+                            .userDetails!)['firstName'] +
+                        ' ' +
+                        jsonDecode(data
+                            .stdSubAtdDetails!
+                            .studentSubjectAttendance
+                            .first
+                            .userDetails!)['lastName'];
+                    email = jsonDecode(data.stdSubAtdDetails!
+                        .studentSubjectAttendance.first.userDetails!)['email'];
+                  }
                 } else {
                   name =
                       '${data.stdSubAtdDetails!.studentSubjectAttendance.first.firstName} ${data.stdSubAtdDetails!.studentSubjectAttendance.first.lastName}';
@@ -238,62 +314,68 @@ class DashboardPage extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Container(
-                        height: 270,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          physics: const BouncingScrollPhysics(),
-                          child: Row(
-                            children: [
-                              AdditionalInfo(
-                                index: 0,
-                                image: Image.asset(
-                                    'assets/images/school_7214224.png'),
-                                label: 'Course',
-                                value: jsonDecode(data
-                                        .stdSubAtdDetails!
-                                        .studentSubjectAttendance[0]
-                                        .userDetails)['selectedCourse']
-                                    .toString(),
+                    SizedBox(
+                      height: 270,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            AdditionalInfo(
+                              index: 0,
+                              image: Image.asset(
+                                  'assets/images/school_7214224.png'),
+                              label: 'Course',
+                              value: data
+                                          .stdSubAtdDetails!
+                                          .studentSubjectAttendance[0]
+                                          .userDetails !=
+                                      null
+                                  ? jsonDecode(data
+                                          .stdSubAtdDetails!
+                                          .studentSubjectAttendance[0]
+                                          .userDetails!)['selectedCourse']
+                                      .toString()
+                                  : '',
+                            ),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            AdditionalInfo(
+                              index: 1,
+                              image: Image.asset(
+                                'assets/images/presentation_760138.png',
                               ),
-                              const SizedBox(
-                                width: 15,
+                              label: 'Attendance Preview',
+                              value:
+                                  'Total Present: $totalPresent\nTotal Lectures: $totalClasses',
+                            ),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            AdditionalInfo(
+                              index: 2,
+                              image: Image.asset(
+                                'assets/images/presentation_760138.png',
                               ),
-                              AdditionalInfo(
-                                index: 1,
-                                image: Image.asset(
-                                  'assets/images/presentation_760138.png',
-                                ),
-                                label: 'Attendance Preview',
-                                value:
-                                    'Total Present: $totalPresent\nTotal Lectures: $totalClasses',
-                              ),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              AdditionalInfo(
-                                index: 2,
-                                image: Image.asset(
-                                  'assets/images/presentation_760138.png',
-                                ),
-                                label: 'Classes Required for 75%:',
-                                value: (() {
-                                  int calculatedValue =
-                                      3 * totalClasses! - 4 * totalPresent!;
-                                  if (calculatedValue < 0) {
-                                    return 'You are already above 75%';
-                                  } else {
-                                    return 'Classes Required: $calculatedValue';
-                                  }
-                                })(),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                            ],
-                          ),
+                              label: 'Classes Required for 75%:',
+                              value: (() {
+                                int calculatedValue =
+                                    3 * totalClasses! - 4 * totalPresent!;
+                                if (calculatedValue < 0) {
+                                  return 'You are already above 75%';
+                                } else {
+                                  return 'Classes Required: $calculatedValue';
+                                }
+                              })(),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -350,7 +432,7 @@ class DashboardPage extends ConsumerWidget {
                               child: SubjectCard(
                                 totalPresent: subjectsList[i].presentLeactures,
                                 totalClasses: subjectsList[i].totalLeactures,
-                                subject: subjectsList[i].name,
+                                subject: subjectsList[i].name ?? '',
                                 attendance:
                                     subjectsList[i].percentageAttendance,
                               ),
@@ -465,6 +547,19 @@ class DashboardPage extends ConsumerWidget {
             const SizedBox(
               height: 10,
             ),
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: (MediaQuery.of(context).size.width -
+                        myBanner.size.width.toDouble()) /
+                    2,
+              ),
+              width: myBanner.size.width.toDouble(),
+              height: myBanner.size.height.toDouble(),
+              child: AdWidget(ad: myBanner),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
           ],
         ),
       ),
@@ -529,7 +624,7 @@ class SubjectCard extends StatelessWidget {
           width: 50,
           child: TweenAnimationBuilder(
             tween: Tween<double>(begin: 0, end: attendance / 100),
-            duration: Duration(seconds: 3),
+            duration: const Duration(seconds: 3),
             builder: (BuildContext context, double value, Widget? child) =>
                 CircularProgressIndicator(
               value: value,
@@ -543,6 +638,88 @@ class SubjectCard extends StatelessWidget {
           ),
         )
       ],
+    );
+  }
+}
+
+enum Availability { loading, available, unavailable }
+
+class InAppReviewExampleApp extends StatefulWidget {
+  const InAppReviewExampleApp({Key? key}) : super(key: key);
+
+  @override
+  InAppReviewExampleAppState createState() => InAppReviewExampleAppState();
+}
+
+class InAppReviewExampleAppState extends State<InAppReviewExampleApp> {
+  final InAppReview _inAppReview = InAppReview.instance;
+
+  String _appStoreId = '';
+  String _microsoftStoreId = '';
+  Availability _availability = Availability.loading;
+
+  @override
+  void initState() {
+    super.initState();
+
+    (<T>(T? o) => o!)(WidgetsBinding.instance).addPostFrameCallback((_) async {
+      try {
+        final isAvailable = await _inAppReview.isAvailable();
+
+        setState(() {
+          // This plugin cannot be tested on Android by installing your app
+          // locally. See https://github.com/britannio/in_app_review#testing for
+          // more information.
+          _availability = isAvailable && !Platform.isAndroid
+              ? Availability.available
+              : Availability.unavailable;
+        });
+      } catch (_) {
+        setState(() => _availability = Availability.unavailable);
+      }
+    });
+  }
+
+  void _setAppStoreId(String id) => _appStoreId = id;
+
+  void _setMicrosoftStoreId(String id) => _microsoftStoreId = id;
+
+  Future<void> _requestReview() => _inAppReview.requestReview();
+
+  Future<void> _openStoreListing() => _inAppReview.openStoreListing(
+        appStoreId: _appStoreId,
+        microsoftStoreId: _microsoftStoreId,
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'In App Review Example',
+      home: Scaffold(
+        appBar: AppBar(title: const Text('In App Review Example')),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('In App Review status: ${_availability.name}'),
+            TextField(
+              onChanged: _setAppStoreId,
+              decoration: const InputDecoration(hintText: 'App Store ID'),
+            ),
+            TextField(
+              onChanged: _setMicrosoftStoreId,
+              decoration: const InputDecoration(hintText: 'Microsoft Store ID'),
+            ),
+            ElevatedButton(
+              onPressed: _requestReview,
+              child: const Text('Request Review'),
+            ),
+            ElevatedButton(
+              onPressed: _openStoreListing,
+              child: const Text('Open Store Listing'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

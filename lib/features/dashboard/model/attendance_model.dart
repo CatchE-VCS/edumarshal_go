@@ -16,6 +16,8 @@ class AttendanceData {
   final List<AttendanceDatum> attendanceData;
   final List<AttendanceCopy> extraLectures;
   final StdSubAtdDetails? stdSubAtdDetails;
+  final double actualDataKiloBytes;
+  final double compressedDataKiloBytes;
 
   AttendanceData({
     // required this.attendance,
@@ -24,6 +26,8 @@ class AttendanceData {
     required this.attendanceData,
     required this.extraLectures,
     required this.stdSubAtdDetails,
+    required this.actualDataKiloBytes,
+    required this.compressedDataKiloBytes,
   });
 
   factory AttendanceData.fromJson(Map<String, dynamic> json) => AttendanceData(
@@ -35,6 +39,8 @@ class AttendanceData {
         extraLectures: List<AttendanceCopy>.from(
             json["extraLectures"].map((x) => AttendanceCopy.fromJson(x))),
         stdSubAtdDetails: StdSubAtdDetails.fromJson(json["stdSubAtdDetails"]),
+        actualDataKiloBytes: json["actualDataKiloBytes"],
+        compressedDataKiloBytes: json["compressedDataKiloBytes"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -46,6 +52,8 @@ class AttendanceData {
         "extraLectures":
             List<dynamic>.from(extraLectures.map((x) => x.toJson())),
         "stdSubAtdDetails": stdSubAtdDetails?.toJson(),
+        "actualDataKiloBytes": actualDataKiloBytes,
+        "compressedDataKiloBytes": compressedDataKiloBytes,
       };
 }
 
@@ -329,7 +337,7 @@ class AttendanceDatum {
   // final int? profilePictureId;
   // final int? attandanceType;
   final DateTime absentDate;
-  final String subjectName;
+  final String? subjectName;
 
   // final int? batchId;
   // final int? randomPresent;
@@ -480,14 +488,14 @@ class StdSubAtdDetails {
 }
 
 class StudentSubjectAttendance {
-  final String userDetails;
+  final String? userDetails;
   final dynamic userType;
   final bool userStatus;
   final int? batchId;
-  final String rollNumber;
+  final String? rollNumber;
   final int? studentSequence;
   final int? categoryId;
-  final String fatherName;
+  final String? fatherName;
   final dynamic batchName;
   final dynamic email;
   final dynamic addressLine1;
@@ -496,10 +504,10 @@ class StudentSubjectAttendance {
   final int? userId;
   final dynamic familyId;
   final String firstName;
-  final String middleName;
-  final String lastName;
-  final String smsMobileNumber;
-  final String admissionNumber;
+  final String? middleName;
+  final String? lastName;
+  final String? smsMobileNumber;
+  final String? admissionNumber;
   final dynamic boardRegistrationNumber;
   final dynamic registrationNumberNine;
   final dynamic motherbusiness;
@@ -523,7 +531,7 @@ class StudentSubjectAttendance {
   final dynamic religion;
   final dynamic caste;
   final dynamic parentMobileNumber;
-  final String mothersMobileNumber;
+  final String? mothersMobileNumber;
   final dynamic motherFullName;
   final dynamic parentOccupation;
   final dynamic routeNumber;
@@ -555,19 +563,19 @@ class StudentSubjectAttendance {
   final bool? isPaySlipAdded;
   final dynamic grossSalary;
   final DateTime dateTimeStampIns;
-  final String motherName;
-  final String address;
+  final String? motherName;
+  final String? address;
   final dynamic parentFullName;
   final dynamic bloodGroup;
   final int? age;
   final int? courseId;
-  final String gender;
+  final String? gender;
   final dynamic financialYear;
   final dynamic semester;
   final dynamic deviceId;
   final dynamic remarkSettingKey;
   final List<Subject> subjects;
-  final String loginName;
+  final String? loginName;
   final dynamic qrCodeImagePath;
   final int? loginHistoryId;
   final int? loginMode;

@@ -8,9 +8,6 @@ class PaymentHistoryPage extends StatefulWidget {
 }
 
 class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
-  // String token =
-  //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3R1ZGVudDAxIiwicm9sZSI6InN0dWRlbnQifQ.UkULa-lSkrgCyxlHi106ocV1261_YpI3tFbxRfk09lg';
-
   dynamic amount = 0.0;
   dynamic paid = 0.0;
   dynamic due = 0.0;
@@ -18,8 +15,6 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
 
   Future<void> fetchData() async {
     //   var headers = {'Token': token};
-    //   var request =
-    //       http.Request('GET', Uri.parse('https://erp.anaskhan.site/api/my_fee/'));
     //   request.headers.addAll(headers);
     //
     //   http.StreamedResponse response = await request.send();
@@ -116,9 +111,10 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
                         child: Text(
                           'Date: $date',
                           style: const TextStyle(
-                              fontSize: 20,
-                              fontStyle: FontStyle.italic,
-                              color: Colors.white),
+                            fontSize: 20,
+                            fontStyle: FontStyle.italic,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],

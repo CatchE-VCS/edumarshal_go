@@ -79,7 +79,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          (widget.subject.name),
+          widget.subject.name ?? "Subject",
           style: TextStyle(
             // fontSize: 24,
             // fontWeight: FontWeight.bold,
@@ -241,159 +241,83 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
     );
   }
 
-  // AnimatedContainer item(
-  //     int index, String attendance, ThemeMode currentTheme, bool isDarkMode) {
-  //   double screenWidth = MediaQuery.of(context).size.width;
-  //   return AnimatedContainer(
-  //     duration: Duration(milliseconds: 300 + (index * 100)),
-  //     width: screenWidth,
-  //     transform:
-  //         Matrix4.translationValues(startAnimation ? 0 : screenWidth, 0, 0),
-  //     curve: Curves.easeInOut,
-  //     margin: const EdgeInsets.symmetric(
-  //       vertical: 12,
-  //       horizontal: 32,
-  //     ),
-  //     padding: const EdgeInsets.symmetric(
-  //       vertical: 16.0,
-  //       horizontal: 24.0,
-  //     ),
-  //     decoration: BoxDecoration(
-  //       borderRadius: BorderRadius.circular(16),
-  //       // color: const Color.fromARGB(255, 183, 146, 247),
-
-  //       color: currentTheme == ThemeMode.dark
-  //           ? Colors.grey.shade900
-  //           : currentTheme == ThemeMode.light
-  //               ? Colors.grey.shade200
-  //               : isDarkMode
-  //                   ? Colors.grey.shade900
-  //                   : Colors.grey.shade200,
-  //     ),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //       crossAxisAlignment: CrossAxisAlignment.center,
-  //       children: [
-  //         Text(
-  //           '${DateTime.parse(subjectAtt[index].absentDate.toString()).day}/${DateTime.parse(subjectAtt[index].absentDate.toString()).month}/${DateTime.parse(subjectAtt[index].absentDate.toString()).year}'
-  //               .toString(),
-  //           style: const TextStyle(
-  //             fontSize: 16,
-  //             color: currentTheme == ThemeMode.dark ? Colors.white : Colors.black,
-  //             fontWeight: FontWeight.bold,
-  //           ),
-  //         ),
-  //         const Spacer(),
-  //         RichText(
-  //           text: TextSpan(
-  //             children: List.generate(
-  //               attendance.length,
-  //               (index) {
-  //                 if (attendance[index] == 'P') {
-  //                   return TextSpan(
-  //                     text: 'P',
-  //                     style: TextStyle(
-  //                       fontSize: 16,
-  //                       color: Colors.green,
-  //                       fontWeight: FontWeight.bold,
-  //                     ),
-  //                   );
-  //                 } else {
-  //                   return TextSpan(
-  //                     text: 'A',
-  //                     style: TextStyle(
-  //                       fontSize: 16,
-  //                       color: Colors.red,
-  //                       fontWeight: FontWeight.bold,
-  //                     ),
-  //                   );
-  //                 }
-  //               },
-  //             ),
-  //           ),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
-
-
-
-AnimatedContainer item(int index, String attendance, ThemeMode currentTheme, bool isDarkMode) {
-  double screenWidth = MediaQuery.of(context).size.width;
-  return AnimatedContainer(
-    duration: Duration(milliseconds: 300 + (index * 100)),
-    width: screenWidth,
-    transform: Matrix4.translationValues(startAnimation ? 0 : screenWidth, 0, 0),
-    curve: Curves.easeInOut,
-    margin: const EdgeInsets.symmetric(
-      vertical: 12,
-      horizontal: 32,
-    ),
-    padding: const EdgeInsets.symmetric(
-      vertical: 16.0,
-      horizontal: 24.0,
-    ),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(16),
-      color: currentTheme == ThemeMode.dark
-          ? Colors.grey.shade900
-          : currentTheme == ThemeMode.light
-              ? Colors.grey.shade200
-              : isDarkMode
-                  ? Colors.grey.shade900
-                  : Colors.grey.shade200,
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          '${DateTime.parse(subjectAtt[index].absentDate.toString()).day}/${DateTime.parse(subjectAtt[index].absentDate.toString()).month}/${DateTime.parse(subjectAtt[index].absentDate.toString()).year}'
-              .toString(),
-          style: TextStyle(
-            fontSize: 16,
-            color: currentTheme == ThemeMode.dark ? Colors.white : Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const Spacer(),
-        RichText(
-          text: TextSpan(
-            children: List.generate(
-              attendance.length,
-              (index) {
-                if (attendance[index] == 'P') {
-                  return TextSpan(
-                    text: 'P',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  );
-                } else {
-                  return TextSpan(
-                    text: 'A',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  );
-                }
-              },
+  AnimatedContainer item(
+      int index, String attendance, ThemeMode currentTheme, bool isDarkMode) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300 + (index * 100)),
+      width: screenWidth,
+      transform:
+          Matrix4.translationValues(startAnimation ? 0 : screenWidth, 0, 0),
+      curve: Curves.easeInOut,
+      margin: const EdgeInsets.symmetric(
+        vertical: 12,
+        horizontal: 32,
+      ),
+      padding: const EdgeInsets.symmetric(
+        vertical: 16.0,
+        horizontal: 24.0,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: currentTheme == ThemeMode.dark
+            ? Colors.grey.shade900
+            : currentTheme == ThemeMode.light
+                ? Colors.grey.shade200
+                : isDarkMode
+                    ? Colors.grey.shade900
+                    : Colors.grey.shade200,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            '${DateTime.parse(subjectAtt[index].absentDate.toString()).day}/${DateTime.parse(subjectAtt[index].absentDate.toString()).month}/${DateTime.parse(subjectAtt[index].absentDate.toString()).year}'
+                .toString(),
+            style: TextStyle(
+              fontSize: 16,
+              color: currentTheme == ThemeMode.dark
+                  ? Colors.white
+                  : currentTheme == ThemeMode.light
+                      ? Colors.black
+                      : isDarkMode
+                          ? Colors.white
+                          : Colors.black,
+              fontWeight: FontWeight.bold,
             ),
           ),
-        )
-      ],
-    ),
-  );
-}
-
-
-
-
-
-
+          const Spacer(),
+          RichText(
+            text: TextSpan(
+              children: List.generate(
+                attendance.length,
+                (index) {
+                  if (attendance[index] == 'P') {
+                    return const TextSpan(
+                      text: 'P',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  } else {
+                    return const TextSpan(
+                      text: 'A',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }

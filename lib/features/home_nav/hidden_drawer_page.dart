@@ -1,13 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:edumarshal/ext_package/hidden_drawer_menu/hidden_drawer_menu.dart';
+import 'package:edumarshal/features/assignment/view/assignment_page.dart';
 import 'package:edumarshal/features/dashboard/dashboard.dart';
-import 'package:edumarshal/features/events/events_page.dart';
+import 'package:edumarshal/features/home_nav/repository/nav_repository.dart';
 import 'package:edumarshal/features/profile/view/profile_page.dart';
 import 'package:edumarshal/features/time_table/time_table_page.dart';
 import 'package:edumarshal/features/widgets/dialogs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:in_app_update/in_app_update.dart';
 
 import '../../core/theme/theme_controller.dart';
 import '../auth/auth.dart';
@@ -30,15 +33,75 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
 
   late String email;
 
+  // late bool _flexibleUpdateAvailable;
+  void checkAppUpdate() async {
+    var x = await InAppUpdate.checkForUpdate();
+    if (x.updateAvailability == UpdateAvailability.updateAvailable) {
+      InAppUpdate.startFlexibleUpdate().then((_) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('UPDATE',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: GoogleFonts.roboto().fontFamily,
+                  )),
+              content: Text(
+                'A new update is available. Please update the app to continue using it.',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: GoogleFonts.roboto().fontFamily,
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    InAppUpdate.completeFlexibleUpdate().then((_) {
+                      Navigator.pop(context);
+                    });
+                  },
+                  child: const Text(
+                    'Update',
+                    style: TextStyle(
+                      color: Colors.green,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      }).catchError((e) {
+        if (kDebugMode) {
+          print(e);
+        }
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-
+    checkAppUpdate();
     // Map<String, dynamic>? jwtDecodedToken;
     if (kDebugMode) {
       print("Access Token: ");
       print(widget.accessToken);
     }
+
     try {
       // jwtDecodedToken = JwtDecoder.decode(widget.accessToken!);
       // if (kDebugMode) {
@@ -47,7 +110,6 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
       // print(jwtDecodedToken);
       // print("---------------------");
       // }
-      
     } catch (e) {
       if (kDebugMode) {
         print('Error decoding token: $e');
@@ -79,7 +141,24 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
 
       ScreenHiddenDrawer(
         ItemHiddenMenu(
-            name: 'Profile',
+          name: 'Profile',
+          baseStyle: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            // color: Colors.white,
+          ),
+          selectedStyle: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            // color: Colors.white,
+          ),
+          colorLineSelected: const Color.fromARGB(255, 251, 162, 45),
+        ),
+        const ProfilePage(),
+      ),
+      ScreenHiddenDrawer(
+        ItemHiddenMenu(
+            name: 'Assignment',
             baseStyle: const TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
@@ -91,25 +170,25 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
               // color: Colors.white,
             ),
             colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
-        const ProfilePage(),
+        const AssignmentPage(),
       ),
 
-      ScreenHiddenDrawer(
-        ItemHiddenMenu(
-            name: 'Events',
-            baseStyle: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              // color: Colors.white,
-            ),
-            selectedStyle: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              // color: Colors.white,
-            ),
-            colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
-        const EventsPage(),
-      ),
+      // ScreenHiddenDrawer(
+      //   ItemHiddenMenu(
+      //       name: 'Events',
+      //       baseStyle: const TextStyle(
+      //         fontSize: 20,
+      //         fontWeight: FontWeight.bold,
+      //         // color: Colors.white,
+      //       ),
+      //       selectedStyle: const TextStyle(
+      //         fontSize: 20,
+      //         fontWeight: FontWeight.bold,
+      //         // color: Colors.white,
+      //       ),
+      //       colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
+      //   const EventsPage(),
+      // ),
 
       ScreenHiddenDrawer(
         ItemHiddenMenu(
@@ -218,6 +297,62 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
         // backgroundColorAppBar: const Color(0xFF1E1E1E),
         disableAppBarDefault: false,
         actionsAppBar: <Widget>[
+          Consumer(
+            builder: (context, ref, child) {
+              return IconButton(
+                icon: const Icon(Icons.card_giftcard),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('RATE US',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: GoogleFonts.roboto().fontFamily,
+                            )),
+                        content: Text(
+                          'If you like our app, rate us on play store and give us feedback to receive a gift (upcoming additional feature).',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: GoogleFonts.roboto().fontFamily,
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              'Cancel',
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              ref
+                                  .read(navRepositoryProvider)
+                                  .rateApp()
+                                  .then((_) => Navigator.pop(context));
+                            },
+                            child: const Text(
+                              'Rate',
+                              style: TextStyle(
+                                color: Colors.green,
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              );
+            },
+          ),
           Consumer(
             builder: (context, ref, child) {
               return IconButton(

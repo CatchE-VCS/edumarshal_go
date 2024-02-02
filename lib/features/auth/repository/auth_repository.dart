@@ -15,7 +15,7 @@ class AuthRepository {
 
   final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: AppUrls.domain,
+      baseUrl: AppUrls.domain!,
       headers: {
         "Accept": "application/json",
         "Access-Control_Allow_Origin": "*"
@@ -105,6 +105,9 @@ class AuthRepository {
           admissionNumber: res.data['admissionNumber'],
           expires: res.data['.expires'],
         );
+        if (int.parse(res.data['X-RX']) > 1) {
+          return null;
+        }
 
         await DBRepository().insertUser(user);
         return res.data['access_token'];

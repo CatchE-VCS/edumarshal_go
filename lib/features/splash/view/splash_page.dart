@@ -91,6 +91,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:edumarshal/core/router/router.gr.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../auth/auth.dart';
 
@@ -98,47 +99,33 @@ class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
 
   @override
-  _SplashPageState createState() => _SplashPageState();
-}
 
-class _SplashPageState extends State<SplashPage> {
-  @override
-  void initState() {
-    super.initState();
-
-    // Simulate a delay for the splash screen
-    Future.delayed(Duration(milliseconds:1200 ), () {
-      checkUserAuthentication();
-    });
-  }
-
-  void checkUserAuthentication() async {
-    try {
-      final user = await DBRepository().getUserById(1);
-
-      if (user != null) {
-        context.router.replace(HiddenDrawerRoute(accessToken: user.accessToken));
-      } else {
-        context.router.replaceNamed('/login'); // Replace with your login route
-      }
-    } catch (e) {
+  Widget build(BuildContext context) {
+    DBRepository handler = DBRepository();
+    handler.getUserById(1).then((value) {
+      Future.delayed(const Duration(seconds: 2), () {
+        value != null
+            ? context.router.replace(
+                HiddenDrawerRoute(accessToken: value.accessToken),
+              )
+            : context.router.replaceNamed('/login');
+      });
+    }).catchError((e) {
       if (kDebugMode) {
         print(e);
       }
 
-           context.router.replaceNamed('/login');
-    }
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedSplashScreen(
-      splash: 'assets/images/splash.png',
-      splashIconSize: 380,
-      backgroundColor: Color.fromARGB(255, 193, 245, 231),
-      nextScreen: Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
+      context.router.replaceNamed('/login');
+      return null;
+    });
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: SvgPicture.asset(
+          'assets/images/Aeronex.svg',
+          width: 200,
+          height: 200,
         ),
       ),
       splashTransition: SplashTransition.rotationTransition,

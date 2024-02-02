@@ -334,9 +334,16 @@ class LoginPage extends ConsumerWidget {
                   });
                 }
               },
-        label:
-            loading ? const CircularProgressIndicator() : const Text('Login'),
-        icon: loading ? null : const Icon(Icons.login),
+        label: loading
+            ? const CircularProgressIndicator()
+            : const Text(
+                'Login',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
+              ),
+        icon: loading ? null : const Icon(Icons.login, color: Colors.white),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,

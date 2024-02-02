@@ -12,11 +12,12 @@ class PDPAttendanceScreen extends StatefulWidget {
   final int? presentLectures;
   final double? percentageAttendance;
 
-  const PDPAttendanceScreen(
-      {super.key,
-      required this.attendanceData,
-      required this.presentLectures,
-      required this.percentageAttendance});
+  const PDPAttendanceScreen({
+    super.key,
+    required this.attendanceData,
+    required this.presentLectures,
+    required this.percentageAttendance,
+  });
 
   @override
   State<PDPAttendanceScreen> createState() => _PDPAttendanceScreenState();
@@ -26,6 +27,7 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
   late DateTime _firstDay;
   late DateTime _lastDay;
   late Map<DateTime, List<AttendanceEntry>> _events;
+  bool startAnimation = false;
 
   @override
   initState() {
@@ -50,6 +52,11 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
       _lastDay = widget
           .attendanceData[widget.attendanceData.length - 1]!.attendanceDate;
     }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {
+        startAnimation = true;
+      });
+    });
   }
 
   @override
@@ -160,70 +167,7 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
                       var brightness =
                           MediaQuery.of(context).platformBrightness;
                       final isDarkMode = brightness == Brightness.dark;
-                      return Container(
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 12,
-                          horizontal: 32,
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 16.0,
-                          horizontal: 24.0,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: currentTheme == ThemeMode.dark
-                              ? Colors.grey.shade900
-                              : currentTheme == ThemeMode.light
-                                  ? Colors.grey.shade200
-                                  : isDarkMode
-                                      ? Colors.grey.shade900
-                                      : Colors.grey.shade200,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              '${DateTime.parse(_events.keys.elementAt(index).toString()).day}/${DateTime.parse(_events.keys.elementAt(index).toString()).month}/${DateTime.parse(_events.keys.elementAt(index).toString()).year}'
-                                  .toString(),
-                              style: const TextStyle(
-                                fontSize: 16,
-                                // color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const Spacer(),
-                            RichText(
-                              text: TextSpan(
-                                children: List.generate(
-                                  attendance.length,
-                                  (index) {
-                                    if (attendance[index] == 'P') {
-                                      return const TextSpan(
-                                        text: 'P',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.green,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      );
-                                    } else {
-                                      return const TextSpan(
-                                        text: 'A',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      );
-                                    }
-                                  },
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      );
+                      return item(index, attendance, currentTheme, isDarkMode);
                     },
                   );
                 },
@@ -279,6 +223,80 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  AnimatedContainer item(
+      int index, String attendance, ThemeMode currentTheme, bool isDarkMode) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300 + (index * 100)),
+      width: screenWidth,
+      transform:
+          Matrix4.translationValues(startAnimation ? 0 : screenWidth, 0, 0),
+      curve: Curves.easeInOut,
+      margin: const EdgeInsets.symmetric(
+        vertical: 12,
+        horizontal: 32,
+      ),
+      padding: const EdgeInsets.symmetric(
+        vertical: 16.0,
+        horizontal: 24.0,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: currentTheme == ThemeMode.dark
+            ? Colors.grey.shade900
+            : currentTheme == ThemeMode.light
+                ? Colors.grey.shade200
+                : isDarkMode
+                    ? Colors.grey.shade900
+                    : Colors.grey.shade200,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            '${DateTime.parse(_events.keys.elementAt(index).toString()).day}/${DateTime.parse(_events.keys.elementAt(index).toString()).month}/${DateTime.parse(_events.keys.elementAt(index).toString()).year}'
+                .toString(),
+            style: const TextStyle(
+              fontSize: 16,
+              // color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const Spacer(),
+          RichText(
+            text: TextSpan(
+              children: List.generate(
+                attendance.length,
+                (index) {
+                  if (attendance[index] == 'P') {
+                    return const TextSpan(
+                      text: 'P',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  } else {
+                    return const TextSpan(
+                      text: 'A',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
