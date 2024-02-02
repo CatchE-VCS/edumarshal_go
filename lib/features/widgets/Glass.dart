@@ -22,13 +22,14 @@ class Glass extends StatelessWidget {
         height: height,
         child: Stack(
           children: [
-            // for create blur effect
+            // for creating blur effect
             BackdropFilter(
               filter: ImageFilter.blur(
                 sigmaX: 5.0, 
                 sigmaY: 5.0, 
               ),
               child: Container(),
+              
             ),
             Container(
               decoration: BoxDecoration(
