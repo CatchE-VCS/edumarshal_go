@@ -25,8 +25,8 @@ class Glass extends StatelessWidget {
             // for create blur effect
             BackdropFilter(
               filter: ImageFilter.blur(
-                sigmaX: 5.0, // Change this to double
-                sigmaY: 5.0, // Change this to double
+                sigmaX: 5.0, 
+                sigmaY: 5.0, 
               ),
               child: Container(),
             ),

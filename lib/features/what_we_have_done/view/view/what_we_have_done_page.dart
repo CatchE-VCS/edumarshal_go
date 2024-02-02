@@ -54,8 +54,7 @@ class WhatWeHaveDonePage extends ConsumerWidget {
               }
               return SizedBox(
                   height: 1000,
-                  child: 
-                  Lottie.network(
+                  child: Lottie.network(
                       'https://lottie.host/559ca181-83df-427b-8ea7-49d2636f9128/WDGZpR5J3c.json'));
             },
             error: (e, s) {
@@ -225,20 +224,6 @@ class WhatWeHaveDonePage extends ConsumerWidget {
                         return Padding(
                           padding: EdgeInsets.only(top: 30, left: 10),
                           child: Glass(
-                            // margin: const EdgeInsets.all(14),
-                            // width: double.maxFinite,
-                            // decoration: BoxDecoration(
-                            //   color: currentTheme == ThemeMode.dark
-                            //       ? Colors.grey.shade900
-                            //       : currentTheme == ThemeMode.light
-                            //           ? Colors.grey.shade200
-                            //           : isDarkMode
-                            //               ? Colors.grey.shade900
-                            //               : Colors.grey.shade200,
-                            //   borderRadius: BorderRadius.circular(16),
-                            // ),
-                            // padding: const EdgeInsets.symmetric(
-                            //     vertical: 32, horizontal: 24),
                             height: 200,
                             width: 400,
                             child: Column(
