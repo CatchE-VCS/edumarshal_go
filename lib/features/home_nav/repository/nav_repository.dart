@@ -17,6 +17,10 @@ class NavRepository {
     if (Platform.isAndroid) {
       if (await InAppReview.instance.isAvailable()) {
         InAppReview.instance.requestReview();
+      } else {
+        // open store
+        InAppReview.instance
+            .openStoreListing(appStoreId: 'com.akgec.edumarshal_go');
       }
     }
 

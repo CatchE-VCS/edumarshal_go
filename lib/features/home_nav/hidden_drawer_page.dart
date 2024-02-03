@@ -37,8 +37,8 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
   void checkAppUpdate() async {
     var x = await InAppUpdate.checkForUpdate();
     if (x.updateAvailability == UpdateAvailability.updateAvailable) {
-      InAppUpdate.startFlexibleUpdate().then((_) {
-        showDialog(
+      InAppUpdate.startFlexibleUpdate().whenComplete(
+        () => showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
@@ -69,6 +69,12 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
                 ),
                 TextButton(
                   onPressed: () {
+                    // var x = InAppUpdate.installUpdateListener;
+                    // x.listen((event) {
+                    //   if (event.name == 'UpdateInstalled') {
+                    //     Navigator.pop(context);
+                    //   }
+                    // });
                     InAppUpdate.completeFlexibleUpdate().then((_) {
                       Navigator.pop(context);
                     });
@@ -83,12 +89,8 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
               ],
             );
           },
-        );
-      }).catchError((e) {
-        if (kDebugMode) {
-          print(e);
-        }
-      });
+        ),
+      );
     }
   }
 
