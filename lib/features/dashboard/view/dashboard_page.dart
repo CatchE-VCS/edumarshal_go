@@ -161,8 +161,16 @@ class DashboardPage extends ConsumerWidget {
                           .studentSubjectAttendance[0]
                           .userDetails!)['firstName'] !=
                       null) {
-                    name =
-                        '${jsonDecode(data.stdSubAtdDetails!.studentSubjectAttendance.first.userDetails!)['firstName']} ${jsonDecode(data.stdSubAtdDetails!.studentSubjectAttendance.first.userDetails!)['lastName']}';
+                    var userDetails = jsonDecode(data.stdSubAtdDetails!
+                        .studentSubjectAttendance[0].userDetails!);
+                    String firstName = userDetails['firstName'] ?? '';
+                    String middleName = userDetails['middleName'] ?? '';
+                    String lastName = userDetails['lastName'] ?? '';
+                    if (middleName.isNotEmpty) {
+                      name = '$firstName $middleName $lastName';
+                    } else {
+                      name = '$firstName $lastName';
+                    }
                     email = jsonDecode(data.stdSubAtdDetails!
                         .studentSubjectAttendance.first.userDetails!)['email'];
                   }
