@@ -1223,7 +1223,7 @@ class StudentSubjectAttendance {
 
 class Subject {
   final int? groupId;
-  final String code;
+  final String? code;
   final int? batchId;
 
   // final dynamic groupName;
@@ -1233,7 +1233,7 @@ class Subject {
 
   // final int? subjectGroupId;
   // final int? subSubjectId;
-  final String name;
+  final String? name;
 
   // final bool isAdditionalSubject;
   // final bool isTimeTableSubject;

@@ -161,17 +161,8 @@ class DashboardPage extends ConsumerWidget {
                           .studentSubjectAttendance[0]
                           .userDetails!)['firstName'] !=
                       null) {
-                    name = jsonDecode(data
-                            .stdSubAtdDetails!
-                            .studentSubjectAttendance
-                            .first
-                            .userDetails!)['firstName'] +
-                        ' ' +
-                        jsonDecode(data
-                            .stdSubAtdDetails!
-                            .studentSubjectAttendance
-                            .first
-                            .userDetails!)['lastName'];
+                    name =
+                        '${jsonDecode(data.stdSubAtdDetails!.studentSubjectAttendance.first.userDetails!)['firstName']} ${jsonDecode(data.stdSubAtdDetails!.studentSubjectAttendance.first.userDetails!)['lastName']}';
                     email = jsonDecode(data.stdSubAtdDetails!
                         .studentSubjectAttendance.first.userDetails!)['email'];
                   }
@@ -434,7 +425,7 @@ class DashboardPage extends ConsumerWidget {
                               child: SubjectCard(
                                 totalPresent: subjectsList[i].presentLeactures,
                                 totalClasses: subjectsList[i].totalLeactures,
-                                subject: subjectsList[i].name,
+                                subject: subjectsList[i].name ?? '',
                                 attendance:
                                     subjectsList[i].percentageAttendance,
                               ),
