@@ -1,6 +1,5 @@
 import 'package:edumarshal/core/theme/theme_controller.dart';
 import 'package:edumarshal/features/subject_attendance/attendance_summary_page.dart';
-import 'package:edumarshal/features/subject_attendance/controller/att_page_banner_ad_pod.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../dashboard/model/pdp_att_model.dart';
+import 'controller/att_page_banner_ad_pod.dart';
 
 class PDPAttendanceScreen extends StatefulWidget {
   final List<PDPAttendanceData?> attendanceData;

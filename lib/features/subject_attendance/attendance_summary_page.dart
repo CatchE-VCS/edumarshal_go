@@ -1,4 +1,3 @@
-import 'package:edumarshal/const/config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../const/config.dart';
 import 'controller/date_controller.dart';
 
 // @RoutePage(
@@ -416,7 +416,6 @@ class _AttendanceSummaryPageState extends ConsumerState<AttendanceSummaryPage> {
             //         },
             //       )
             //     : const CircularProgressIndicator()
-
             _nativeAdIsLoaded && _nativeAd != null
                 ? ConstrainedBox(
                     constraints: const BoxConstraints(

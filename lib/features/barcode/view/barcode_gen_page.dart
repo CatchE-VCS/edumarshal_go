@@ -1,11 +1,11 @@
 import 'package:barcode_widget/barcode_widget.dart';
-import 'package:edumarshal/features/barcode/controller/barcode_state_pod.dart';
 import 'package:edumarshal/features/profile/controller/profile_state_pod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../core/theme/theme_controller.dart';
+import '../controller/barcode_state_pod.dart';
 
 class BarGen extends ConsumerWidget {
   const BarGen({super.key});
@@ -61,6 +61,7 @@ class BarGen extends ConsumerWidget {
           final currentTheme = ref.watch(themecontrollerProvider);
           var brightness = Theme.of(context).brightness;
           final isDark = brightness == Brightness.dark;
+
           final myBanner = ref.watch(barcodeBannerAdProvider);
           return Scaffold(
             body: RefreshIndicator(

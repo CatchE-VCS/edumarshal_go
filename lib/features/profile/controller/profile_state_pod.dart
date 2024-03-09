@@ -7,7 +7,6 @@ import '../../../const/config.dart';
 
 final profileDataProvider = FutureProvider<ProfileData?>(
     (ref) async => await ref.read(profileRepositoryProvider).getProfileData());
-
 final profileBannerAdProvider = Provider<BannerAd>((ref) {
   BannerAd ad = BannerAd(
     adUnitId: Config.bannerAdID4!,

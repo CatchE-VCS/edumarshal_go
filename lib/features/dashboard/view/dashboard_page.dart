@@ -25,6 +25,7 @@ class DashboardPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // final GlobalKey drawerKey = GlobalKey();
     // final InAppReview inAppReview = InAppReview.instance;
+
     final BannerAd myBanner = ref.watch(bannerAdProvider);
 
     return RefreshIndicator(

@@ -48,6 +48,7 @@ Future<void> bootstrap(
   };
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
+
   MobileAds.instance.initialize();
   unawaited(init());
   await Hive.initFlutter();
