@@ -9,7 +9,7 @@ final profileDataProvider = FutureProvider<ProfileData?>(
   (ref) async => await ref.read(profileRepositoryProvider).getProfileData(),
 );
 
-final profileBannerAdProvider = Provider<BannerAd>((ref) {
+final profileBannerAdProvider = Provider.autoDispose<BannerAd>((ref) {
   BannerAd ad = BannerAd(
     adUnitId: Config.bannerAdID4!,
     size: AdSize.banner,
