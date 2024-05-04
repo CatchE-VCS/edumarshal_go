@@ -171,7 +171,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemCount: subjectAtt.length,
-                reverse: true,
+                // reverse: true,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   String attendance = "";
