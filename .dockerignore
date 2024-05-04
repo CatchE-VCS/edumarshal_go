@@ -1,0 +1,10 @@
+.dart_tool
+.idea
+.vscode
+build
+# .env
+.flutter*
+.gitignore
+.metadata
+pubspec.lock
+Dockerfile
