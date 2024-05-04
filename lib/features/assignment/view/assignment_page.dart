@@ -407,9 +407,9 @@ class AssignmentCard extends StatelessWidget {
               showModalBottomSheet(
                 context: context,
                 builder: (context) {
-                  return Container(
+                  return const SizedBox(
                     height: 700,
-                    child: const Text("Feature under development"),
+                    child: Text("Feature under development"),
                   );
                   // return const SubmitSheet();
                 },

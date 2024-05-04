@@ -32,74 +32,77 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
   List<ScreenHiddenDrawer> _pages = [];
 
   late String email;
+
   // late bool _flexibleUpdateAvailable;
+  void checkAppUpdate() async {
+    var x = await InAppUpdate.checkForUpdate();
+    if (x.updateAvailability == UpdateAvailability.updateAvailable) {
+      InAppUpdate.startFlexibleUpdate().whenComplete(
+        () => showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('UPDATE',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: GoogleFonts.roboto().fontFamily,
+                  )),
+              content: Text(
+                'A new update is available. Please update the app to continue using it.',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: GoogleFonts.roboto().fontFamily,
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    // var x = InAppUpdate.installUpdateListener;
+                    // x.listen((event) {
+                    //   if (event.name == 'UpdateInstalled') {
+                    //     Navigator.pop(context);
+                    //   }
+                    // });
+                    InAppUpdate.completeFlexibleUpdate().then((_) {
+                      Navigator.pop(context);
+                    });
+                  },
+                  child: const Text(
+                    'Update',
+                    style: TextStyle(
+                      color: Colors.green,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      );
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-
+    checkAppUpdate();
     // Map<String, dynamic>? jwtDecodedToken;
     if (kDebugMode) {
       print("Access Token: ");
       print(widget.accessToken);
     }
-    () async {
-      var x = await InAppUpdate.checkForUpdate();
-      if (x.updateAvailability == UpdateAvailability.updateAvailable) {
-        InAppUpdate.startFlexibleUpdate().then((_) {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text('UPDATE',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontFamily: GoogleFonts.roboto().fontFamily,
-                    )),
-                content: Text(
-                  'A new update is available. Please update the app to continue using it.',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: GoogleFonts.roboto().fontFamily,
-                  ),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      InAppUpdate.completeFlexibleUpdate().then((_) {
-                        Navigator.pop(context);
-                      });
-                    },
-                    child: const Text(
-                      'Update',
-                      style: TextStyle(
-                        color: Colors.green,
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-          );
-        }).catchError((e) {
-          if (kDebugMode) {
-            print(e);
-          }
-        });
-      }
-    }();
 
     try {
       // jwtDecodedToken = JwtDecoder.decode(widget.accessToken!);
@@ -140,18 +143,19 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
 
       ScreenHiddenDrawer(
         ItemHiddenMenu(
-            name: 'Profile',
-            baseStyle: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              // color: Colors.white,
-            ),
-            selectedStyle: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              // color: Colors.white,
-            ),
-            colorLineSelected: const Color.fromARGB(255, 251, 162, 45)),
+          name: 'Profile',
+          baseStyle: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            // color: Colors.white,
+          ),
+          selectedStyle: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            // color: Colors.white,
+          ),
+          colorLineSelected: const Color.fromARGB(255, 251, 162, 45),
+        ),
         const ProfilePage(),
       ),
       ScreenHiddenDrawer(

@@ -36,17 +36,26 @@ final class SwipeCardsScreen extends StatefulWidget {
 class _SwipeCardsScreenState extends State<SwipeCardsScreen> {
   // static List<String> cardData = ['Only one'];
   double _targetSize = 0;
+  late Tween<double> tween;
 
   @override
   void initState() {
     _targetSize = widget.overallPercentage / 100;
+    tween = Tween<double>(begin: 0, end: _targetSize);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _targetSize = 0;
+    tween = Tween<double>(begin: 0, end: _targetSize);
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     // int topCardIndex = 0;
-    var tween = Tween<double>(begin: 0, end: _targetSize);
+
     // AnimationController animationController = AnimationController(vsync: this)
     //   ..repeat();
     return Card(
@@ -169,7 +178,7 @@ class AnimatedText extends StatelessWidget {
       animatedTexts: subjectsList
           .map(
             (subject) => TyperAnimatedText(
-              subject.name,
+              subject.name ?? '',
               speed: const Duration(milliseconds: 70),
               textStyle: const TextStyle(
                 color: Colors.white,

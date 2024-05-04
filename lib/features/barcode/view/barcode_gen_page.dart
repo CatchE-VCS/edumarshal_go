@@ -2,8 +2,10 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:edumarshal/features/profile/controller/profile_state_pod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../core/theme/theme_controller.dart';
+import '../controller/barcode_state_pod.dart';
 
 class BarGen extends ConsumerWidget {
   const BarGen({super.key});
@@ -59,101 +61,124 @@ class BarGen extends ConsumerWidget {
           final currentTheme = ref.watch(themecontrollerProvider);
           var brightness = Theme.of(context).brightness;
           final isDark = brightness == Brightness.dark;
-          return Scaffold(
-            body: Container(
-              width: double.maxFinite,
-              padding: const EdgeInsets.only(
-                top: 100,
-                left: 30,
-                right: 30,
-              ),
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: 250,
-                    height: 50,
-                    // decoration: AppDecoration.fillWhiteA,
-                    child: BarcodeWidget(
-                      drawText: false,
-                      color: currentTheme == ThemeMode.dark
-                          ? Colors.white
-                          : currentTheme == ThemeMode.light
-                              ? Colors.black
-                              : isDark
-                                  ? Colors.white
-                                  : Colors.black,
-                      barcode: Barcode.code39(),
-                      data: admissionNo.toString(),
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-                  Container(
-                    alignment: Alignment.center,
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Student Number: $admissionNo",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
 
-                        const SizedBox(height: 8),
-                        Text(
-                          "Student Name: $name",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          "Address: $address",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        // Text("$branch"
-                        //     // style: CustomTextStyles.titleLargePrimary,
-                        //     ),
-                        // const SizedBox(height: 6),
-                        // Text(
-                        //   "$bloodG",
-                        //   // style: CustomTextStyles.titleLargePrimary,
-                        // ),
-                        const SizedBox(height: 8),
-                        Text(
-                          "Mobile No: $smsMobileNumber",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          "Father's Name: $fatherName",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          "$fatherPhone",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                      ],
-                    ),
+          final myBanner = ref.watch(barcodeBannerAdProvider);
+          return Scaffold(
+            body: RefreshIndicator(
+              onRefresh: () async {
+                var x = ref.refresh(profileDataProvider);
+              },
+              child: SingleChildScrollView(
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.9,
+                  width: double.maxFinite,
+                  padding: const EdgeInsets.only(
+                    top: 100,
+                    left: 30,
+                    right: 30,
                   ),
-                ],
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: 250,
+                        height: 50,
+                        // decoration: AppDecoration.fillWhiteA,
+                        child: BarcodeWidget(
+                          drawText: false,
+                          color: currentTheme == ThemeMode.dark
+                              ? Colors.white
+                              : currentTheme == ThemeMode.light
+                                  ? Colors.black
+                                  : isDark
+                                      ? Colors.white
+                                      : Colors.black,
+                          barcode: Barcode.code39(),
+                          data: admissionNo.toString(),
+                        ),
+                      ),
+                      const SizedBox(height: 40),
+                      Container(
+                        alignment: Alignment.center,
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Student Number: $admissionNo",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+
+                            const SizedBox(height: 8),
+                            Text(
+                              "Student Name: $name",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "Address: $address",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            // Text("$branch"
+                            //     // style: CustomTextStyles.titleLargePrimary,
+                            //     ),
+                            // const SizedBox(height: 6),
+                            // Text(
+                            //   "$bloodG",
+                            //   // style: CustomTextStyles.titleLargePrimary,
+                            // ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "Mobile No: $smsMobileNumber",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "Father's Name: $fatherName",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "$fatherPhone",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Spacer(),
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: (MediaQuery.of(context).size.width -
+                                  myBanner.size.width.toDouble()) /
+                              2,
+                        ),
+                        width: myBanner.size.width.toDouble(),
+                        height: myBanner.size.height.toDouble(),
+                        child: AdWidget(ad: myBanner),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           );

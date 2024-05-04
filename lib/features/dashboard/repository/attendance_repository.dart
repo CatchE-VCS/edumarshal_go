@@ -13,7 +13,7 @@ class AttendanceRepository {
 
   final _dio = Dio(
     BaseOptions(
-      baseUrl: AppUrls.domain,
+      baseUrl: AppUrls.domain!,
       connectTimeout: const Duration(seconds: 45),
       receiveTimeout: const Duration(minutes: 3),
     ),
@@ -27,6 +27,9 @@ class AttendanceRepository {
         'X-ContextId': user.xContextId,
         'X-UserId': user.xUserId,
       };
+      if (kDebugMode) {
+        print(headers);
+      }
 
       var response = await _dio.get(
         'api/v2/attendance',

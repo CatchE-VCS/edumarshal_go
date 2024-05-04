@@ -1,19 +1,24 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:edumarshal/core/theme/theme_controller.dart';
 import 'package:edumarshal/features/subject_attendance/pdp_att_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:in_app_review/in_app_review.dart';
+// import 'package:zoom_widget/zoom_widget.dart';
 
 import '../../subject_attendance/sub_att_page.dart';
 import '../../widgets/additional_info.dart';
 import '../../widgets/swipe_card_widget.dart';
+import '../controller/dashboard_banner_ad_pod.dart';
 import '../dashboard.dart';
 
 class DashboardPage extends ConsumerWidget {
@@ -21,8 +26,10 @@ class DashboardPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final GlobalKey drawerKey = GlobalKey();
-    final InAppReview inAppReview = InAppReview.instance;
+    // final GlobalKey drawerKey = GlobalKey();
+    // final InAppReview inAppReview = InAppReview.instance;
+
+    final BannerAd myBanner = ref.watch(bannerAdProvider);
 
     return RefreshIndicator(
       strokeWidth: 3,
@@ -146,23 +153,31 @@ class DashboardPage extends ConsumerWidget {
                 }
                 String name = '';
                 String email = '';
-                print(data
-                    .stdSubAtdDetails!.studentSubjectAttendance[0].userDetails);
-                if (jsonDecode(data
-                        .stdSubAtdDetails!
-                        .studentSubjectAttendance[0]
-                        .userDetails)['firstName'] !=
+                if (kDebugMode) {
+                  print(data.stdSubAtdDetails!.studentSubjectAttendance[0]
+                      .userDetails);
+                }
+                if (data.stdSubAtdDetails!.studentSubjectAttendance[0]
+                        .userDetails !=
                     null) {
-                  name = jsonDecode(data
+                  if (jsonDecode(data
                           .stdSubAtdDetails!
-                          .studentSubjectAttendance
-                          .first
-                          .userDetails)['firstName'] +
-                      ' ' +
-                      jsonDecode(data.stdSubAtdDetails!.studentSubjectAttendance
-                          .first.userDetails)['lastName'];
-                  email = jsonDecode(data.stdSubAtdDetails!
-                      .studentSubjectAttendance.first.userDetails)['email'];
+                          .studentSubjectAttendance[0]
+                          .userDetails!)['firstName'] !=
+                      null) {
+                    var userDetails = jsonDecode(data.stdSubAtdDetails!
+                        .studentSubjectAttendance[0].userDetails!);
+                    String firstName = userDetails['firstName'] ?? '';
+                    String middleName = userDetails['middleName'] ?? '';
+                    String lastName = userDetails['lastName'] ?? '';
+                    if (middleName.isNotEmpty) {
+                      name = '$firstName $middleName $lastName';
+                    } else {
+                      name = '$firstName $lastName';
+                    }
+                    email = jsonDecode(data.stdSubAtdDetails!
+                        .studentSubjectAttendance.first.userDetails!)['email'];
+                  }
                 } else {
                   name =
                       '${data.stdSubAtdDetails!.studentSubjectAttendance.first.firstName} ${data.stdSubAtdDetails!.studentSubjectAttendance.first.lastName}';
@@ -179,6 +194,9 @@ class DashboardPage extends ConsumerWidget {
                     data.stdSubAtdDetails!.studentSubjectAttendance[0].subjects;
                 int? totalPresent = data.stdSubAtdDetails?.overallPresent!;
                 int? totalClasses = data.stdSubAtdDetails?.overallLecture!;
+                // late bool above75 = false;
+                int calculatedValue =
+                    3 * totalClasses! - 4 * totalPresent!;
                 // int totalAbsent = totalClasses - totalPresent;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -319,11 +337,17 @@ class DashboardPage extends ConsumerWidget {
                               image: Image.asset(
                                   'assets/images/school_7214224.png'),
                               label: 'Course',
-                              value: jsonDecode(data
-                                      .stdSubAtdDetails!
-                                      .studentSubjectAttendance[0]
-                                      .userDetails)['selectedCourse']
-                                  .toString(),
+                              value: data
+                                          .stdSubAtdDetails!
+                                          .studentSubjectAttendance[0]
+                                          .userDetails !=
+                                      null
+                                  ? jsonDecode(data
+                                          .stdSubAtdDetails!
+                                          .studentSubjectAttendance[0]
+                                          .userDetails!)['selectedCourse']
+                                      .toString()
+                                  : '',
                             ),
                             const SizedBox(
                               width: 15,
@@ -340,21 +364,72 @@ class DashboardPage extends ConsumerWidget {
                             const SizedBox(
                               width: 15,
                             ),
-                            AdditionalInfo(
-                              index: 2,
-                              image: Image.asset(
-                                'assets/images/presentation_760138.png',
+                            Stack(
+                              children: [
+
+                                AdditionalInfo(
+                                index: 2,
+                                image: Image.asset(
+                                  'assets/images/presentation_760138.png',
+                                ),
+                                label: (calculatedValue < 0) ? 'You are already above 75%':'Classes Required for 75%:',
+                                value: (() {
+                                  int canSkip = totalPresent - (0.75* totalClasses).ceil();
+                                  if (calculatedValue < 0) {
+                                    return 'You can skip $canSkip classes';
+                                  } else {
+                                    return 'Classes Required: $calculatedValue';
+                                  }
+                                })(),
                               ),
-                              label: 'Classes Required for 75%:',
-                              value: (() {
-                                int calculatedValue =
-                                    3 * totalClasses! - 4 * totalPresent!;
-                                if (calculatedValue < 0) {
-                                  return 'You are already above 75%';
-                                } else {
-                                  return 'Classes Required: $calculatedValue';
-                                }
-                              })(),
+
+                                Positioned(
+                                    top: 5,
+                                    right: 5,
+                                    child:
+                                    (calculatedValue < 0) ?
+                                    IconButton(
+                                        icon: Icon(Icons.error_outline_rounded),
+                                      color: Color(0xffD25D81),
+                                      iconSize: 25,
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: Text('DISCLAIMER',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontFamily: GoogleFonts.roboto().fontFamily,
+                                                  )),
+                                              content: Text(
+                                                'This calculation is only based on the attendance updated on edumarshal. Please don\'t blindy rely on this.',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontFamily: GoogleFonts.roboto().fontFamily,
+                                                ),
+                                              ),
+                                              actionsAlignment: MainAxisAlignment.center,
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text(
+                                                    'OK',
+                                                  ),
+                                                ),
+
+                                              ],
+                                            );
+
+                                          },
+                                        );
+                                      },
+                                    ) : Container()
+                                ),
+                              ]
                             ),
                             const SizedBox(
                               width: 20,
@@ -377,6 +452,19 @@ class DashboardPage extends ConsumerWidget {
                         ),
                       ),
                     ),
+
+                    // Container(
+                    //   height: 230,
+                    //   width:  MediaQuery.sizeOf(context).width - 20,
+                    //   margin: const EdgeInsets.only(left: 10, right: 10),
+                    //   child: Zoom(
+                    //     maxZoomWidth: MediaQuery.sizeOf(context).width - 20,
+                    //     maxZoomHeight: 230,
+                    //
+                    //     child: TimetableDropdowns(),
+                    //     ),
+                    //   ),
+
                     const SizedBox(
                       height: 10,
                     ),
@@ -400,7 +488,7 @@ class DashboardPage extends ConsumerWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             margin: const EdgeInsets.only(left: 18, right: 15),
-                            child: GestureDetector(
+                            child: InkWell(
                               onTap: () {
                                 Navigator.push(
                                   context,
@@ -416,7 +504,7 @@ class DashboardPage extends ConsumerWidget {
                               child: SubjectCard(
                                 totalPresent: subjectsList[i].presentLeactures,
                                 totalClasses: subjectsList[i].totalLeactures,
-                                subject: subjectsList[i].name,
+                                subject: subjectsList[i].name ?? '',
                                 attendance:
                                     subjectsList[i].percentageAttendance,
                               ),
@@ -474,7 +562,7 @@ class DashboardPage extends ConsumerWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      GestureDetector(
+                      InkWell(
                         onTap: () {
                           // Navigate to PDP Attendance Screen
                           Navigator.push(
@@ -531,6 +619,19 @@ class DashboardPage extends ConsumerWidget {
             const SizedBox(
               height: 10,
             ),
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: (MediaQuery.of(context).size.width -
+                        myBanner.size.width.toDouble()) /
+                    2,
+              ),
+              width: myBanner.size.width.toDouble(),
+              height: myBanner.size.height.toDouble(),
+              child: AdWidget(ad: myBanner),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
           ],
         ),
       ),
@@ -579,7 +680,47 @@ class SubjectCard extends StatelessWidget {
                 height: 6.0,
               ),
               Text(
-                'Attendance: $totalPresent / $totalClasses ($attendance%)',
+                'Attendance: $attendance%',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: GoogleFonts.poppins().fontFamily,
+                  // color: Colors.black45,
+                ),
+              ),
+              const SizedBox(
+                height: 6.0,
+              ),
+              Row(
+                children: [
+                  Text(
+                    'Total Present: $totalPresent',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: GoogleFonts.poppins().fontFamily,
+                      // color: Colors.black45,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Total Classes: $totalClasses',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: GoogleFonts.poppins().fontFamily,
+                      // color: Colors.black45,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 6.0,
+              ),
+              Text(
+                'Classes Required for 75%: ${((3 * totalClasses! - 4 * totalPresent! > 0) ? 3 * totalClasses! - 4 * totalPresent! : 0)}',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -590,24 +731,44 @@ class SubjectCard extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          alignment: Alignment.center,
-          width: 50,
-          child: TweenAnimationBuilder(
-            tween: Tween<double>(begin: 0, end: attendance / 100),
-            duration: const Duration(seconds: 3),
-            builder: (BuildContext context, double value, Widget? child) =>
-                CircularProgressIndicator(
-              value: value,
-              backgroundColor: Colors.white60,
-              color: attendance >= 75
-                  ? Colors.green
-                  : attendance >= 50
-                      ? Colors.orange
-                      : Colors.red,
+        Column(
+          children: [
+            Container(
+              alignment: Alignment.center,
+              width: 50,
+              child: TweenAnimationBuilder(
+                tween: Tween<double>(begin: 0, end: attendance / 100),
+                duration: const Duration(seconds: 3),
+                builder: (BuildContext context, double value, Widget? child) =>
+                    CircularProgressIndicator(
+                  value: value,
+                  backgroundColor: Colors.white60,
+                  color: attendance >= 75
+                      ? Colors.green
+                      : attendance >= 50
+                          ? Colors.orange
+                          : Colors.red,
+                ),
+              ),
             ),
-          ),
-        )
+            const SizedBox(
+              height: 6.0,
+            ),
+            Text(
+              'Click here',
+              style: TextStyle(
+                fontSize: 12,
+
+                fontFamily: GoogleFonts.poppins().fontFamily,
+                fontWeight: FontWeight.bold,
+                // color: Colors.black45,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          width: 2,
+        ),
       ],
     );
   }
@@ -692,5 +853,171 @@ class InAppReviewExampleAppState extends State<InAppReviewExampleApp> {
         ),
       ),
     );
+  }
+}
+
+
+
+class TimetableDropdowns extends ConsumerStatefulWidget {
+
+
+  @override
+  ConsumerState<TimetableDropdowns> createState() => _TimetableDropdownsState();
+}
+
+class _TimetableDropdownsState extends ConsumerState<TimetableDropdowns> {
+
+  String _value = 'Subject A';
+@override
+  Widget build(BuildContext context) {
+    return Table(
+
+
+      children:
+        List.generate(
+        7, // Number of rows
+            (rowIndex) =>
+            (rowIndex > 0) ?
+                TableRow(
+              decoration: BoxDecoration(
+                color: ref.watch(themecontrollerProvider) == ThemeMode.dark
+                    ? Colors.grey.shade900
+                    : ref.watch(themecontrollerProvider) == ThemeMode.light
+                    ? Colors.grey.shade200
+                    : Theme.of(context).brightness == Brightness.dark
+                    ? Colors.grey.shade900
+                    : Colors.grey.shade200,
+              ),
+          children: List.generate(
+
+            7, // Number of columns
+                (colIndex) => Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Container(
+
+                    width: 20,
+                    // height: 30,
+                    decoration:  BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.all(Radius.circular(3)),
+                      gradient:
+
+                      CustomLinearGradients().getGradient(CustomLinearGradients().getRandomGradient()),
+                      // LinearGradient(
+                      //   colors: [Colors.blue, Colors.green], // Customize gradient colors
+                      //   begin: Alignment.topCenter,
+                      //   end: Alignment.bottomCenter,
+                      // ),
+                      // LinearGradient(
+                      //     begin: Alignment.topCenter,
+                      //     end: Alignment.bottomCenter,
+                      //     colors: [Color.fromRGBO(183, 82, 185, 1),Color.fromRGBO(233, 147, 229, 1)]
+                      // ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child:
+                      FittedBox(
+                        child: DropdownButton<String>(
+
+                          value: _value,
+                          items: ['Subject A', 'Subject B', 'Subject C', 'Subject D']
+                              .map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: FittedBox(child: Text(value)),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              _value = value!;
+
+                            });
+
+                          },
+                        ),
+                      ),
+                      // SizedBox(height: 10,),
+                    ),
+                              ),
+                ),
+          ),
+        )
+                :
+                TableRow(
+                  children: [
+
+                  ]
+                )
+          ,
+      ),
+
+    );
+  }
+}
+
+
+
+
+enum GradientType {
+  Custom1,
+  Custom2,
+  Custom3,
+  Custom4,
+  Custom5,
+  Custom6,
+}
+
+class CustomLinearGradients {
+  LinearGradient getGradient(GradientType type) {
+    switch (type) {
+      case GradientType.Custom1:
+        return const LinearGradient(
+          colors: [Color.fromRGBO(103, 82, 185, 1), Color.fromRGBO(165, 140, 220, 1)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        );
+      case GradientType.Custom2:
+        return const LinearGradient(
+          colors: [Color.fromRGBO(17, 136, 144, 1), Color.fromRGBO(132, 175, 189, 1)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        );
+      case GradientType.Custom3:
+        return const LinearGradient(
+          colors: [Color.fromRGBO(103, 82, 185, 1), Color.fromRGBO(165, 140, 220, 1)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        );
+      case GradientType.Custom4:
+        return const LinearGradient(
+          colors: [Color.fromRGBO(181, 71, 71, 1), Color.fromRGBO(218, 135, 135, 1)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        );
+      case GradientType.Custom5:
+        return const LinearGradient(
+          colors: [Color.fromRGBO(115, 146, 26, 1), Color.fromRGBO(157, 210, 116, 1)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        );
+      case GradientType.Custom6:
+        return const LinearGradient(
+          colors: [Color.fromRGBO(73, 160, 86, 1), Color.fromRGBO(137, 201, 147, 1)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        );
+      default:
+        return const LinearGradient(
+          colors: [Colors.blue, Colors.green],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        );
+    }
+  }
+
+  GradientType getRandomGradient() {
+    final random = Random();
+    return GradientType.values[random.nextInt(6)]; // Randomly select from Custom1 to Custom6
   }
 }

@@ -1,15 +1,12 @@
-import 'package:edumarshal/features/profile/profile.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../const/config.dart';
 
-final profileDataProvider = FutureProvider<ProfileData?>(
-    (ref) async => await ref.read(profileRepositoryProvider).getProfileData());
-final profileBannerAdProvider = Provider<BannerAd>((ref) {
+final bannerAdProvider = Provider<BannerAd>((ref) {
   BannerAd ad = BannerAd(
-    adUnitId: Config.bannerAdID4!,
+    adUnitId: Config.bannerAdID1!,
     size: AdSize.banner,
     request: const AdRequest(),
     listener: BannerAdListener(

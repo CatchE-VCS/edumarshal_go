@@ -290,7 +290,6 @@ class LoginPage extends ConsumerWidget {
             ? null
             : () {
                 if (formKey.currentState!.validate()) {
-                  FocusManager.instance.primaryFocus?.unfocus();
                   // Validate returns true if the form is valid, or false otherwise.
                   ref.read(authLoadingPod.notifier).startLoading();
 
@@ -319,7 +318,8 @@ class LoginPage extends ConsumerWidget {
                     formKey.currentState!.reset();
 
                     ref.read(authLoadingPod.notifier).stopLoading();
-
+                    // This is the line that hides the keyboard.
+                    FocusScope.of(context).unfocus();
                     context.router
                         .pushAndPopUntil(HiddenDrawerRoute(accessToken: value),
                             predicate: (Route<dynamic> route) {

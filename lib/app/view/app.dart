@@ -1,7 +1,3 @@
-import 'package:flash/flash_helper.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:edumarshal/core/router/auto_route_observer.dart';
 import 'package:edumarshal/core/router/router_pod.dart';
 import 'package:edumarshal/core/theme/app_theme.dart';
@@ -11,6 +7,10 @@ import 'package:edumarshal/shared/helper/global_helper.dart';
 import 'package:edumarshal/shared/pods/locale_pod.dart';
 import 'package:edumarshal/shared/widget/no_internet_widget.dart';
 import 'package:edumarshal/shared/widget/responsive_wrapper.dart';
+import 'package:flash/flash_helper.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 ///This class holds Material App or Cupertino App
 ///with routing,theming and locale setup .
@@ -31,7 +31,7 @@ class _AppState extends ConsumerState<App> with GlobalHelper {
     final locale = ref.watch(localePod);
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Example App',
+      title: 'EduMarshalGO App',
       theme: Themes.theme,
       darkTheme: Themes.darkTheme,
       themeMode: currentTheme,
@@ -56,7 +56,8 @@ class _AppState extends ConsumerState<App> with GlobalHelper {
           final mediaquery = MediaQuery.of(context);
           child = MediaQuery(
             data: mediaquery.copyWith(
-              textScaler: TextScaler.linear(mediaquery.textScaleFactor.clamp(0, 1.5)),
+              textScaler:
+                  TextScaler.linear(mediaquery.textScaleFactor.clamp(0, 1.5)),
             ),
             child: child,
           );
