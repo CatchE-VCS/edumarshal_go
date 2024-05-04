@@ -105,19 +105,19 @@ class _HiddenDrawerState extends ConsumerState<HiddenDrawerPage> {
       print(widget.accessToken);
     }
 
-    try {
-      // jwtDecodedToken = JwtDecoder.decode(widget.accessToken!);
-      // if (kDebugMode) {
-      // print("---------------------");
-      //
-      // print(jwtDecodedToken);
-      // print("---------------------");
-      // }
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error decoding token: $e');
-      }
-    }
+    // try {
+    // jwtDecodedToken = JwtDecoder.decode(widget.accessToken!);
+    // if (kDebugMode) {
+    // print("---------------------");
+    //
+    // print(jwtDecodedToken);
+    // print("---------------------");
+    // }
+    // } catch (e) {
+    //   if (kDebugMode) {
+    //     print('Error decoding token: $e');
+    //   }
+    // }
 
     // Use default value if email is null
     // email = jwtDecodedToken?['email'] ?? 'DefaultEmail';
