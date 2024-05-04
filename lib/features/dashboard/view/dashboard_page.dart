@@ -404,7 +404,7 @@ class DashboardPage extends ConsumerWidget {
                                                     fontFamily: GoogleFonts.roboto().fontFamily,
                                                   )),
                                               content: Text(
-                                                'This calculation is only based on the attendance updated on edumarshal. Please don\'t blindy rely on this.',
+                                                'This calculation is only based on the attendance updated on edumarshal. Please don\'t blindly rely on this.',
                                                 style: TextStyle(
                                                   fontSize: 16,
                                                   fontFamily: GoogleFonts.roboto().fontFamily,

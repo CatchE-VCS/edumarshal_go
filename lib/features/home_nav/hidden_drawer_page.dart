@@ -15,6 +15,7 @@ import 'package:in_app_update/in_app_update.dart';
 import '../../core/theme/theme_controller.dart';
 import '../auth/auth.dart';
 import '../barcode/barcode.dart';
+import '../profile/controller/profile_state_pod.dart';
 
 @RoutePage(
   deferredLoading: true,
@@ -277,6 +278,7 @@ class _HiddenDrawerState extends ConsumerState<HiddenDrawerPage> {
             // color: Colors.white,
           ),
           onTap: () {
+            ref.invalidate(profileDataProvider);
             DBRepository handler = DBRepository();
 
             handler
