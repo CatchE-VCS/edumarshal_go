@@ -6,6 +6,7 @@ import 'package:edumarshal/firebase_options.dart';
 import 'package:edumarshal/init.dart';
 import 'package:edumarshal/shared/riverpod_ext/riverpod_observer.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -53,6 +54,15 @@ Future<void> bootstrap(
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FlutterError.onError = (errorDetails) {
+    log(errorDetails.exceptionAsString(), stackTrace: errorDetails.stack);
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+
   MobileAds.instance.initialize();
   unawaited(init());
   await Hive.initFlutter();
