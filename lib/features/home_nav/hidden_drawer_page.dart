@@ -19,19 +19,19 @@ import '../barcode/barcode.dart';
 @RoutePage(
   deferredLoading: true,
 )
-class HiddenDrawerPage extends StatefulWidget {
+class HiddenDrawerPage extends ConsumerStatefulWidget {
   const HiddenDrawerPage({super.key, required this.accessToken});
 
   final String accessToken;
 
   @override
-  State<HiddenDrawerPage> createState() => _HiddenDrawerState();
+  ConsumerState<HiddenDrawerPage> createState() => _HiddenDrawerState();
 }
 
-class _HiddenDrawerState extends State<HiddenDrawerPage> {
+class _HiddenDrawerState extends ConsumerState<HiddenDrawerPage> {
   List<ScreenHiddenDrawer> _pages = [];
 
-  late String email;
+  // late String email;
 
   // late bool _flexibleUpdateAvailable;
   void checkAppUpdate() async {
@@ -120,7 +120,7 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
 
     // Use default value if email is null
     // email = jwtDecodedToken?['email'] ?? 'DefaultEmail';
-    email = 'DefaultEmail';
+    // email = 'DefaultEmail';
 
     _pages = [
       ScreenHiddenDrawer(
@@ -278,6 +278,7 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
           ),
           onTap: () {
             DBRepository handler = DBRepository();
+
             handler
                 .deleteUser(1)
                 .then((_) => context.router.replaceNamed('/login'));
