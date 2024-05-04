@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class SnackBarUtil {
   void simpleSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
+        showCloseIcon: true,
       ),
     );
   }

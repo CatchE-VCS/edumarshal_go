@@ -281,9 +281,10 @@ class _HiddenDrawerState extends ConsumerState<HiddenDrawerPage> {
             ref.invalidate(profileDataProvider);
             DBRepository handler = DBRepository();
 
-            handler
-                .deleteUser(1)
-                .then((_) => context.router.replaceNamed('/login'));
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+            handler.deleteUser(1).then(
+                  (_) => context.router.replaceNamed('/login'),
+                );
           },
           colorLineSelected: const Color.fromARGB(255, 251, 162, 45),
         ),

@@ -20,14 +20,13 @@ class LoginPage extends ConsumerWidget {
   const LoginPage({Key? key}) : super(key: key);
   static final formKey = GlobalKey<FormState>();
 
-  static Function simpleSnackBar = SnackBarUtil().simpleSnackBar;
-
   String formatSelectedDate(DateTime selectedDate) {
     return DateFormat('yyyy-MM-dd').format(selectedDate);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    Function simpleSnackBar = SnackBarUtil().simpleSnackBar;
     final usernameController = ref.watch(usernameControllerPod);
     final passwordController = ref.watch(passwordControllerPod);
     final currentTheme = ref.watch(themecontrollerProvider);
@@ -303,35 +302,55 @@ class LoginPage extends ConsumerWidget {
                         usernameController.text.trim(),
                         passwordController.text.trim(),
                       )
-                      .then((value) {
-                    if (value == null) {
-                      simpleSnackBar(context, 'Invalid credentials');
-                      Future.delayed(const Duration(seconds: 3), () {
-                        ref.read(authLoadingPod.notifier).stopLoading();
-                      });
-                      return null;
-                    }
-
-                    ref.read(usernameControllerPod.notifier).clearUsername();
-                    ref.read(passwordControllerPod.notifier).clearPassword();
-                    simpleSnackBar(context, 'Logged in successfully');
-                    formKey.currentState!.reset();
-
-                    ref.read(authLoadingPod.notifier).stopLoading();
-                    // This is the line that hides the keyboard.
-                    FocusScope.of(context).unfocus();
-                    context.router
-                        .pushAndPopUntil(HiddenDrawerRoute(accessToken: value),
-                            predicate: (Route<dynamic> route) {
-                      return false;
-                    });
-                  }).catchError((e) {
-                    simpleSnackBar(context, e.toString());
-                    Future.delayed(const Duration(seconds: 3), () {
+                      .then(
+                    (value) {
+                      if (value == null) {
+                        simpleSnackBar(context, 'Invalid credentials');
+                        Future.delayed(
+                          const Duration(seconds: 3),
+                          () {
+                            ref.read(authLoadingPod.notifier).stopLoading();
+                          },
+                        );
+                        return null;
+                      }
+                      FocusScope.of(context).unfocus();
+                      ref.read(usernameControllerPod.notifier).clearUsername();
+                      ref.read(passwordControllerPod.notifier).clearPassword();
+                      if (value.isEmpty) {
+                        simpleSnackBar(context, 'Invalid credentials');
+                        Future.delayed(
+                          const Duration(seconds: 3),
+                          () {
+                            ref.read(authLoadingPod.notifier).stopLoading();
+                          },
+                        );
+                        return null;
+                      }
+                      simpleSnackBar(context, 'Logged in successfully');
+                      formKey.currentState!.reset();
                       ref.read(authLoadingPod.notifier).stopLoading();
-                    });
-                    return null;
-                  });
+                      // This is the line that hides the keyboard.
+
+                      context.router.pushAndPopUntil(
+                        HiddenDrawerRoute(accessToken: value),
+                        predicate: (Route<dynamic> route) {
+                          return false;
+                        },
+                      );
+                    },
+                  ).catchError(
+                    (e) {
+                      simpleSnackBar(context, e.toString());
+                      Future.delayed(
+                        const Duration(seconds: 3),
+                        () {
+                          ref.read(authLoadingPod.notifier).stopLoading();
+                        },
+                      );
+                      return null;
+                    },
+                  );
                 }
               },
         label: loading

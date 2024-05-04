@@ -30,6 +30,9 @@ class CustomTextFormField extends StatelessWidget {
       controller: controller,
       cursorColor: cursorColor,
       maxLines: 1,
+      maxLength: 50,
+      buildCounter:
+          (_, {required currentLength, maxLength, required isFocused}) => null,
       autofillHints: autofillHints,
       obscureText: obscure,
       readOnly: isReadOnly,
