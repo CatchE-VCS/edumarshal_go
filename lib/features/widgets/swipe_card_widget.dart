@@ -47,9 +47,9 @@ class _SwipeCardsScreenState extends State<SwipeCardsScreen> {
 
   @override
   void dispose() {
+    super.dispose();
     _targetSize = 0;
     tween = Tween<double>(begin: 0, end: _targetSize);
-    super.dispose();
   }
 
   @override

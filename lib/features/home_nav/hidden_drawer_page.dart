@@ -15,23 +15,24 @@ import 'package:in_app_update/in_app_update.dart';
 import '../../core/theme/theme_controller.dart';
 import '../auth/auth.dart';
 import '../barcode/barcode.dart';
+import '../profile/controller/profile_state_pod.dart';
 
 @RoutePage(
   deferredLoading: true,
 )
-class HiddenDrawerPage extends StatefulWidget {
+class HiddenDrawerPage extends ConsumerStatefulWidget {
   const HiddenDrawerPage({super.key, required this.accessToken});
 
   final String accessToken;
 
   @override
-  State<HiddenDrawerPage> createState() => _HiddenDrawerState();
+  ConsumerState<HiddenDrawerPage> createState() => _HiddenDrawerState();
 }
 
-class _HiddenDrawerState extends State<HiddenDrawerPage> {
+class _HiddenDrawerState extends ConsumerState<HiddenDrawerPage> {
   List<ScreenHiddenDrawer> _pages = [];
 
-  late String email;
+  // late String email;
 
   // late bool _flexibleUpdateAvailable;
   void checkAppUpdate() async {
@@ -104,23 +105,23 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
       print(widget.accessToken);
     }
 
-    try {
-      // jwtDecodedToken = JwtDecoder.decode(widget.accessToken!);
-      // if (kDebugMode) {
-      // print("---------------------");
-      //
-      // print(jwtDecodedToken);
-      // print("---------------------");
-      // }
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error decoding token: $e');
-      }
-    }
+    // try {
+    // jwtDecodedToken = JwtDecoder.decode(widget.accessToken!);
+    // if (kDebugMode) {
+    // print("---------------------");
+    //
+    // print(jwtDecodedToken);
+    // print("---------------------");
+    // }
+    // } catch (e) {
+    //   if (kDebugMode) {
+    //     print('Error decoding token: $e');
+    //   }
+    // }
 
     // Use default value if email is null
     // email = jwtDecodedToken?['email'] ?? 'DefaultEmail';
-    email = 'DefaultEmail';
+    // email = 'DefaultEmail';
 
     _pages = [
       ScreenHiddenDrawer(
@@ -277,10 +278,13 @@ class _HiddenDrawerState extends State<HiddenDrawerPage> {
             // color: Colors.white,
           ),
           onTap: () {
+            ref.invalidate(profileDataProvider);
             DBRepository handler = DBRepository();
-            handler
-                .deleteUser(1)
-                .then((_) => context.router.replaceNamed('/login'));
+
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+            handler.deleteUser(1).then(
+                  (_) => context.router.replaceNamed('/login'),
+                );
           },
           colorLineSelected: const Color.fromARGB(255, 251, 162, 45),
         ),

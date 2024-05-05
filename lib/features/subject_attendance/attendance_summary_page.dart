@@ -44,6 +44,7 @@ class _AttendanceSummaryPageState extends ConsumerState<AttendanceSummaryPage> {
   NativeAd? _nativeAd;
   bool _nativeAdIsLoaded = false;
   CalendarFormat _calendarFormat = CalendarFormat.month;
+  bool adError = false;
 
   // final double _adAspectRatioSmall = (91 / 355);
   // final double _adAspectRatioMedium = (370 / 355);
@@ -66,6 +67,13 @@ class _AttendanceSummaryPageState extends ConsumerState<AttendanceSummaryPage> {
         onAdFailedToLoad: (ad, error) {
           // Dispose the ad here to free resources.
           debugPrint('$NativeAd failed to load: $error');
+          if (kDebugMode) {
+            print('Failed to load an ad: $error');
+          }
+          setState(() {
+            adError = true;
+          });
+
           ad.dispose();
         },
       ),
@@ -416,19 +424,21 @@ class _AttendanceSummaryPageState extends ConsumerState<AttendanceSummaryPage> {
             //         },
             //       )
             //     : const CircularProgressIndicator()
-            _nativeAdIsLoaded && _nativeAd != null
-                ? ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      minWidth: 320, // minimum recommended width
-                      minHeight: 320, // minimum recommended height
-                      maxWidth: 400,
-                      maxHeight: 400,
-                    ),
-                    child: AdWidget(
-                      ad: _nativeAd!,
-                    ),
-                  )
-                : const CircularProgressIndicator(),
+            adError
+                ? const SizedBox()
+                : _nativeAdIsLoaded && _nativeAd != null
+                    ? ConstrainedBox(
+                        constraints: const BoxConstraints(
+                          minWidth: 320, // minimum recommended width
+                          minHeight: 320, // minimum recommended height
+                          maxWidth: 400,
+                          maxHeight: 400,
+                        ),
+                        child: AdWidget(
+                          ad: _nativeAd!,
+                        ),
+                      )
+                    : const CircularProgressIndicator(),
           ],
         ),
       ),

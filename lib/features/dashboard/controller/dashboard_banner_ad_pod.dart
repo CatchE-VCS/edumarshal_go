@@ -4,7 +4,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../const/config.dart';
 
-final bannerAdProvider = Provider<BannerAd>((ref) {
+final bannerAdProvider = Provider.autoDispose<BannerAd>((ref) {
   BannerAd ad = BannerAd(
     adUnitId: Config.bannerAdID1!,
     size: AdSize.banner,

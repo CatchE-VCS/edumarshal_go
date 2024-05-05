@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "413399910247",
+    "project_id": "edumarshal-go",
+    "storage_bucket": "edumarshal-go.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:413399910247:android:765e2aedd107ff91f651c2",
+        "android_client_info": {
+          "package_name": "com.akgec.edumarshal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC27BLp93cdFDZDjlpyCT15_QEL2AiRjjw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      },
+      "admob_app_id": "ca-app-pub-1138019179629247~6774289736"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:413399910247:android:883f149871c7e4eaf651c2",
+        "android_client_info": {
+          "package_name": "com.akgec.edumarshal.debug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC27BLp93cdFDZDjlpyCT15_QEL2AiRjjw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

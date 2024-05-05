@@ -6,13 +6,13 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:edumarshal/core/theme/theme_controller.dart';
 import 'package:edumarshal/features/subject_attendance/pdp_att_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:in_app_review/in_app_review.dart';
+
 // import 'package:zoom_widget/zoom_widget.dart';
 
 import '../../subject_attendance/sub_att_page.dart';
@@ -195,8 +195,7 @@ class DashboardPage extends ConsumerWidget {
                 int? totalPresent = data.stdSubAtdDetails?.overallPresent!;
                 int? totalClasses = data.stdSubAtdDetails?.overallLecture!;
                 // late bool above75 = false;
-                int calculatedValue =
-                    3 * totalClasses! - 4 * totalPresent!;
+                int calculatedValue = 3 * totalClasses! - 4 * totalPresent!;
                 // int totalAbsent = totalClasses - totalPresent;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -364,17 +363,18 @@ class DashboardPage extends ConsumerWidget {
                             const SizedBox(
                               width: 15,
                             ),
-                            Stack(
-                              children: [
-
-                                AdditionalInfo(
+                            Stack(children: [
+                              AdditionalInfo(
                                 index: 2,
                                 image: Image.asset(
                                   'assets/images/presentation_760138.png',
                                 ),
-                                label: (calculatedValue < 0) ? 'You are already above 75%':'Classes Required for 75%:',
+                                label: (calculatedValue < 0)
+                                    ? 'You are already above 75%'
+                                    : 'Classes Required for 75%:',
                                 value: (() {
-                                  int canSkip = totalPresent - (0.75* totalClasses).ceil();
+                                  int canSkip = totalPresent -
+                                      (0.75 * totalClasses).ceil();
                                   if (calculatedValue < 0) {
                                     return 'You can skip $canSkip classes';
                                   } else {
@@ -382,55 +382,57 @@ class DashboardPage extends ConsumerWidget {
                                   }
                                 })(),
                               ),
-
-                                Positioned(
-                                    top: 5,
-                                    right: 5,
-                                    child:
-                                    (calculatedValue < 0) ?
-                                    IconButton(
-                                        icon: Icon(Icons.error_outline_rounded),
-                                      color: Color(0xffD25D81),
-                                      iconSize: 25,
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return AlertDialog(
-                                              title: Text('DISCLAIMER',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontFamily: GoogleFonts.roboto().fontFamily,
-                                                  )),
-                                              content: Text(
-                                                'This calculation is only based on the attendance updated on edumarshal. Please don\'t blindy rely on this.',
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontFamily: GoogleFonts.roboto().fontFamily,
-                                                ),
-                                              ),
-                                              actionsAlignment: MainAxisAlignment.center,
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const Text(
-                                                    'OK',
+                              Positioned(
+                                  top: 5,
+                                  right: 5,
+                                  child: (calculatedValue < 0)
+                                      ? IconButton(
+                                          icon:
+                                              Icon(Icons.error_outline_rounded),
+                                          color: Color(0xffD25D81),
+                                          iconSize: 25,
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: Text('DISCLAIMER',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontFamily:
+                                                            GoogleFonts.roboto()
+                                                                .fontFamily,
+                                                      )),
+                                                  content: Text(
+                                                    'This calculation is only based on the attendance updated on edumarshal. Please don\'t blindly rely on this.',
+                                                    style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontFamily:
+                                                          GoogleFonts.roboto()
+                                                              .fontFamily,
+                                                    ),
                                                   ),
-                                                ),
-
-                                              ],
+                                                  actionsAlignment:
+                                                      MainAxisAlignment.center,
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text(
+                                                        'OK',
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
                                             );
-
                                           },
-                                        );
-                                      },
-                                    ) : Container()
-                                ),
-                              ]
-                            ),
+                                        )
+                                      : Container()),
+                            ]),
                             const SizedBox(
                               width: 20,
                             ),
@@ -856,108 +858,86 @@ class InAppReviewExampleAppState extends State<InAppReviewExampleApp> {
   }
 }
 
-
-
 class TimetableDropdowns extends ConsumerStatefulWidget {
-
-
   @override
   ConsumerState<TimetableDropdowns> createState() => _TimetableDropdownsState();
 }
 
 class _TimetableDropdownsState extends ConsumerState<TimetableDropdowns> {
-
   String _value = 'Subject A';
-@override
+  @override
   Widget build(BuildContext context) {
     return Table(
-
-
-      children:
-        List.generate(
+      children: List.generate(
         7, // Number of rows
-            (rowIndex) =>
-            (rowIndex > 0) ?
-                TableRow(
-              decoration: BoxDecoration(
-                color: ref.watch(themecontrollerProvider) == ThemeMode.dark
-                    ? Colors.grey.shade900
-                    : ref.watch(themecontrollerProvider) == ThemeMode.light
-                    ? Colors.grey.shade200
-                    : Theme.of(context).brightness == Brightness.dark
-                    ? Colors.grey.shade900
-                    : Colors.grey.shade200,
-              ),
-          children: List.generate(
-
-            7, // Number of columns
-                (colIndex) => Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Container(
-
-                    width: 20,
-                    // height: 30,
-                    decoration:  BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.all(Radius.circular(3)),
-                      gradient:
-
-                      CustomLinearGradients().getGradient(CustomLinearGradients().getRandomGradient()),
-                      // LinearGradient(
-                      //   colors: [Colors.blue, Colors.green], // Customize gradient colors
-                      //   begin: Alignment.topCenter,
-                      //   end: Alignment.bottomCenter,
-                      // ),
-                      // LinearGradient(
-                      //     begin: Alignment.topCenter,
-                      //     end: Alignment.bottomCenter,
-                      //     colors: [Color.fromRGBO(183, 82, 185, 1),Color.fromRGBO(233, 147, 229, 1)]
-                      // ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child:
-                      FittedBox(
-                        child: DropdownButton<String>(
-
-                          value: _value,
-                          items: ['Subject A', 'Subject B', 'Subject C', 'Subject D']
-                              .map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: FittedBox(child: Text(value)),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              _value = value!;
-
-                            });
-
-                          },
-                        ),
-                      ),
-                      // SizedBox(height: 10,),
-                    ),
-                              ),
+        (rowIndex) => (rowIndex > 0)
+            ? TableRow(
+                decoration: BoxDecoration(
+                  color: ref.watch(themecontrollerProvider) == ThemeMode.dark
+                      ? Colors.grey.shade900
+                      : ref.watch(themecontrollerProvider) == ThemeMode.light
+                          ? Colors.grey.shade200
+                          : Theme.of(context).brightness == Brightness.dark
+                              ? Colors.grey.shade900
+                              : Colors.grey.shade200,
                 ),
-          ),
-        )
-                :
-                TableRow(
-                  children: [
-
-                  ]
-                )
-          ,
+                children: List.generate(
+                  7, // Number of columns
+                  (colIndex) => Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Container(
+                      width: 20,
+                      // height: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.all(Radius.circular(3)),
+                        gradient: CustomLinearGradients().getGradient(
+                            CustomLinearGradients().getRandomGradient()),
+                        // LinearGradient(
+                        //   colors: [Colors.blue, Colors.green], // Customize gradient colors
+                        //   begin: Alignment.topCenter,
+                        //   end: Alignment.bottomCenter,
+                        // ),
+                        // LinearGradient(
+                        //     begin: Alignment.topCenter,
+                        //     end: Alignment.bottomCenter,
+                        //     colors: [Color.fromRGBO(183, 82, 185, 1),Color.fromRGBO(233, 147, 229, 1)]
+                        // ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FittedBox(
+                          child: DropdownButton<String>(
+                            value: _value,
+                            items: [
+                              'Subject A',
+                              'Subject B',
+                              'Subject C',
+                              'Subject D'
+                            ].map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: FittedBox(child: Text(value)),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                _value = value!;
+                              });
+                            },
+                          ),
+                        ),
+                        // SizedBox(height: 10,),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            : TableRow(children: []),
       ),
-
     );
   }
 }
-
-
-
 
 enum GradientType {
   Custom1,
@@ -973,37 +953,55 @@ class CustomLinearGradients {
     switch (type) {
       case GradientType.Custom1:
         return const LinearGradient(
-          colors: [Color.fromRGBO(103, 82, 185, 1), Color.fromRGBO(165, 140, 220, 1)],
+          colors: [
+            Color.fromRGBO(103, 82, 185, 1),
+            Color.fromRGBO(165, 140, 220, 1)
+          ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         );
       case GradientType.Custom2:
         return const LinearGradient(
-          colors: [Color.fromRGBO(17, 136, 144, 1), Color.fromRGBO(132, 175, 189, 1)],
+          colors: [
+            Color.fromRGBO(17, 136, 144, 1),
+            Color.fromRGBO(132, 175, 189, 1)
+          ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         );
       case GradientType.Custom3:
         return const LinearGradient(
-          colors: [Color.fromRGBO(103, 82, 185, 1), Color.fromRGBO(165, 140, 220, 1)],
+          colors: [
+            Color.fromRGBO(103, 82, 185, 1),
+            Color.fromRGBO(165, 140, 220, 1)
+          ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         );
       case GradientType.Custom4:
         return const LinearGradient(
-          colors: [Color.fromRGBO(181, 71, 71, 1), Color.fromRGBO(218, 135, 135, 1)],
+          colors: [
+            Color.fromRGBO(181, 71, 71, 1),
+            Color.fromRGBO(218, 135, 135, 1)
+          ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         );
       case GradientType.Custom5:
         return const LinearGradient(
-          colors: [Color.fromRGBO(115, 146, 26, 1), Color.fromRGBO(157, 210, 116, 1)],
+          colors: [
+            Color.fromRGBO(115, 146, 26, 1),
+            Color.fromRGBO(157, 210, 116, 1)
+          ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         );
       case GradientType.Custom6:
         return const LinearGradient(
-          colors: [Color.fromRGBO(73, 160, 86, 1), Color.fromRGBO(137, 201, 147, 1)],
+          colors: [
+            Color.fromRGBO(73, 160, 86, 1),
+            Color.fromRGBO(137, 201, 147, 1)
+          ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         );
@@ -1018,6 +1016,7 @@ class CustomLinearGradients {
 
   GradientType getRandomGradient() {
     final random = Random();
-    return GradientType.values[random.nextInt(6)]; // Randomly select from Custom1 to Custom6
+    return GradientType
+        .values[random.nextInt(6)]; // Randomly select from Custom1 to Custom6
   }
 }
