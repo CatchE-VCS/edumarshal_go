@@ -48,17 +48,22 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
           ];
         }
       }
-      widget.attendanceData
-          .sort((a, b) => a!.attendanceDate.compareTo(b!.attendanceDate));
+      widget.attendanceData.sort(
+        (a, b) => a!.attendanceDate.compareTo(b!.attendanceDate),
+      );
       _firstDay = widget.attendanceData[0]!.attendanceDate;
       _lastDay = widget
           .attendanceData[widget.attendanceData.length - 1]!.attendanceDate;
     }
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      setState(() {
-        startAnimation = true;
-      });
-    });
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        setState(
+          () {
+            startAnimation = true;
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -159,6 +164,7 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
                 reverse: true,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
+                  index = _events.length - index - 1;
                   String attendance = "";
                   for (var element in _events[_events.keys.elementAt(index)]!) {
                     attendance += element.isAbsent ? "A" : "P";
