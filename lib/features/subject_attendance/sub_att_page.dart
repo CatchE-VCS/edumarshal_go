@@ -13,8 +13,11 @@ class SubjectAttendanceScreen extends StatefulWidget {
   final Subject subject;
   final AttendanceData? attendanceData;
 
-  const SubjectAttendanceScreen(
-      {super.key, required this.attendanceData, required this.subject});
+  const SubjectAttendanceScreen({
+    super.key,
+    required this.attendanceData,
+    required this.subject,
+  });
 
   @override
   State<SubjectAttendanceScreen> createState() =>
@@ -49,8 +52,12 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
 
     _firstDay = subjectAtt[0].absentDate;
     _lastDay = subjectAtt[subjectAtt.length - 1].absentDate;
-    subjectAtt.sort((a, b) => a.absentDate.compareTo(b.absentDate));
-    extraLecture.sort((a, b) => a.absentDate.compareTo(b.absentDate));
+    subjectAtt.sort(
+      (a, b) => a.absentDate.compareTo(b.absentDate),
+    );
+    extraLecture.sort(
+      (a, b) => a.absentDate.compareTo(b.absentDate),
+    );
     _events = {};
     for (var element in subjectAtt) {
       _events[element.absentDate] = [
@@ -64,16 +71,22 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
         );
       } else {
         _events[element.absentDate] = [
-          AttendanceEntry(isAbsent: element.isAbsent),
+          AttendanceEntry(
+            isAbsent: element.isAbsent,
+          ),
         ];
       }
     }
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      setState(() {
-        startAnimation = true;
-      });
-    });
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        setState(
+          () {
+            startAnimation = true;
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -171,9 +184,10 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemCount: subjectAtt.length,
-                // reverse: true,
+                reverse: true,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
+                  index = subjectAtt.length - index - 1;
                   String attendance = "";
                   for (var element in _events[subjectAtt[index].absentDate]!) {
                     attendance += element.isAbsent ? "A" : "P";
