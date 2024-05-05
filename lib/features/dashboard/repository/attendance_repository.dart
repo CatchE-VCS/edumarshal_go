@@ -86,4 +86,38 @@ class AttendanceRepository {
       return null;
     }
   }
+
+  Future<AttendanceData?> getSemAtt(int sem) async {
+    try {
+      final user = await DBRepository().getUserById(1);
+      var headers = {
+        'Authorization': "Bearer ${user!.accessToken}",
+        'X-ContextId': user.xContextId,
+        'X-UserId': user.xUserId,
+      };
+
+      var response = await _dio.get(
+        'api/v2/sem-attendance?semester=$sem',
+        options: Options(headers: headers),
+      );
+
+      if (response.statusCode == 200) {
+        if (kDebugMode) {
+          print(response.data);
+        }
+        return attendanceDataFromJson(response.data);
+      } else {
+        if (kDebugMode) {
+          print('Failed to load data. Status code: ${response.statusCode}');
+        }
+
+        return null;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error fetching data: $e');
+      }
+      return null;
+    }
+  }
 }
