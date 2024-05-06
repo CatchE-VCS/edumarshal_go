@@ -1,6 +1,6 @@
 name: edumarshal
 description: A mini app for edumarshal
-version: 1.0.3+26
+version: 1.0.3+27
 publish_to: none
 
 environment:

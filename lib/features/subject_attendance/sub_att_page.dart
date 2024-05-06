@@ -184,7 +184,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemCount: subjectAtt.length,
-                reverse: true,
+                // reverse: true,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   index = subjectAtt.length - index - 1;
@@ -288,7 +288,9 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
       int index, String attendance, ThemeMode currentTheme, bool isDarkMode) {
     double screenWidth = MediaQuery.of(context).size.width;
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300 + (index * 100)),
+      duration: Duration(
+        milliseconds: 300 + ((subjectAtt.length - index - 1) * 100),
+      ),
       width: screenWidth,
       transform:
           Matrix4.translationValues(startAnimation ? 0 : screenWidth, 0, 0),

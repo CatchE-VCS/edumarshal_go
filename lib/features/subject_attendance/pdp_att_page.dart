@@ -161,7 +161,7 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemCount: _events.length,
-                reverse: true,
+                // reverse: true,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   index = _events.length - index - 1;
@@ -263,7 +263,9 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
       int index, String attendance, ThemeMode currentTheme, bool isDarkMode) {
     double screenWidth = MediaQuery.of(context).size.width;
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300 + (index * 100)),
+      duration: Duration(
+        milliseconds: 300 + ((_events.length - index - 1) * 100),
+      ),
       width: screenWidth,
       transform:
           Matrix4.translationValues(startAnimation ? 0 : screenWidth, 0, 0),
