@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:in_app_update/in_app_update.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/theme/theme_controller.dart';
 import '../auth/auth.dart';
@@ -36,62 +37,89 @@ class _HiddenDrawerState extends ConsumerState<HiddenDrawerPage> {
 
   // late bool _flexibleUpdateAvailable;
   void checkAppUpdate() async {
-    var x = await InAppUpdate.checkForUpdate();
-    if (x.updateAvailability == UpdateAvailability.updateAvailable) {
-      InAppUpdate.startFlexibleUpdate().whenComplete(
-        () => showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('UPDATE',
+    try {
+      var x = await InAppUpdate.checkForUpdate();
+      if (x.updateAvailability == UpdateAvailability.updateAvailable) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        if (kDebugMode) {
+          print('Update available');
+        }
+        if (prefs.getBool('updateAvailable') == true) {
+          await prefs.setBool('updateAvailable', false);
+          if (!mounted) return;
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text(
+                  'UPDATE',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20,
                     fontFamily: GoogleFonts.roboto().fontFamily,
-                  )),
-              content: Text(
-                'A new update is available. Please update the app to continue using it.',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: GoogleFonts.roboto().fontFamily,
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(
-                      color: Colors.red,
-                    ),
                   ),
                 ),
-                TextButton(
-                  onPressed: () {
-                    // var x = InAppUpdate.installUpdateListener;
-                    // x.listen((event) {
-                    //   if (event.name == 'UpdateInstalled') {
-                    //     Navigator.pop(context);
-                    //   }
-                    // });
-                    InAppUpdate.completeFlexibleUpdate().then((_) {
+                content: Text(
+                  'A new update is available. Please update the app to continue using it.',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: GoogleFonts.roboto().fontFamily,
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
                       Navigator.pop(context);
-                    });
-                  },
-                  child: const Text(
-                    'Update',
-                    style: TextStyle(
-                      color: Colors.green,
+                    },
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            );
-          },
-        ),
-      );
+                  TextButton(
+                    onPressed: () async {
+                      var navigator = Navigator.of(context);
+                      await InAppUpdate.performImmediateUpdate();
+                      navigator.pop();
+                    },
+                    child: const Text(
+                      'Update',
+                      style: TextStyle(
+                        color: Colors.green,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+          return;
+        } else {
+          await prefs.setBool('updateAvailable', true);
+          try {
+            await InAppUpdate.startFlexibleUpdate();
+          } catch (e) {
+            if (kDebugMode) {
+              print('Error starting flexible update: $e');
+            }
+            return;
+          }
+          try {
+            await InAppUpdate.completeFlexibleUpdate();
+          } catch (e) {
+            if (kDebugMode) {
+              print('Error completing flexible update: $e');
+            }
+            return;
+          }
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error checking for update: $e');
+      }
     }
   }
 
@@ -99,29 +127,11 @@ class _HiddenDrawerState extends ConsumerState<HiddenDrawerPage> {
   void initState() {
     super.initState();
     checkAppUpdate();
-    // Map<String, dynamic>? jwtDecodedToken;
+
     if (kDebugMode) {
       print("Access Token: ");
       print(widget.accessToken);
     }
-
-    // try {
-    // jwtDecodedToken = JwtDecoder.decode(widget.accessToken!);
-    // if (kDebugMode) {
-    // print("---------------------");
-    //
-    // print(jwtDecodedToken);
-    // print("---------------------");
-    // }
-    // } catch (e) {
-    //   if (kDebugMode) {
-    //     print('Error decoding token: $e');
-    //   }
-    // }
-
-    // Use default value if email is null
-    // email = jwtDecodedToken?['email'] ?? 'DefaultEmail';
-    // email = 'DefaultEmail';
 
     _pages = [
       ScreenHiddenDrawer(
