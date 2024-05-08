@@ -38,6 +38,11 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
   @override
   initState() {
     super.initState();
+    if (widget.attendanceData == null) {
+      return;
+    } else if (widget.attendanceData!.attendanceData.isEmpty) {
+      return;
+    }
     // _offset = const Offset(0.0, 0.0);
     for (var element in widget.attendanceData!.attendanceData) {
       if (element.subjectId == widget.subject.id) {
@@ -91,6 +96,61 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (subjectAtt.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            widget.subject.name ?? "Subject",
+            style: TextStyle(
+              // fontSize: 24,
+              // fontWeight: FontWeight.bold,
+              fontFamily: GoogleFonts.poppins().fontFamily,
+            ),
+          ),
+          elevation: 1,
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.error_outline,
+                size: 48,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Text(
+                "No attendance data found",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: GoogleFonts.poppins().fontFamily,
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Consumer(
+                builder: (context, ref, child) {
+                  final BannerAd myBanner = ref.watch(subAttBannerAdProvider);
+                  return Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: (MediaQuery.of(context).size.width -
+                              myBanner.size.width.toDouble()) /
+                          2,
+                    ),
+                    width: myBanner.size.width.toDouble(),
+                    height: myBanner.size.height.toDouble(),
+                    child: AdWidget(ad: myBanner),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(

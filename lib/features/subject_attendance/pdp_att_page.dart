@@ -35,6 +35,10 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
   initState() {
     super.initState();
     // _offset = const Offset(0.0, 0.0);
+    if (widget.attendanceData.isEmpty) {
+      return;
+    }
+
     _events = {};
     if (widget.attendanceData.isNotEmpty) {
       for (var element in widget.attendanceData) {
@@ -68,6 +72,53 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.attendanceData.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "PDP Attendance",
+            style: TextStyle(
+              // fontSize: 24,
+              // fontWeight: FontWeight.bold,
+              fontFamily: GoogleFonts.poppins().fontFamily,
+            ),
+          ),
+          elevation: 1,
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "No Attendance Data Found",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontFamily: GoogleFonts.poppins().fontFamily,
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Consumer(
+                builder: (context, ref, child) {
+                  final BannerAd myBanner = ref.watch(pdpAttBannerAdProvider);
+                  return Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: (MediaQuery.of(context).size.width -
+                              myBanner.size.width.toDouble()) /
+                          2,
+                    ),
+                    width: myBanner.size.width.toDouble(),
+                    height: myBanner.size.height.toDouble(),
+                    child: AdWidget(ad: myBanner),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(
