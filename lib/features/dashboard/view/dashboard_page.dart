@@ -619,7 +619,7 @@ class DashboardPage extends ConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-            ref.watch(bannerAdProvider).when(
+            ref.watch(dashBannerAdProvider).when(
                 data: (ad) => Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: (MediaQuery.of(context).size.width -

@@ -4,7 +4,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../const/config.dart';
 
-final bannerAdProvider = FutureProvider.autoDispose<BannerAd>((ref) async {
+final dashBannerAdProvider = FutureProvider.autoDispose<BannerAd>((ref) async {
   BannerAd ad = BannerAd(
     adUnitId: Config.bannerAdID1 ?? 'ca-app-pub-3940256099942544/6300978111',
     size: AdSize.banner,

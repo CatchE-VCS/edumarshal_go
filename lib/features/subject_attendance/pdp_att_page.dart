@@ -101,17 +101,24 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
               ),
               Consumer(
                 builder: (context, ref, child) {
-                  final BannerAd myBanner = ref.watch(pdpAttBannerAdProvider);
-                  return Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: (MediaQuery.of(context).size.width -
-                              myBanner.size.width.toDouble()) /
-                          2,
-                    ),
-                    width: myBanner.size.width.toDouble(),
-                    height: myBanner.size.height.toDouble(),
-                    child: AdWidget(ad: myBanner),
-                  );
+                  return ref.watch(pdpAttBannerAdProvider).when(
+                        data: (ad) => Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: (MediaQuery.of(context).size.width -
+                                    ad.size.width.toDouble()) /
+                                2,
+                          ),
+                          width: ad.size.width.toDouble(),
+                          height: ad.size.height.toDouble(),
+                          child: AdWidget(ad: ad),
+                        ),
+                        loading: () => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        error: (error, stack) => const SizedBox(
+                          height: 0,
+                        ),
+                      );
                 },
               ),
             ],
@@ -236,17 +243,24 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
               height: 10,
             ),
             Consumer(builder: (context, ref, child) {
-              final BannerAd myBanner = ref.watch(pdpAttBannerAdProvider);
-              return Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: (MediaQuery.of(context).size.width -
-                          myBanner.size.width.toDouble()) /
-                      2,
-                ),
-                width: myBanner.size.width.toDouble(),
-                height: myBanner.size.height.toDouble(),
-                child: AdWidget(ad: myBanner),
-              );
+              return ref.watch(pdpAttBannerAdProvider).when(
+                    data: (ad) => Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: (MediaQuery.of(context).size.width -
+                                ad.size.width.toDouble()) /
+                            2,
+                      ),
+                      width: ad.size.width.toDouble(),
+                      height: ad.size.height.toDouble(),
+                      child: AdWidget(ad: ad),
+                    ),
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    error: (error, stack) => const SizedBox(
+                      height: 0,
+                    ),
+                  );
             }),
             const SizedBox(
               height: 10,

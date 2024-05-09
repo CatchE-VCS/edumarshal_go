@@ -132,17 +132,19 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
               ),
               Consumer(
                 builder: (context, ref, child) {
-                  final BannerAd myBanner = ref.watch(subAttBannerAdProvider);
-                  return Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: (MediaQuery.of(context).size.width -
-                              myBanner.size.width.toDouble()) /
-                          2,
-                    ),
-                    width: myBanner.size.width.toDouble(),
-                    height: myBanner.size.height.toDouble(),
-                    child: AdWidget(ad: myBanner),
-                  );
+                  return ref.watch(subAttBannerAdProvider).when(
+                      data: (ad) => Container(
+                            margin: EdgeInsets.symmetric(
+                              horizontal: (MediaQuery.of(context).size.width -
+                                      ad.size.width.toDouble()) /
+                                  2,
+                            ),
+                            width: ad.size.width.toDouble(),
+                            height: ad.size.height.toDouble(),
+                            child: AdWidget(ad: ad),
+                          ),
+                      loading: () => const CircularProgressIndicator(),
+                      error: (e, s) => const Text("Error loading ad"));
                 },
               ),
             ],
@@ -268,17 +270,19 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
             ),
             Consumer(
               builder: (context, ref, child) {
-                final BannerAd myBanner = ref.watch(subAttBannerAdProvider);
-                return Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: (MediaQuery.of(context).size.width -
-                            myBanner.size.width.toDouble()) /
-                        2,
-                  ),
-                  width: myBanner.size.width.toDouble(),
-                  height: myBanner.size.height.toDouble(),
-                  child: AdWidget(ad: myBanner),
-                );
+                return ref.watch(subAttBannerAdProvider).when(
+                    data: (ad) => Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: (MediaQuery.of(context).size.width -
+                                    ad.size.width.toDouble()) /
+                                2,
+                          ),
+                          width: ad.size.width.toDouble(),
+                          height: ad.size.height.toDouble(),
+                          child: AdWidget(ad: ad),
+                        ),
+                    loading: () => const CircularProgressIndicator(),
+                    error: (e, s) => const Text("Error loading ad"));
               },
             ),
             const SizedBox(

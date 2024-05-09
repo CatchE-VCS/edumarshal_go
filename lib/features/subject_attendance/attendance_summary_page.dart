@@ -54,7 +54,8 @@ class _AttendanceSummaryPageState extends ConsumerState<AttendanceSummaryPage> {
   //     : 'ca-app-pub-3940256099942544/3986624511';
 
   void loadAd() {
-    final String adUnitId = Config.nativeAdID1!;
+    final String adUnitId = Config.nativeAdID1 ??
+        'ca-app-pub-3940256099942544/2247696110'; // Test ID, Replace with your own Ad Unit ID
     _nativeAd = NativeAd(
       adUnitId: adUnitId,
       listener: NativeAdListener(
