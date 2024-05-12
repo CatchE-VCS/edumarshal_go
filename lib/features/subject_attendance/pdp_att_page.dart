@@ -35,6 +35,10 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
   initState() {
     super.initState();
     // _offset = const Offset(0.0, 0.0);
+    if (widget.attendanceData.isEmpty) {
+      return;
+    }
+
     _events = {};
     if (widget.attendanceData.isNotEmpty) {
       for (var element in widget.attendanceData) {
@@ -68,6 +72,60 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.attendanceData.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "PDP Attendance",
+            style: TextStyle(
+              // fontSize: 24,
+              // fontWeight: FontWeight.bold,
+              fontFamily: GoogleFonts.poppins().fontFamily,
+            ),
+          ),
+          elevation: 1,
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "No Attendance Data Found",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontFamily: GoogleFonts.poppins().fontFamily,
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Consumer(
+                builder: (context, ref, child) {
+                  return ref.watch(pdpAttBannerAdProvider).when(
+                        data: (ad) => Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: (MediaQuery.of(context).size.width -
+                                    ad.size.width.toDouble()) /
+                                2,
+                          ),
+                          width: ad.size.width.toDouble(),
+                          height: ad.size.height.toDouble(),
+                          child: AdWidget(ad: ad),
+                        ),
+                        loading: () => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        error: (error, stack) => const SizedBox(
+                          height: 0,
+                        ),
+                      );
+                },
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -161,7 +219,7 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemCount: _events.length,
-                reverse: true,
+                // reverse: true,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   index = _events.length - index - 1;
@@ -185,17 +243,24 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
               height: 10,
             ),
             Consumer(builder: (context, ref, child) {
-              final BannerAd myBanner = ref.watch(pdpAttBannerAdProvider);
-              return Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: (MediaQuery.of(context).size.width -
-                          myBanner.size.width.toDouble()) /
-                      2,
-                ),
-                width: myBanner.size.width.toDouble(),
-                height: myBanner.size.height.toDouble(),
-                child: AdWidget(ad: myBanner),
-              );
+              return ref.watch(pdpAttBannerAdProvider).when(
+                    data: (ad) => Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: (MediaQuery.of(context).size.width -
+                                ad.size.width.toDouble()) /
+                            2,
+                      ),
+                      width: ad.size.width.toDouble(),
+                      height: ad.size.height.toDouble(),
+                      child: AdWidget(ad: ad),
+                    ),
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    error: (error, stack) => const SizedBox(
+                      height: 0,
+                    ),
+                  );
             }),
             const SizedBox(
               height: 10,
@@ -263,7 +328,9 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
       int index, String attendance, ThemeMode currentTheme, bool isDarkMode) {
     double screenWidth = MediaQuery.of(context).size.width;
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300 + (index * 100)),
+      duration: Duration(
+        milliseconds: 300 + ((_events.length - index - 1) * 100),
+      ),
       width: screenWidth,
       transform:
           Matrix4.translationValues(startAnimation ? 0 : screenWidth, 0, 0),

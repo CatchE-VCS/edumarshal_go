@@ -4,9 +4,10 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../const/config.dart';
 
-final subAttBannerAdProvider = Provider.autoDispose<BannerAd>((ref) {
+final subAttBannerAdProvider =
+    FutureProvider.autoDispose<BannerAd>((ref) async {
   BannerAd ad = BannerAd(
-    adUnitId: Config.bannerAdID2!,
+    adUnitId: Config.bannerAdID2 ?? 'ca-app-pub-3940256099942544/6300978111',
     size: AdSize.banner,
     request: const AdRequest(),
     listener: BannerAdListener(
@@ -15,17 +16,23 @@ final subAttBannerAdProvider = Provider.autoDispose<BannerAd>((ref) {
           print('Ad loaded.');
         }
       },
+      onAdFailedToLoad: (Ad ad, LoadAdError error) {
+        ad.dispose();
+        if (kDebugMode) {
+          print('Ad failed to load: $error');
+        }
+      },
       // Add other listener methods if required
     ),
-  )..load(); // Load the ad
-  ref.onDispose(
-      () => ad.dispose()); // Dispose ad once the provider is destroyed
+  );
+  await ad.load(); // Load the ad immediately
   return ad;
 });
 
-final pdpAttBannerAdProvider = Provider<BannerAd>((ref) {
+final pdpAttBannerAdProvider =
+    FutureProvider.autoDispose<BannerAd>((ref) async {
   BannerAd ad = BannerAd(
-    adUnitId: Config.bannerAdID3!,
+    adUnitId: Config.bannerAdID3 ?? 'ca-app-pub-3940256099942544/6300978111',
     size: AdSize.banner,
     request: const AdRequest(),
     listener: BannerAdListener(
@@ -36,8 +43,8 @@ final pdpAttBannerAdProvider = Provider<BannerAd>((ref) {
       },
       // Add other listener methods if required
     ),
-  )..load(); // Load the ad
-  ref.onDispose(
-      () => ad.dispose()); // Dispose ad once the provider is destroyed
+  );
+  await ad.load(); // Load the ad immediately
+
   return ad;
 });

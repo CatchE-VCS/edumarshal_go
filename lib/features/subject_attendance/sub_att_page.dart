@@ -38,6 +38,11 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
   @override
   initState() {
     super.initState();
+    if (widget.attendanceData == null) {
+      return;
+    } else if (widget.attendanceData!.attendanceData.isEmpty) {
+      return;
+    }
     // _offset = const Offset(0.0, 0.0);
     for (var element in widget.attendanceData!.attendanceData) {
       if (element.subjectId == widget.subject.id) {
@@ -91,6 +96,63 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (subjectAtt.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            widget.subject.name ?? "Subject",
+            style: TextStyle(
+              // fontSize: 24,
+              // fontWeight: FontWeight.bold,
+              fontFamily: GoogleFonts.poppins().fontFamily,
+            ),
+          ),
+          elevation: 1,
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.error_outline,
+                size: 48,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Text(
+                "No attendance data found",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: GoogleFonts.poppins().fontFamily,
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Consumer(
+                builder: (context, ref, child) {
+                  return ref.watch(subAttBannerAdProvider).when(
+                      data: (ad) => Container(
+                            margin: EdgeInsets.symmetric(
+                              horizontal: (MediaQuery.of(context).size.width -
+                                      ad.size.width.toDouble()) /
+                                  2,
+                            ),
+                            width: ad.size.width.toDouble(),
+                            height: ad.size.height.toDouble(),
+                            child: AdWidget(ad: ad),
+                          ),
+                      loading: () => const CircularProgressIndicator(),
+                      error: (e, s) => const Text("Error loading ad"));
+                },
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -184,7 +246,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemCount: subjectAtt.length,
-                reverse: true,
+                // reverse: true,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   index = subjectAtt.length - index - 1;
@@ -208,17 +270,19 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
             ),
             Consumer(
               builder: (context, ref, child) {
-                final BannerAd myBanner = ref.watch(subAttBannerAdProvider);
-                return Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: (MediaQuery.of(context).size.width -
-                            myBanner.size.width.toDouble()) /
-                        2,
-                  ),
-                  width: myBanner.size.width.toDouble(),
-                  height: myBanner.size.height.toDouble(),
-                  child: AdWidget(ad: myBanner),
-                );
+                return ref.watch(subAttBannerAdProvider).when(
+                    data: (ad) => Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: (MediaQuery.of(context).size.width -
+                                    ad.size.width.toDouble()) /
+                                2,
+                          ),
+                          width: ad.size.width.toDouble(),
+                          height: ad.size.height.toDouble(),
+                          child: AdWidget(ad: ad),
+                        ),
+                    loading: () => const CircularProgressIndicator(),
+                    error: (e, s) => const Text("Error loading ad"));
               },
             ),
             const SizedBox(
@@ -288,7 +352,9 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
       int index, String attendance, ThemeMode currentTheme, bool isDarkMode) {
     double screenWidth = MediaQuery.of(context).size.width;
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300 + (index * 100)),
+      duration: Duration(
+        milliseconds: 300 + ((subjectAtt.length - index - 1) * 100),
+      ),
       width: screenWidth,
       transform:
           Matrix4.translationValues(startAnimation ? 0 : screenWidth, 0, 0),

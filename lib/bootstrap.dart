@@ -14,8 +14,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:platform_info/platform_info.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:talker_flutter/talker_flutter.dart';
-
 // coverage:ignore-file
 
 /// This `talker` global variable used for logging and accessible
@@ -46,9 +46,6 @@ Future<void> bootstrap(
   List<ProviderObserver>? observers,
   ProviderContainer? parent,
 }) async {
-  FlutterError.onError = (details) {
-    log(details.exceptionAsString(), stackTrace: details.stack);
-  };
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(
@@ -67,21 +64,31 @@ Future<void> bootstrap(
   unawaited(init());
   await Hive.initFlutter();
   final appBox = await Hive.openBox('appBox');
-
-  runApp(
-    ProviderScope(
-      overrides: [
-        appBoxProvider.overrideWithValue(appBox),
-        ...overrides,
-      ],
-      observers: [
-        MyObserverLogger(
-          talker: talker,
-        ),
-        ...?observers,
-      ],
-      parent: parent,
-      child: await builder(),
+  await SentryFlutter.init(
+    (options) {
+      options.dsn = dotenv.env['SENTRY_DSN'];
+      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+      // We recommend adjusting this value in production.
+      options.tracesSampleRate = 1.0;
+      // The sampling rate for profiling is relative to tracesSampleRate
+      // Setting to 1.0 will profile 100% of sampled transactions:
+      options.profilesSampleRate = 1.0;
+    },
+    appRunner: () async => runApp(
+      ProviderScope(
+        overrides: [
+          appBoxProvider.overrideWithValue(appBox),
+          ...overrides,
+        ],
+        observers: [
+          MyObserverLogger(
+            talker: talker,
+          ),
+          ...?observers,
+        ],
+        parent: parent,
+        child: await builder(),
+      ),
     ),
   );
 }

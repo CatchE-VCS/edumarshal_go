@@ -16,13 +16,16 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     DBRepository handler = DBRepository();
     handler.getUserById(1).then((value) {
-      Future.delayed(const Duration(seconds: 2), () {
-        value != null
-            ? context.router.replace(
-                HiddenDrawerRoute(accessToken: value.accessToken),
-              )
-            : context.router.replaceNamed('/login');
-      });
+      Future.delayed(
+        const Duration(seconds: 3),
+        () {
+          value != null
+              ? context.router.replace(
+                  HiddenDrawerRoute(accessToken: value.accessToken),
+                )
+              : context.router.replaceNamed('/login');
+        },
+      );
     }).catchError((e) {
       if (kDebugMode) {
         print(e);

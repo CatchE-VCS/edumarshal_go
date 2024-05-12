@@ -29,8 +29,6 @@ class DashboardPage extends ConsumerWidget {
     // final GlobalKey drawerKey = GlobalKey();
     // final InAppReview inAppReview = InAppReview.instance;
 
-    final BannerAd myBanner = ref.watch(bannerAdProvider);
-
     return RefreshIndicator(
       strokeWidth: 3,
       triggerMode: RefreshIndicatorTriggerMode.anywhere,
@@ -621,16 +619,33 @@ class DashboardPage extends ConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-            Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: (MediaQuery.of(context).size.width -
-                        myBanner.size.width.toDouble()) /
-                    2,
-              ),
-              width: myBanner.size.width.toDouble(),
-              height: myBanner.size.height.toDouble(),
-              child: AdWidget(ad: myBanner),
-            ),
+            ref.watch(dashBannerAdProvider).when(
+                data: (ad) => Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: (MediaQuery.of(context).size.width -
+                                ad.size.width.toDouble()) /
+                            2,
+                      ),
+                      width: ad.size.width.toDouble(),
+                      height: ad.size.height.toDouble(),
+                      child: AdWidget(ad: ad),
+                    ),
+                error: (error, stack) {
+                  return const SizedBox(
+                    height: 50,
+                    child: Center(
+                      child: Text('Error loading ad'),
+                    ),
+                  );
+                },
+                loading: () {
+                  return const SizedBox(
+                    height: 50,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }),
             const SizedBox(
               height: 10,
             ),
@@ -647,12 +662,13 @@ class SubjectCard extends StatelessWidget {
   final int? totalPresent;
   final int? totalClasses;
 
-  const SubjectCard(
-      {super.key,
-      required this.subject,
-      required this.attendance,
-      required this.totalPresent,
-      required this.totalClasses});
+  const SubjectCard({
+    super.key,
+    required this.subject,
+    required this.attendance,
+    required this.totalPresent,
+    required this.totalClasses,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -865,6 +881,7 @@ class TimetableDropdowns extends ConsumerStatefulWidget {
 
 class _TimetableDropdownsState extends ConsumerState<TimetableDropdowns> {
   String _value = 'Subject A';
+
   @override
   Widget build(BuildContext context) {
     return Table(
