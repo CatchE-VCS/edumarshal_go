@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../core/theme/theme_controller.dart';
+import '../widgets/bar_chart.dart';
 import '../dashboard/model/attendance_model.dart';
 import 'controller/att_page_banner_ad_pod.dart';
 
@@ -44,6 +45,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
       return;
     }
     // _offset = const Offset(0.0, 0.0);
+
     for (var element in widget.attendanceData!.attendanceData) {
       if (element.subjectId == widget.subject.id) {
         subjectAtt.add(element);
@@ -93,6 +95,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
       },
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -245,13 +248,14 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
             Expanded(
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
-                itemCount: subjectAtt.length,
+                itemCount: subjectAtt.length+1,
                 // reverse: true,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
-                  index = subjectAtt.length - index - 1;
+                  index = subjectAtt.length - index  ;
                   String attendance = "";
-                  for (var element in _events[subjectAtt[index].absentDate]!) {
+                  if(index == 0) return BarChartSample2(events: _events, map: const {0:0.3, 1:5.0, 2: 10.0});
+                  for (var element in _events[subjectAtt[index-1].absentDate]!) {
                     attendance += element.isAbsent ? "A" : "P";
                   }
 
@@ -260,11 +264,12 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
                     var brightness = MediaQuery.of(context).platformBrightness;
                     final isDarkMode = brightness == Brightness.dark;
 
-                    return item(index, attendance, currentTheme, isDarkMode);
+                    return item(index-1, attendance, currentTheme, isDarkMode);
                   });
                 },
               ),
             ),
+
             const SizedBox(
               height: 10,
             ),
