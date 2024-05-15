@@ -10,9 +10,9 @@ class BarChartSample2 extends StatefulWidget {
   final Map<int,double> map;
   final int maxY;
   final double aR;
-  const BarChartSample2({super.key,required this.events, required this.map,this.maxY = 11, this.aR = 2.0});
+  const BarChartSample2({super.key,required this.events, required this.map,this.maxY = 11, this.aR = 2.0, required this.rightBarColor});
   final Color leftBarColor = Colors.redAccent;
-  final Color rightBarColor = Colors.greenAccent;
+  final Color rightBarColor ;
   final Color avgColor = Colors.orangeAccent;
   @override
   State<StatefulWidget> createState() => BarChartSample2State();

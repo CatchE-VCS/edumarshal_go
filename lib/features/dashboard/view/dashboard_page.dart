@@ -482,6 +482,11 @@ class DashboardPage extends ConsumerWidget {
                         map: const {0:0.3, 1:5.0, 2: 10.0, 3:15.0, 4:20.0, 5:25.0, 6:30.0, 7:35.0, 8:40.0},
                         maxY: 40,
                       aR: 1.3,
+                      rightBarColor: ref.watch(themecontrollerProvider) == ThemeMode.dark ?
+                      Colors.greenAccent :
+                      ref.watch(themecontrollerProvider) == ThemeMode.dark ?
+                        Colors.green :
+                      Theme.of(context).brightness == Brightness.dark ? Colors.greenAccent: Colors.green,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 16),

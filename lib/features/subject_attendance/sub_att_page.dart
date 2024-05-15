@@ -233,9 +233,15 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 16,
+            BarChartSample2(
+              events: _events,
+              map: const {0:0.3, 1:5.0, 2: 10.0},
+              // rightBarColor: ref.watch(themecontrollerProvider) == ThemeMode.dark ? Colors.greenAccent : Colors.green,
+              rightBarColor: Theme.of(context).brightness == Brightness.dark ? Colors.greenAccent : Colors.green,
             ),
+            // const SizedBox(
+            //   height: 8,
+            // ),
             const Text(
               "Attendance History",
               style: TextStyle(
@@ -248,14 +254,15 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
             Expanded(
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
-                itemCount: subjectAtt.length+1,
+                itemCount: subjectAtt.length,
                 // reverse: true,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
-                  index = subjectAtt.length - index  ;
+                  index = subjectAtt.length - index -1;
+                  print("INdex $index");
                   String attendance = "";
-                  if(index == 0) return BarChartSample2(events: _events, map: const {0:0.3, 1:5.0, 2: 10.0});
-                  for (var element in _events[subjectAtt[index-1].absentDate]!) {
+
+                  for (var element in _events[subjectAtt[index].absentDate]!) {
                     attendance += element.isAbsent ? "A" : "P";
                   }
 
@@ -264,7 +271,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
                     var brightness = MediaQuery.of(context).platformBrightness;
                     final isDarkMode = brightness == Brightness.dark;
 
-                    return item(index-1, attendance, currentTheme, isDarkMode);
+                    return item(index, attendance, currentTheme, isDarkMode);
                   });
                 },
               ),
@@ -408,11 +415,11 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
                 attendance.length,
                 (index) {
                   if (attendance[index] == 'P') {
-                    return const TextSpan(
+                    return TextSpan(
                       text: 'P',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.green,
+                        color: Theme.of(context).brightness == Brightness.dark ? Colors.greenAccent : Colors.green,
                         fontWeight: FontWeight.bold,
                       ),
                     );
