@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
@@ -5,6 +6,7 @@ import 'dart:math';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:edumarshal/core/theme/theme_controller.dart';
+import 'package:edumarshal/features/subject_attendance/attendance_summary_page.dart';
 import 'package:edumarshal/features/subject_attendance/pdp_att_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,7 @@ import 'package:in_app_review/in_app_review.dart';
 
 import '../../subject_attendance/sub_att_page.dart';
 import '../../widgets/additional_info.dart';
+import '../../widgets/bar_chart.dart';
 import '../../widgets/swipe_card_widget.dart';
 import '../controller/dashboard_banner_ad_pod.dart';
 import '../dashboard.dart';
@@ -57,8 +60,7 @@ class DashboardPage extends ConsumerWidget {
               width: double.infinity,
               margin: const EdgeInsets.all(12),
               padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
-              decoration: BoxDecoration(
-                color: ref.watch(themecontrollerProvider) == ThemeMode.dark
+              decoration: BoxDecoration(color: ref.watch(themecontrollerProvider) == ThemeMode.dark
                     ? Colors.grey.shade900
                     : ref.watch(themecontrollerProvider) == ThemeMode.light
                         ? Colors.grey.shade200
@@ -149,6 +151,28 @@ class DashboardPage extends ConsumerWidget {
                     ),
                   );
                 }
+
+                /// events for barChart Data
+                Map<DateTime, List<AttendanceEntry>> events = {};
+                for (var element in data.attendanceData) {
+                  if(!events.containsKey(element.absentDate)) {
+
+                    events[element.absentDate] = [];
+                  }
+                  events[element.absentDate]!.add(
+                    AttendanceEntry(isAbsent: element.isAbsent)
+                  );
+                }
+                for (var element in data.extraLectures) {
+                  if(!events.containsKey(element.absentDate)) {
+                    events[element.absentDate] = [];
+                  }
+                  events[element.absentDate]!.add(
+                      AttendanceEntry(isAbsent: element.isAbsent)
+                  );
+                }
+                ///
+
                 String name = '';
                 String email = '';
                 if (kDebugMode) {
@@ -374,7 +398,8 @@ class DashboardPage extends ConsumerWidget {
                                   int canSkip = totalPresent -
                                       (0.75 * totalClasses).ceil();
                                   if (calculatedValue < 0) {
-                                    return 'You can skip $canSkip classes';
+                                    if(calculatedValue == 0) return 'You cannot miss any classes';
+                                    return 'You can miss $canSkip class${canSkip > 1 ? 'es' : ''}';
                                   } else {
                                     return 'Classes Required: $calculatedValue';
                                   }
@@ -440,6 +465,28 @@ class DashboardPage extends ConsumerWidget {
                     ),
                     const SizedBox(
                       height: 15,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: Text(
+                        'Your Weekly Analysis',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: GoogleFonts.poppins().fontFamily,
+                        ),
+                      ),
+                    ),
+                    BarChartSample2(
+                        events: events,
+                        map: const {0:0.3, 1:5.0, 2: 10.0, 3:15.0, 4:20.0, 5:25.0, 6:30.0, 7:35.0, 8:40.0},
+                        maxY: 40,
+                      aR: 1.3,
+                      rightBarColor: ref.watch(themecontrollerProvider) == ThemeMode.dark ?
+                      Colors.greenAccent :
+                      ref.watch(themecontrollerProvider) == ThemeMode.dark ?
+                        Colors.green :
+                      Theme.of(context).brightness == Brightness.dark ? Colors.greenAccent: Colors.green,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 16),
