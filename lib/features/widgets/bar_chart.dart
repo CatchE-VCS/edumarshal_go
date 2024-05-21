@@ -1,10 +1,12 @@
+import 'package:edumarshal/shared/extension/logger_extension.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../subject_attendance/attendance_summary_page.dart';
 
-class BarChartSample2 extends ConsumerStatefulWidget {
+class BarChartSample2 extends StatefulWidget {
   final Map<DateTime, List<AttendanceEntry>> events;
   final Map<int, double> map;
   final int maxY;
@@ -19,16 +21,16 @@ class BarChartSample2 extends ConsumerStatefulWidget {
     required this.map,
     this.maxY = 11,
     this.aR = 2.0,
-    this.rightBarColor = Colors.greenAccent,
+    required this.rightBarColor,
     this.avgColor = Colors.orangeAccent,
     this.leftBarColor = Colors.redAccent,
   });
 
   @override
-  ConsumerState<BarChartSample2> createState() => BarChartSample2State();
+  State<BarChartSample2> createState() => BarChartSample2State();
 }
 
-class BarChartSample2State extends ConsumerState<BarChartSample2> {
+class BarChartSample2State extends State<BarChartSample2> {
   final double width = 7;
 
   late List<BarChartGroupData> rawBarGroups;
@@ -59,6 +61,7 @@ class BarChartSample2State extends ConsumerState<BarChartSample2> {
         if (e.isAbsent) absentCount++;
       }
       Map<int, double> map = widget.map;
+      // widget.rightBarColor == Colors.green ? "Green".logInfo : "GreenAccent".logInfo;
       items.insert(
           0,
           makeGroupData(k++, map[absentCount]!,
@@ -87,6 +90,41 @@ class BarChartSample2State extends ConsumerState<BarChartSample2> {
 
   @override
   Widget build(BuildContext context) {
+    List<BarChartGroupData> items = [];
+    int k = 0;
+    for (int i = widget.events.length - 1; i >= 0; i--) {
+      DateTime x = widget.events.keys.elementAt(i);
+      titles.add("${x.day}/${x.month}");
+      int absentCount = 0;
+      for (var e in widget.events[x]!) {
+        if (e.isAbsent) absentCount++;
+      }
+      Map<int, double> map = widget.map;
+      // widget.rightBarColor == Colors.green ? "Green".logInfo : "GreenAccent".logInfo;
+      items.insert(
+          0,
+          makeGroupData(k++, map[absentCount]!,
+              map[widget.events[x]!.length - absentCount]!));
+
+      if (k == 7) break;
+    }
+    // for (var element in widget.events.entries) {
+    //
+    //   DateTime x = element.key;
+    //   titles.add("${x.day}/${x.month}");
+    //   int absentCount = 0;
+    //   for(var e in element.value) {
+    //     if(e.isAbsent) absentCount++;
+    //   }
+    //   Map<int,double> map = widget.map;
+    //   items.insert(0, makeGroupData(k++,map[absentCount]! , map[element.value.length-absentCount]!));
+    //
+    //   if(k == 7) break;
+    // }
+
+    rawBarGroups = items;
+
+    showingBarGroups = rawBarGroups;
     return AspectRatio(
       aspectRatio: widget.aR,
       child: Padding(
