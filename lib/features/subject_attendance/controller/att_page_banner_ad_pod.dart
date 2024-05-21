@@ -5,9 +5,9 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../../../const/config.dart';
 
 final subAttBannerAdProvider =
-    FutureProvider.autoDispose<BannerAd>((ref) async {
+    FutureProvider.autoDispose.family<BannerAd, String?>((ref, bannerID) async {
   BannerAd ad = BannerAd(
-    adUnitId: Config.bannerAdID2 ?? 'ca-app-pub-3940256099942544/6300978111',
+    adUnitId: bannerID ?? 'ca-app-pub-3940256099942544/6300978111',
     size: AdSize.banner,
     request: const AdRequest(),
     listener: BannerAdListener(

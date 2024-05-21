@@ -1,24 +1,34 @@
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:velocity_x/velocity_x.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../subject_attendance/attendance_summary_page.dart';
 
-class BarChartSample2 extends StatefulWidget {
+class BarChartSample2 extends ConsumerStatefulWidget {
   final Map<DateTime, List<AttendanceEntry>> events;
-  final Map<int,double> map;
+  final Map<int, double> map;
   final int maxY;
   final double aR;
-  const BarChartSample2({super.key,required this.events, required this.map,this.maxY = 11, this.aR = 2.0, required this.rightBarColor});
-  final Color leftBarColor = Colors.redAccent;
-  final Color rightBarColor ;
-  final Color avgColor = Colors.orangeAccent;
+  final Color leftBarColor;
+  final Color rightBarColor;
+  final Color avgColor;
+
+  const BarChartSample2({
+    super.key,
+    required this.events,
+    required this.map,
+    this.maxY = 11,
+    this.aR = 2.0,
+    this.rightBarColor = Colors.greenAccent,
+    this.avgColor = Colors.orangeAccent,
+    this.leftBarColor = Colors.redAccent,
+  });
+
   @override
-  State<StatefulWidget> createState() => BarChartSample2State();
+  ConsumerState<BarChartSample2> createState() => BarChartSample2State();
 }
 
-class BarChartSample2State extends State<BarChartSample2> {
+class BarChartSample2State extends ConsumerState<BarChartSample2> {
   final double width = 7;
 
   late List<BarChartGroupData> rawBarGroups;
@@ -40,18 +50,21 @@ class BarChartSample2State extends State<BarChartSample2> {
     // BarChartGroupData barGroup7 = makeGroupData(6, 10, 1.5);
 
     List<BarChartGroupData> items = [];
-    int k =0 ;
-    for(int i = widget.events.length-1; i >= 0; i--) {
+    int k = 0;
+    for (int i = widget.events.length - 1; i >= 0; i--) {
       DateTime x = widget.events.keys.elementAt(i);
       titles.add("${x.day}/${x.month}");
       int absentCount = 0;
-      for(var e in widget.events[x]!) {
-        if(e.isAbsent) absentCount++;
+      for (var e in widget.events[x]!) {
+        if (e.isAbsent) absentCount++;
       }
-      Map<int,double> map = widget.map;
-      items.insert(0, makeGroupData(k++,map[absentCount]! , map[widget.events[x]!.length-absentCount]!));
+      Map<int, double> map = widget.map;
+      items.insert(
+          0,
+          makeGroupData(k++, map[absentCount]!,
+              map[widget.events[x]!.length - absentCount]!));
 
-      if(k == 7) break;
+      if (k == 7) break;
     }
     // for (var element in widget.events.entries) {
     //
@@ -81,7 +94,6 @@ class BarChartSample2State extends State<BarChartSample2> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-
             Expanded(
               child: BarChart(
                 BarChartData(
@@ -114,7 +126,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                         if (touchedGroupIndex != -1) {
                           var sum = 0.0;
                           for (final rod
-                          in showingBarGroups[touchedGroupIndex].barRods) {
+                              in showingBarGroups[touchedGroupIndex].barRods) {
                             sum += rod.toY;
                           }
                           final avg = sum /
@@ -124,13 +136,13 @@ class BarChartSample2State extends State<BarChartSample2> {
 
                           showingBarGroups[touchedGroupIndex] =
                               showingBarGroups[touchedGroupIndex].copyWith(
-                                barRods: showingBarGroups[touchedGroupIndex]
-                                    .barRods
-                                    .map((rod) {
-                                  return rod.copyWith(
-                                      toY: avg, color: widget.avgColor);
-                                }).toList(),
-                              );
+                            barRods: showingBarGroups[touchedGroupIndex]
+                                .barRods
+                                .map((rod) {
+                              return rod.copyWith(
+                                  toY: avg, color: widget.avgColor);
+                            }).toList(),
+                          );
                         }
                       });
                     },
@@ -186,13 +198,13 @@ class BarChartSample2State extends State<BarChartSample2> {
     bool found = false;
     print("Value = $value");
     for (var element in widget.map.entries) {
-      if(element.value.floor() == value) {
+      if (element.value.floor() == value) {
         found = true;
         text = '${element.key}';
         break;
       }
     }
-    if(!found) return Container();
+    if (!found) return Container();
     // if (value == 1) {
     //   text = '0';
     // } else if (value == 6) {
@@ -230,8 +242,8 @@ class BarChartSample2State extends State<BarChartSample2> {
   }
 
   BarChartGroupData makeGroupData(int x, double y1, double y2) {
-    if(y1 == 0) y1 = 1;
-    if(y2 == 0) y2 = 1;
+    if (y1 == 0) y1 = 1;
+    if (y2 == 0) y2 = 1;
     return BarChartGroupData(
       barsSpace: 4,
       x: x,

@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
@@ -6,7 +5,6 @@ import 'dart:math';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:edumarshal/core/theme/theme_controller.dart';
-import 'package:edumarshal/features/subject_attendance/attendance_summary_page.dart';
 import 'package:edumarshal/features/subject_attendance/pdp_att_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +15,7 @@ import 'package:in_app_review/in_app_review.dart';
 
 // import 'package:zoom_widget/zoom_widget.dart';
 
+import '../../subject_attendance/attendance_summary_page.dart';
 import '../../subject_attendance/sub_att_page.dart';
 import '../../widgets/additional_info.dart';
 import '../../widgets/bar_chart.dart';
@@ -31,25 +30,17 @@ class DashboardPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // final GlobalKey drawerKey = GlobalKey();
     // final InAppReview inAppReview = InAppReview.instance;
-
+    final currentTheme = ref.watch(themeControllerProvider);
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isDarkMode = brightness == Brightness.dark;
+    final ad = ref.watch(dashBannerAdProvider);
     return RefreshIndicator(
       strokeWidth: 3,
       triggerMode: RefreshIndicatorTriggerMode.anywhere,
       displacement: 100,
       onRefresh: () async {
-        var d = ref.refresh(attendanceDataProvider);
-        var f = ref.refresh(pdpAttendanceDataProvider);
-        if (kDebugMode) {
-          print("d: $d");
-          print("f: $f");
-        }
-
-        // return Future.delayed(
-        //   const Duration(seconds: 1),
-        //   () {
-        //     setState(() {});
-        //   },
-        // );
+        ref.invalidate(attendanceDataProvider);
+        ref.invalidate(pdpAttendanceDataProvider);
       },
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -60,11 +51,12 @@ class DashboardPage extends ConsumerWidget {
               width: double.infinity,
               margin: const EdgeInsets.all(12),
               padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
-              decoration: BoxDecoration(color: ref.watch(themecontrollerProvider) == ThemeMode.dark
+              decoration: BoxDecoration(
+                color: currentTheme == ThemeMode.dark
                     ? Colors.grey.shade900
-                    : ref.watch(themecontrollerProvider) == ThemeMode.light
+                    : currentTheme == ThemeMode.light
                         ? Colors.grey.shade200
-                        : Theme.of(context).brightness == Brightness.dark
+                        : isDarkMode
                             ? Colors.grey.shade900
                             : Colors.grey.shade200,
                 boxShadow: const [
@@ -155,22 +147,20 @@ class DashboardPage extends ConsumerWidget {
                 /// events for barChart Data
                 Map<DateTime, List<AttendanceEntry>> events = {};
                 for (var element in data.attendanceData) {
-                  if(!events.containsKey(element.absentDate)) {
-
+                  if (!events.containsKey(element.absentDate)) {
                     events[element.absentDate] = [];
                   }
-                  events[element.absentDate]!.add(
-                    AttendanceEntry(isAbsent: element.isAbsent)
-                  );
+                  events[element.absentDate]!
+                      .add(AttendanceEntry(isAbsent: element.isAbsent));
                 }
                 for (var element in data.extraLectures) {
-                  if(!events.containsKey(element.absentDate)) {
+                  if (!events.containsKey(element.absentDate)) {
                     events[element.absentDate] = [];
                   }
-                  events[element.absentDate]!.add(
-                      AttendanceEntry(isAbsent: element.isAbsent)
-                  );
+                  events[element.absentDate]!
+                      .add(AttendanceEntry(isAbsent: element.isAbsent));
                 }
+
                 ///
 
                 String name = '';
@@ -398,7 +388,9 @@ class DashboardPage extends ConsumerWidget {
                                   int canSkip = totalPresent -
                                       (0.75 * totalClasses).ceil();
                                   if (calculatedValue < 0) {
-                                    if(calculatedValue == 0) return 'You cannot miss any classes';
+                                    if (calculatedValue == 0) {
+                                      return 'You cannot miss any classes';
+                                    }
                                     return 'You can miss $canSkip class${canSkip > 1 ? 'es' : ''}';
                                   } else {
                                     return 'Classes Required: $calculatedValue';
@@ -478,15 +470,27 @@ class DashboardPage extends ConsumerWidget {
                       ),
                     ),
                     BarChartSample2(
-                        events: events,
-                        map: const {0:0.3, 1:5.0, 2: 10.0, 3:15.0, 4:20.0, 5:25.0, 6:30.0, 7:35.0, 8:40.0},
-                        maxY: 40,
+                      events: events,
+                      map: const {
+                        0: 0.3,
+                        1: 5.0,
+                        2: 10.0,
+                        3: 15.0,
+                        4: 20.0,
+                        5: 25.0,
+                        6: 30.0,
+                        7: 35.0,
+                        8: 40.0
+                      },
+                      maxY: 40,
                       aR: 1.3,
-                      rightBarColor: ref.watch(themecontrollerProvider) == ThemeMode.dark ?
-                      Colors.greenAccent :
-                      ref.watch(themecontrollerProvider) == ThemeMode.dark ?
-                        Colors.green :
-                      Theme.of(context).brightness == Brightness.dark ? Colors.greenAccent: Colors.green,
+                      rightBarColor: currentTheme == ThemeMode.dark
+                          ? Colors.greenAccent
+                          : currentTheme == ThemeMode.dark
+                              ? Colors.green
+                              : isDarkMode
+                                  ? Colors.greenAccent
+                                  : Colors.green,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 16),
@@ -516,48 +520,38 @@ class DashboardPage extends ConsumerWidget {
                       height: 10,
                     ),
                     for (int i = 0; i < totalSubjects; i++) ...[
-                      Consumer(
-                        builder: (context, ref, child) {
-                          final currentTheme =
-                              ref.watch(themecontrollerProvider);
-                          var brightness =
-                              MediaQuery.of(context).platformBrightness;
-                          bool isDarkMode = brightness == Brightness.dark;
-                          return Container(
-                            decoration: BoxDecoration(
-                              color: currentTheme == ThemeMode.dark
-                                  ? Colors.grey.shade900
-                                  : currentTheme == ThemeMode.light
-                                      ? Colors.grey.shade200
-                                      : isDarkMode
-                                          ? Colors.grey.shade900
-                                          : Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            margin: const EdgeInsets.only(left: 18, right: 15),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        SubjectAttendanceScreen(
-                                      attendanceData: data,
-                                      subject: subjectsList[i],
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: SubjectCard(
-                                totalPresent: subjectsList[i].presentLeactures,
-                                totalClasses: subjectsList[i].totalLeactures,
-                                subject: subjectsList[i].name ?? '',
-                                attendance:
-                                    subjectsList[i].percentageAttendance,
+                      Container(
+                        decoration: BoxDecoration(
+                          color: currentTheme == ThemeMode.dark
+                              ? Colors.grey.shade900
+                              : currentTheme == ThemeMode.light
+                                  ? Colors.grey.shade200
+                                  : isDarkMode
+                                      ? Colors.grey.shade900
+                                      : Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        margin: const EdgeInsets.only(left: 18, right: 15),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SubjectAttendanceScreen(
+                                  attendanceData: data,
+                                  subject: subjectsList[i],
+                                  index: i,
+                                ),
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                          child: SubjectCard(
+                            totalPresent: subjectsList[i].presentLeactures,
+                            totalClasses: subjectsList[i].totalLeactures,
+                            subject: subjectsList[i].name ?? '',
+                            attendance: subjectsList[i].percentageAttendance,
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         height: 10,
@@ -566,6 +560,9 @@ class DashboardPage extends ConsumerWidget {
                   ],
                 );
               },
+            ),
+            const SizedBox(
+              height: 20,
             ),
             ref.watch(pdpAttendanceDataProvider).when(
               loading: () {
@@ -624,34 +621,24 @@ class DashboardPage extends ConsumerWidget {
                             ),
                           );
                         },
-                        child: Consumer(
-                          builder: (context, ref, child) {
-                            final currentTheme =
-                                ref.watch(themecontrollerProvider);
-                            var brightness =
-                                MediaQuery.of(context).platformBrightness;
-                            bool isDarkMode = brightness == Brightness.dark;
-                            return Container(
-                              decoration: BoxDecoration(
-                                color: currentTheme == ThemeMode.dark
-                                    ? Colors.grey.shade900
-                                    : currentTheme == ThemeMode.light
-                                        ? Colors.grey.shade200
-                                        : isDarkMode
-                                            ? Colors.grey.shade900
-                                            : Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              margin:
-                                  const EdgeInsets.only(left: 18, right: 15),
-                              child: SubjectCard(
-                                totalPresent: presentLectures,
-                                totalClasses: ss.length,
-                                subject: "PDP",
-                                attendance: (presentLectures / ss.length) * 100,
-                              ),
-                            );
-                          },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: currentTheme == ThemeMode.dark
+                                ? Colors.grey.shade900
+                                : currentTheme == ThemeMode.light
+                                    ? Colors.grey.shade200
+                                    : isDarkMode
+                                        ? Colors.grey.shade900
+                                        : Colors.grey.shade200,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          margin: const EdgeInsets.only(left: 18, right: 15),
+                          child: SubjectCard(
+                            totalPresent: presentLectures,
+                            totalClasses: ss.length,
+                            subject: "PDP",
+                            attendance: (presentLectures / ss.length) * 100,
+                          ),
                         ),
                       ),
                     ],
@@ -664,35 +651,18 @@ class DashboardPage extends ConsumerWidget {
               },
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
-            ref.watch(dashBannerAdProvider).when(
-                data: (ad) => Container(
-                      margin: EdgeInsets.symmetric(
-                        horizontal: (MediaQuery.of(context).size.width -
-                                ad.size.width.toDouble()) /
-                            2,
-                      ),
-                      width: ad.size.width.toDouble(),
-                      height: ad.size.height.toDouble(),
-                      child: AdWidget(ad: ad),
-                    ),
-                error: (error, stack) {
-                  return const SizedBox(
-                    height: 50,
-                    child: Center(
-                      child: Text('Error loading ad'),
-                    ),
-                  );
-                },
-                loading: () {
-                  return const SizedBox(
-                    height: 50,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                }),
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: (MediaQuery.of(context).size.width -
+                        ad.size.width.toDouble()) /
+                    2,
+              ),
+              width: ad.size.width.toDouble(),
+              height: ad.size.height.toDouble(),
+              child: AdWidget(ad: ad),
+            ),
             const SizedBox(
               height: 10,
             ),
@@ -922,6 +892,8 @@ class InAppReviewExampleAppState extends State<InAppReviewExampleApp> {
 }
 
 class TimetableDropdowns extends ConsumerStatefulWidget {
+  const TimetableDropdowns({super.key});
+
   @override
   ConsumerState<TimetableDropdowns> createState() => _TimetableDropdownsState();
 }
@@ -931,17 +903,20 @@ class _TimetableDropdownsState extends ConsumerState<TimetableDropdowns> {
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = ref.watch(themeControllerProvider);
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isDarkMode = brightness == Brightness.dark;
     return Table(
       children: List.generate(
         7, // Number of rows
         (rowIndex) => (rowIndex > 0)
             ? TableRow(
                 decoration: BoxDecoration(
-                  color: ref.watch(themecontrollerProvider) == ThemeMode.dark
+                  color: currentTheme == ThemeMode.dark
                       ? Colors.grey.shade900
-                      : ref.watch(themecontrollerProvider) == ThemeMode.light
+                      : currentTheme == ThemeMode.light
                           ? Colors.grey.shade200
-                          : Theme.of(context).brightness == Brightness.dark
+                          : isDarkMode
                               ? Colors.grey.shade900
                               : Colors.grey.shade200,
                 ),

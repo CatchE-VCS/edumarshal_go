@@ -3,6 +3,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 
 class ResponsiveBreakPointWrapper extends StatelessWidget {
   final Widget child;
+
   const ResponsiveBreakPointWrapper({super.key, required this.child});
 
   @override
@@ -21,6 +22,7 @@ class ResponsiveBreakPointWrapper extends StatelessWidget {
 
 class ResponsiveViewWrapper extends StatelessWidget {
   final Widget child;
+
   const ResponsiveViewWrapper({Key? key, required this.child})
       : super(key: key);
 
@@ -29,7 +31,7 @@ class ResponsiveViewWrapper extends StatelessWidget {
     return MaxWidthBox(
       maxWidth: 3840,
       child: ResponsiveScaledBox(
-        width: ResponsiveValue<double>(context, conditionalValues: [
+        width: ResponsiveValue<double?>(context, conditionalValues: [
           Condition.equals(name: MOBILE, value: 420),
           Condition.equals(name: TABLET, value: 800),
           Condition.equals(name: DESKTOP, value: 1800),

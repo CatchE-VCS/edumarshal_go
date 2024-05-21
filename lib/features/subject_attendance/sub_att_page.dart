@@ -5,19 +5,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import '../../const/config.dart';
 import '../../core/theme/theme_controller.dart';
-import '../widgets/bar_chart.dart';
 import '../dashboard/model/attendance_model.dart';
+import '../widgets/bar_chart.dart';
 import 'controller/att_page_banner_ad_pod.dart';
 
 class SubjectAttendanceScreen extends StatefulWidget {
   final Subject subject;
   final AttendanceData? attendanceData;
+  final int index;
 
   const SubjectAttendanceScreen({
     super.key,
     required this.attendanceData,
     required this.subject,
+    required this.index,
   });
 
   @override
@@ -35,6 +38,19 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
   late Map<DateTime, List<AttendanceEntry>> _events;
   final List<AttendanceDatum> subjectAtt = [];
   final List<AttendanceCopy> extraLecture = [];
+
+  final List<String?> adsBannerId = [
+    Config.bannerAdID2,
+    Config.bannerAdID6,
+    Config.bannerAdID7,
+    Config.bannerAdID8,
+    Config.bannerAdID9,
+    Config.bannerAdID10,
+    Config.bannerAdID11,
+    Config.bannerAdID12,
+    Config.bannerAdID13,
+    Config.bannerAdID14,
+  ];
 
   @override
   initState() {
@@ -96,7 +112,6 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     if (subjectAtt.isEmpty) {
@@ -135,19 +150,23 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
               ),
               Consumer(
                 builder: (context, ref, child) {
-                  return ref.watch(subAttBannerAdProvider).when(
-                      data: (ad) => Container(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: (MediaQuery.of(context).size.width -
-                                      ad.size.width.toDouble()) /
-                                  2,
-                            ),
-                            width: ad.size.width.toDouble(),
-                            height: ad.size.height.toDouble(),
-                            child: AdWidget(ad: ad),
-                          ),
-                      loading: () => const CircularProgressIndicator(),
-                      error: (e, s) => const Text("Error loading ad"));
+                  return ref
+                      .watch(subAttBannerAdProvider(
+                          adsBannerId[widget.index % 10]))
+                      .when(
+                          data: (ad) => Container(
+                                margin: EdgeInsets.symmetric(
+                                  horizontal:
+                                      (MediaQuery.of(context).size.width -
+                                              ad.size.width.toDouble()) /
+                                          2,
+                                ),
+                                width: ad.size.width.toDouble(),
+                                height: ad.size.height.toDouble(),
+                                child: AdWidget(ad: ad),
+                              ),
+                          loading: () => const CircularProgressIndicator(),
+                          error: (e, s) => const Text("Error loading ad"));
                 },
               ),
             ],
@@ -235,9 +254,11 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
             ),
             BarChartSample2(
               events: _events,
-              map: const {0:0.3, 1:5.0, 2: 10.0},
+              map: const {0: 0.3, 1: 5.0, 2: 10.0},
               // rightBarColor: ref.watch(themecontrollerProvider) == ThemeMode.dark ? Colors.greenAccent : Colors.green,
-              rightBarColor: Theme.of(context).brightness == Brightness.dark ? Colors.greenAccent : Colors.green,
+              rightBarColor: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.greenAccent
+                  : Colors.green,
             ),
             // const SizedBox(
             //   height: 8,
@@ -258,7 +279,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
                 // reverse: true,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
-                  index = subjectAtt.length - index -1;
+                  index = subjectAtt.length - index - 1;
                   print("INdex $index");
                   String attendance = "";
 
@@ -267,7 +288,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
                   }
 
                   return Consumer(builder: (context, ref, child) {
-                    final currentTheme = ref.watch(themecontrollerProvider);
+                    final currentTheme = ref.watch(themeControllerProvider);
                     var brightness = MediaQuery.of(context).platformBrightness;
                     final isDarkMode = brightness == Brightness.dark;
 
@@ -282,19 +303,23 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
             ),
             Consumer(
               builder: (context, ref, child) {
-                return ref.watch(subAttBannerAdProvider).when(
-                    data: (ad) => Container(
-                          margin: EdgeInsets.symmetric(
-                            horizontal: (MediaQuery.of(context).size.width -
-                                    ad.size.width.toDouble()) /
-                                2,
-                          ),
-                          width: ad.size.width.toDouble(),
-                          height: ad.size.height.toDouble(),
-                          child: AdWidget(ad: ad),
-                        ),
-                    loading: () => const CircularProgressIndicator(),
-                    error: (e, s) => const Text("Error loading ad"));
+                return ref
+                    .watch(
+                      subAttBannerAdProvider(adsBannerId[widget.index]),
+                    )
+                    .when(
+                        data: (ad) => Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: (MediaQuery.of(context).size.width -
+                                        ad.size.width.toDouble()) /
+                                    2,
+                              ),
+                              width: ad.size.width.toDouble(),
+                              height: ad.size.height.toDouble(),
+                              child: AdWidget(ad: ad),
+                            ),
+                        loading: () => const CircularProgressIndicator(),
+                        error: (e, s) => const Text("Error loading ad"));
               },
             ),
             const SizedBox(
@@ -310,7 +335,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
         child: SizedBox(
           child: Consumer(
             builder: (context, ref, child) {
-              final currentTheme = ref.watch(themecontrollerProvider);
+              final currentTheme = ref.watch(themeControllerProvider);
               var brightness = MediaQuery.of(context).platformBrightness;
               bool isDarkMode = brightness == Brightness.dark;
               return FloatingActionButton.extended(
@@ -419,7 +444,9 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
                       text: 'P',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Theme.of(context).brightness == Brightness.dark ? Colors.greenAccent : Colors.green,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.greenAccent
+                            : Colors.green,
                         fontWeight: FontWeight.bold,
                       ),
                     );

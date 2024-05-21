@@ -22,7 +22,7 @@ class Glass extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var brightness = Theme.of(context).brightness;
-    var currentTheme = ref.watch(themecontrollerProvider);
+    var currentTheme = ref.watch(themeControllerProvider);
     var isLightMode = brightness == Brightness.light;
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),

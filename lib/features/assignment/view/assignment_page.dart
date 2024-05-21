@@ -10,7 +10,7 @@ class AssignmentPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentTheme = ref.watch(themecontrollerProvider);
+    final currentTheme = ref.watch(themeControllerProvider);
     final brightness = MediaQuery.of(context).platformBrightness;
     bool darkModeOn = brightness == Brightness.dark;
 

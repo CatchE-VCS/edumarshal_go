@@ -66,7 +66,7 @@ class ProfilePage extends ConsumerWidget {
               String fatherPhone = data.parentMobileNumber ?? '';
               String address = data.address ?? '';
 
-              final currentTheme = ref.watch(themecontrollerProvider);
+              final currentTheme = ref.watch(themeControllerProvider);
               final isLightMode =
                   Theme.of(context).brightness == Brightness.light;
               final myBanner = ref.watch(profileBannerAdProvider);

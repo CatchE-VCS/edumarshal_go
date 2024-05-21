@@ -4,7 +4,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../const/config.dart';
 
-final dashBannerAdProvider = FutureProvider.autoDispose<BannerAd>((ref) async {
+final dashBannerAdProvider = Provider<BannerAd>((ref) {
   BannerAd ad = BannerAd(
     adUnitId: Config.bannerAdID1 ?? 'ca-app-pub-3940256099942544/6300978111',
     size: AdSize.banner,
@@ -16,6 +16,7 @@ final dashBannerAdProvider = FutureProvider.autoDispose<BannerAd>((ref) async {
         }
       },
       onAdFailedToLoad: (Ad ad, LoadAdError error) {
+        ref.invalidateSelf();
         ad.dispose();
         if (kDebugMode) {
           print('Ad failed to load: $error');
@@ -24,6 +25,9 @@ final dashBannerAdProvider = FutureProvider.autoDispose<BannerAd>((ref) async {
       // Add other listener methods if required
     ),
   );
-  await ad.load(); // Load the ad immediately
+  ad.load();
+  ref.onDispose(() {
+    ad.dispose();
+  });
   return ad;
 });

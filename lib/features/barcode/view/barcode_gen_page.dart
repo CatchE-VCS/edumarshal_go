@@ -58,7 +58,7 @@ class BarGen extends ConsumerWidget {
           String? address = data.address;
           // String? branch;
           // int? batchId = data.batchId;
-          final currentTheme = ref.watch(themecontrollerProvider);
+          final currentTheme = ref.watch(themeControllerProvider);
           var brightness = Theme.of(context).brightness;
           final isDark = brightness == Brightness.dark;
 
