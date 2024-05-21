@@ -75,9 +75,9 @@ android {
 //        }
         release {
             signingConfig signingConfigs.release
-            resValue "string", "app_name", "Vigilance+"
+            resValue "string", "app_name", "EduGO"
             manifestPlaceholders = [
-                    appName: "Vigilance+"
+                    appName: "EduGO"
             ]
 //            isDebuggable = false
         }
@@ -85,9 +85,9 @@ android {
             signingConfig signingConfigs.debug
             applicationIdSuffix ".debug"
             versionNameSuffix "-dev"
-            resValue "string", "app_name", "[DEV] Vigilance+"
+            resValue "string", "app_name", "[DEV] EduGO"
             manifestPlaceholders = [
-                    appName: "[DEV] Vigilance+"
+                    appName: "[DEV] EduGo"
             ]
 //            isDebuggable = true
         }
