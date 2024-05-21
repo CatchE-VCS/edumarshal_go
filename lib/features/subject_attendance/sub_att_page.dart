@@ -281,7 +281,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   index = subjectAtt.length - index - 1;
-                  "Index $index".logInfo();
+                  "Index $index".logInfo;
                   String attendance = "";
 
                   for (var element in _events[subjectAtt[index].absentDate]!) {

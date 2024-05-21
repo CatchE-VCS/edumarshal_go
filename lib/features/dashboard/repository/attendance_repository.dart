@@ -28,7 +28,7 @@ class AttendanceRepository {
         'X-UserId': user.xUserId,
       };
       headers.forEach((key, value) {
-        '$key: $value'.logInfo();
+        '$key: $value'.logInfo;
       });
 
       var response = await _dio.get(
@@ -37,16 +37,16 @@ class AttendanceRepository {
       );
 
       if (response.statusCode == 200) {
-        "Response: ${response.data}".logInfo();
-        response.data.toString().logInfo();
+        "Response: ${response.data}".logInfo;
+        response.data.toString().logInfo;
         return attendanceDataFromJson(response.data);
       } else {
-        'Failed to load data. Status code: ${response.statusCode}'.logError();
+        'Failed to load data. Status code: ${response.statusCode}'.logError;
 
         return null;
       }
     } catch (e) {
-      'Error fetching data: $e'.logError();
+      'Error fetching data: $e'.logError;
 
       return null;
     }
@@ -71,12 +71,12 @@ class AttendanceRepository {
 
         return pdpAttendanceDataFromJson(response.data);
       } else {
-        'Failed to load data. Status code: ${response.statusCode}'.logError();
+        'Failed to load data. Status code: ${response.statusCode}'.logError;
 
         return null;
       }
     } catch (e) {
-      'Error fetching data: $e'.logError();
+      'Error fetching data: $e'.logError;
 
       return null;
     }
@@ -99,12 +99,12 @@ class AttendanceRepository {
       if (response.statusCode == 200) {
         return attendanceDataFromJson(response.data);
       } else {
-        'Failed to load data. Status code: ${response.statusCode}'.logError();
+        'Failed to load data. Status code: ${response.statusCode}'.logError;
 
         return null;
       }
     } catch (e) {
-      'Error fetching data: $e'.logError();
+      'Error fetching data: $e'.logError;
 
       return null;
     }

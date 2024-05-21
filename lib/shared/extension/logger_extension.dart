@@ -12,6 +12,20 @@ final Logger _logger = Logger(
   ),
 );
 
+extension StringLogger on String {
+  void get logInfo {
+    _logger.i(this);
+  }
+
+  void get logWarning {
+    _logger.w(this);
+  }
+
+  void get logError {
+    _logger.e(this);
+  }
+}
+
 extension LoggerExtensions<T> on T {
   void logInfo([String? message]) {
     if (kDebugMode) {
