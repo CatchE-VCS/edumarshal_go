@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:edumarshal/const/app_urls.dart';
 import 'package:edumarshal/features/dashboard/dashboard.dart';
-import 'package:flutter/foundation.dart';
+import 'package:edumarshal/shared/extension/logger_extension.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../auth/repository/db_repository.dart';
@@ -27,9 +27,9 @@ class AttendanceRepository {
         'X-ContextId': user.xContextId,
         'X-UserId': user.xUserId,
       };
-      if (kDebugMode) {
-        print(headers);
-      }
+      headers.forEach((key, value) {
+        '$key: $value'.logInfo();
+      });
 
       var response = await _dio.get(
         'api/v2/attendance',
@@ -37,18 +37,17 @@ class AttendanceRepository {
       );
 
       if (response.statusCode == 200) {
+        "Response: ${response.data}".logInfo();
+        response.data.toString().logInfo();
         return attendanceDataFromJson(response.data);
       } else {
-        if (kDebugMode) {
-          print('Failed to load data. Status code: ${response.statusCode}');
-        }
+        'Failed to load data. Status code: ${response.statusCode}'.logError();
 
         return null;
       }
     } catch (e) {
-      if (kDebugMode) {
-        print('Error fetching data: $e');
-      }
+      'Error fetching data: $e'.logError();
+
       return null;
     }
   }
@@ -68,21 +67,17 @@ class AttendanceRepository {
       );
 
       if (response.statusCode == 200) {
-        if (kDebugMode) {
-          print(response.data);
-        }
+        response.data.logInfo();
+
         return pdpAttendanceDataFromJson(response.data);
       } else {
-        if (kDebugMode) {
-          print('Failed to load data. Status code: ${response.statusCode}');
-        }
+        'Failed to load data. Status code: ${response.statusCode}'.logError();
 
         return null;
       }
     } catch (e) {
-      if (kDebugMode) {
-        print('Error fetching data: $e');
-      }
+      'Error fetching data: $e'.logError();
+
       return null;
     }
   }
@@ -102,21 +97,15 @@ class AttendanceRepository {
       );
 
       if (response.statusCode == 200) {
-        if (kDebugMode) {
-          print(response.data);
-        }
         return attendanceDataFromJson(response.data);
       } else {
-        if (kDebugMode) {
-          print('Failed to load data. Status code: ${response.statusCode}');
-        }
+        'Failed to load data. Status code: ${response.statusCode}'.logError();
 
         return null;
       }
     } catch (e) {
-      if (kDebugMode) {
-        print('Error fetching data: $e');
-      }
+      'Error fetching data: $e'.logError();
+
       return null;
     }
   }

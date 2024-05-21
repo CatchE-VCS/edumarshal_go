@@ -331,9 +331,9 @@ class AssignmentModel {
       };
 }
 
-enum Subject { HOME_WORK }
+enum Subject { homeWork }
 
-final subjectValues = EnumValues({"HOME WORK": Subject.HOME_WORK});
+final subjectValues = EnumValues({"HOME WORK": Subject.homeWork});
 
 class SubmittedAssignmentDetails {
   int? submissionId;

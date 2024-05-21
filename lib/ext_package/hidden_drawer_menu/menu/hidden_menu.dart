@@ -33,7 +33,7 @@ class HiddenMenu extends StatefulWidget {
       required this.initPositionSelected,
       this.backgroundColorMenu,
       this.enableShadowItemsMenu = false,
-      this.typeOpen = TypeOpen.FROM_LEFT})
+      this.typeOpen = TypeOpen.fromLeft})
       : super(key: key);
 
   @override

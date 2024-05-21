@@ -196,7 +196,7 @@ class BarChartSample2State extends ConsumerState<BarChartSample2> {
     );
     String text = '0';
     bool found = false;
-    print("Value = $value");
+    // print("Value = $value");
     for (var element in widget.map.entries) {
       if (element.value.floor() == value) {
         found = true;
@@ -214,7 +214,7 @@ class BarChartSample2State extends ConsumerState<BarChartSample2> {
     // } else {
     //   return Container();
     // }
-    print("built widget for $text");
+    // print("built widget for $text");
     return SideTitleWidget(
       axisSide: meta.axisSide,
       space: 0,

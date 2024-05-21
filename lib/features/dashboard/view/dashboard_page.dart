@@ -402,9 +402,9 @@ class DashboardPage extends ConsumerWidget {
                                   right: 5,
                                   child: (calculatedValue < 0)
                                       ? IconButton(
-                                          icon:
-                                              Icon(Icons.error_outline_rounded),
-                                          color: Color(0xffD25D81),
+                                          icon: const Icon(
+                                              Icons.error_outline_rounded),
+                                          color: const Color(0xffD25D81),
                                           iconSize: 25,
                                           onPressed: () {
                                             showDialog(
@@ -929,7 +929,8 @@ class _TimetableDropdownsState extends ConsumerState<TimetableDropdowns> {
                       // height: 30,
                       decoration: BoxDecoration(
                         color: Colors.black,
-                        borderRadius: BorderRadius.all(Radius.circular(3)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(3)),
                         gradient: CustomLinearGradients().getGradient(
                             CustomLinearGradients().getRandomGradient()),
                         // LinearGradient(
@@ -972,25 +973,25 @@ class _TimetableDropdownsState extends ConsumerState<TimetableDropdowns> {
                   ),
                 ),
               )
-            : TableRow(children: []),
+            : const TableRow(children: []),
       ),
     );
   }
 }
 
 enum GradientType {
-  Custom1,
-  Custom2,
-  Custom3,
-  Custom4,
-  Custom5,
-  Custom6,
+  custom1,
+  custom2,
+  custom3,
+  custom4,
+  custom5,
+  custom6,
 }
 
 class CustomLinearGradients {
   LinearGradient getGradient(GradientType type) {
     switch (type) {
-      case GradientType.Custom1:
+      case GradientType.custom1:
         return const LinearGradient(
           colors: [
             Color.fromRGBO(103, 82, 185, 1),
@@ -999,7 +1000,7 @@ class CustomLinearGradients {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         );
-      case GradientType.Custom2:
+      case GradientType.custom2:
         return const LinearGradient(
           colors: [
             Color.fromRGBO(17, 136, 144, 1),
@@ -1008,7 +1009,7 @@ class CustomLinearGradients {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         );
-      case GradientType.Custom3:
+      case GradientType.custom3:
         return const LinearGradient(
           colors: [
             Color.fromRGBO(103, 82, 185, 1),
@@ -1017,7 +1018,7 @@ class CustomLinearGradients {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         );
-      case GradientType.Custom4:
+      case GradientType.custom4:
         return const LinearGradient(
           colors: [
             Color.fromRGBO(181, 71, 71, 1),
@@ -1026,7 +1027,7 @@ class CustomLinearGradients {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         );
-      case GradientType.Custom5:
+      case GradientType.custom5:
         return const LinearGradient(
           colors: [
             Color.fromRGBO(115, 146, 26, 1),
@@ -1035,7 +1036,7 @@ class CustomLinearGradients {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         );
-      case GradientType.Custom6:
+      case GradientType.custom6:
         return const LinearGradient(
           colors: [
             Color.fromRGBO(73, 160, 86, 1),

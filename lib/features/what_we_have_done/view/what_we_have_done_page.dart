@@ -40,8 +40,8 @@ class WhatWeHaveDonePage extends ConsumerWidget {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          var a = ref.refresh(overallDataStatsPod);
-          var x = ref.refresh(individualDataStatsPod);
+          ref.invalidate(overallDataStatsPod);
+          ref.invalidate(individualDataStatsPod);
         },
         child: Stack(
           children: [

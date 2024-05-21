@@ -66,7 +66,7 @@ class BarGen extends ConsumerWidget {
           return Scaffold(
             body: RefreshIndicator(
               onRefresh: () async {
-                var x = ref.refresh(profileDataProvider);
+                ref.invalidate(profileDataProvider);
               },
               child: SingleChildScrollView(
                 child: Container(

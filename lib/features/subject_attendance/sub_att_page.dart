@@ -1,4 +1,5 @@
 import 'package:edumarshal/features/subject_attendance/attendance_summary_page.dart';
+import 'package:edumarshal/shared/extension/logger_extension.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -280,7 +281,7 @@ class _SubjectAttendanceScreenState extends State<SubjectAttendanceScreen> {
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   index = subjectAtt.length - index - 1;
-                  print("INdex $index");
+                  "Index $index".logInfo();
                   String attendance = "";
 
                   for (var element in _events[subjectAtt[index].absentDate]!) {
