@@ -79,6 +79,9 @@ android {
             manifestPlaceholders = [
                     appName: "EduGO"
             ]
+            firebaseCrashlytics {
+                mappingFileUploadEnabled true
+            }
 //            isDebuggable = false
         }
         debug {
