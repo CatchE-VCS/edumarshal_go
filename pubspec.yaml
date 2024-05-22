@@ -68,6 +68,7 @@ dev_dependencies:
   mocktail: ^1.0.0
   riverpod_lint: ^2.1.0
   riverpod_test: ^0.1.3
+  sentry_dart_plugin: ^2.0.0
   very_good_analysis: ^5.0.0
 
 flutter:
