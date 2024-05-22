@@ -67,8 +67,6 @@ class AttendanceRepository {
       );
 
       if (response.statusCode == 200) {
-        response.data.logInfo();
-
         return pdpAttendanceDataFromJson(response.data);
       } else {
         'Failed to load data. Status code: ${response.statusCode}'.logError;
