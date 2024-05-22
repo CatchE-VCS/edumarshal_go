@@ -1,8 +1,5 @@
-import 'package:edumarshal/shared/extension/logger_extension.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../subject_attendance/attendance_summary_page.dart';
 
@@ -57,15 +54,21 @@ class BarChartSample2State extends State<BarChartSample2> {
       DateTime x = widget.events.keys.elementAt(i);
       titles.add("${x.day}/${x.month}");
       int absentCount = 0;
+      if (widget.events[x] == null) continue;
       for (var e in widget.events[x]!) {
         if (e.isAbsent) absentCount++;
       }
+      if (widget.events[x]!.length == 0) continue;
       Map<int, double> map = widget.map;
       // widget.rightBarColor == Colors.green ? "Green".logInfo : "GreenAccent".logInfo;
       items.insert(
-          0,
-          makeGroupData(k++, map[absentCount]!,
-              map[widget.events[x]!.length - absentCount]!));
+        0,
+        makeGroupData(
+          k++,
+          map[absentCount]!,
+          map[widget.events[x]!.length - absentCount] ?? 0,
+        ),
+      );
 
       if (k == 7) break;
     }
@@ -102,9 +105,13 @@ class BarChartSample2State extends State<BarChartSample2> {
       Map<int, double> map = widget.map;
       // widget.rightBarColor == Colors.green ? "Green".logInfo : "GreenAccent".logInfo;
       items.insert(
-          0,
-          makeGroupData(k++, map[absentCount]!,
-              map[widget.events[x]!.length - absentCount]!));
+        0,
+        makeGroupData(
+          k++,
+          map[absentCount]!,
+          map[widget.events[x]!.length - absentCount] ?? 0,
+        ),
+      );
 
       if (k == 7) break;
     }
