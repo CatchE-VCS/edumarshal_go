@@ -65,7 +65,7 @@ class BarChartSample2State extends State<BarChartSample2> {
         0,
         makeGroupData(
           k++,
-          map[absentCount]!,
+          map[absentCount] ?? 0,
           map[widget.events[x]!.length - absentCount] ?? 0,
         ),
       );
@@ -108,7 +108,7 @@ class BarChartSample2State extends State<BarChartSample2> {
         0,
         makeGroupData(
           k++,
-          map[absentCount]!,
+          map[absentCount] ?? 0,
           map[widget.events[x]!.length - absentCount] ?? 0,
         ),
       );
