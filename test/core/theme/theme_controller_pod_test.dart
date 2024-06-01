@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:edumarshal/core/local_storage/app_storage.dart';
 import 'package:edumarshal/core/local_storage/app_storage_pod.dart';
 import 'package:edumarshal/core/theme/theme_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod_test/riverpod_test.dart';
 
 void main() {
@@ -16,7 +16,7 @@ void main() {
     });
     testNotifier(
       'expect ThemeMode.system on first time',
-      provider: themecontrollerProvider,
+      provider: themeControllerProvider,
       overrides: [appStorageProvider.overrideWithValue(appStorage)],
       emitBuildStates: true,
       expect: () => [
@@ -25,7 +25,7 @@ void main() {
     );
     testNotifier(
       'expect ThemeMode.light after change the theme to ThemeMode.light',
-      provider: themecontrollerProvider,
+      provider: themeControllerProvider,
       overrides: [appStorageProvider.overrideWithValue(appStorage)],
       emitBuildStates: true,
       act: (notifier) async => await notifier.changeTheme(ThemeMode.light),
@@ -36,7 +36,7 @@ void main() {
     );
     testNotifier(
       'expect ThemeMode.dark after change the theme to ThemeMode.light and then ThemeMode.dark',
-      provider: themecontrollerProvider,
+      provider: themeControllerProvider,
       overrides: [appStorageProvider.overrideWithValue(appStorage)],
       emitBuildStates: true,
       act: (notifier) async {
@@ -51,7 +51,7 @@ void main() {
     );
     testNotifier(
       'check persistence ThemeMode.light',
-      provider: themecontrollerProvider,
+      provider: themeControllerProvider,
       overrides: [appStorageProvider.overrideWithValue(appStorage)],
       setUp: () async {
         await appStorage.put(key: 'theme', value: ThemeMode.light.name);
@@ -63,7 +63,7 @@ void main() {
     );
     testNotifier(
       'check persistence ThemeMode.dark',
-      provider: themecontrollerProvider,
+      provider: themeControllerProvider,
       overrides: [appStorageProvider.overrideWithValue(appStorage)],
       setUp: () async {
         await appStorage.put(key: 'theme', value: ThemeMode.dark.name);
@@ -75,7 +75,7 @@ void main() {
     );
     testNotifier(
       'check persistence ThemeMode.system',
-      provider: themecontrollerProvider,
+      provider: themeControllerProvider,
       overrides: [appStorageProvider.overrideWithValue(appStorage)],
       setUp: () async {
         await appStorage.put(key: 'theme', value: ThemeMode.system.name);

@@ -373,14 +373,14 @@ class _HiddenDrawerState extends ConsumerState<HiddenDrawerPage> {
             builder: (context, ref, child) {
               return IconButton(
                 icon: Icon(
-                  ref.watch(themecontrollerProvider) == ThemeMode.light
+                  ref.watch(themeControllerProvider) == ThemeMode.light
                       ? Icons.dark_mode
-                      : ref.watch(themecontrollerProvider) == ThemeMode.dark
+                      : ref.watch(themeControllerProvider) == ThemeMode.dark
                           ? Icons.brightness_auto
                           : Icons.light_mode,
                 ),
                 onPressed: () {
-                  ref.read(themecontrollerProvider.notifier).changeThemeMode();
+                  ref.read(themeControllerProvider.notifier).changeThemeMode();
                 },
               );
             },

@@ -40,7 +40,7 @@ class HiddenMenuItem extends StatelessWidget {
         onTap: onTap,
         child: Row(
           children: <Widget>[
-            if (typeOpen == TypeOpen.FROM_LEFT)
+            if (typeOpen == TypeOpen.fromLeft)
               ClipRRect(
                 borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(4.0),
@@ -55,19 +55,19 @@ class HiddenMenuItem extends StatelessWidget {
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(
-                  left: typeOpen == TypeOpen.FROM_LEFT ? 20 : 0.0,
-                  right: typeOpen == TypeOpen.FROM_RIGHT ? 20 : 0.0,
+                  left: typeOpen == TypeOpen.fromLeft ? 20 : 0.0,
+                  right: typeOpen == TypeOpen.fromRight ? 20 : 0.0,
                 ),
                 child: Text(
                   name,
                   style: _getStyle().merge(_getStyleSelected()),
-                  textAlign: typeOpen == TypeOpen.FROM_RIGHT
+                  textAlign: typeOpen == TypeOpen.fromRight
                       ? TextAlign.right
                       : TextAlign.left,
                 ),
               ),
             ),
-            if (typeOpen == TypeOpen.FROM_RIGHT)
+            if (typeOpen == TypeOpen.fromRight)
               ClipRRect(
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(4.0),

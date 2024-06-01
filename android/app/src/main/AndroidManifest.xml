@@ -10,7 +10,7 @@
         android:name="${applicationName}"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="EduGo">
+        android:label="@string/app_name">
 
         <activity
             android:name=".MainActivity"

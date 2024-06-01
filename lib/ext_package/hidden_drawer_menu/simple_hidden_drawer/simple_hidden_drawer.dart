@@ -55,12 +55,13 @@ class SimpleHiddenDrawer extends StatefulWidget {
     required this.menu,
     this.enableScaleAnimation = true,
     this.enableCornerAnimation = true,
-    this.typeOpen = TypeOpen.FROM_LEFT,
+    this.typeOpen = TypeOpen.fromLeft,
     this.withShadow = true,
     this.boxShadow,
   }) : super(key: key);
+
   @override
-  _SimpleHiddenDrawerState createState() => _SimpleHiddenDrawerState();
+  State<SimpleHiddenDrawer> createState() => _SimpleHiddenDrawerState();
 }
 
 class _SimpleHiddenDrawerState extends State<SimpleHiddenDrawer>

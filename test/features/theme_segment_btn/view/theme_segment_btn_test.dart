@@ -1,8 +1,3 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:edumarshal/core/local_storage/app_storage_pod.dart';
 import 'package:edumarshal/core/theme/app_theme.dart';
 import 'package:edumarshal/core/theme/theme_controller.dart';
@@ -11,6 +6,11 @@ import 'package:edumarshal/features/theme_segmented_btn/controller/selection_the
 import 'package:edumarshal/features/theme_segmented_btn/view/theme_segmented_btn.dart';
 import 'package:edumarshal/l10n/l10n.dart';
 import 'package:edumarshal/shared/pods/internet_checker_pod.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../helpers/helpers.dart';
 
@@ -80,7 +80,7 @@ void main() {
             ],
           );
           addTearDown(container.dispose);
-          final currentTheme = container.read(themecontrollerProvider);
+          final currentTheme = container.read(themeControllerProvider);
           await tester.pumpApp(
             ProviderScope(
               parent: container,
@@ -120,7 +120,7 @@ void main() {
             ],
           );
           addTearDown(container.dispose);
-          final currentTheme = container.read(themecontrollerProvider);
+          final currentTheme = container.read(themeControllerProvider);
           await tester.pumpApp(
             ProviderScope(
               parent: container,
@@ -157,7 +157,7 @@ void main() {
             ],
           );
           addTearDown(container.dispose);
-          final currentTheme = container.read(themecontrollerProvider);
+          final currentTheme = container.read(themeControllerProvider);
           await tester.pumpApp(
             ProviderScope(
               parent: container,
@@ -207,7 +207,7 @@ void main() {
             ],
           );
           addTearDown(container.dispose);
-          final currentTheme = container.read(themecontrollerProvider);
+          final currentTheme = container.read(themeControllerProvider);
           await tester.pumpApp(
             ProviderScope(
               parent: container,
@@ -257,7 +257,7 @@ void main() {
             ],
           );
           addTearDown(container.dispose);
-          final currentTheme = container.read(themecontrollerProvider);
+          final currentTheme = container.read(themeControllerProvider);
           await tester.pumpApp(
             ProviderScope(
               parent: container,

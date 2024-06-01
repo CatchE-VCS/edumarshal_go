@@ -27,7 +27,7 @@ class _AppState extends ConsumerState<App> with GlobalHelper {
   @override
   Widget build(BuildContext context) {
     final approuter = ref.watch(autorouterProvider);
-    final currentTheme = ref.watch(themecontrollerProvider);
+    final currentTheme = ref.watch(themeControllerProvider);
     final locale = ref.watch(localePod);
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,

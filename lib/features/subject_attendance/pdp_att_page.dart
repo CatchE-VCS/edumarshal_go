@@ -229,7 +229,7 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
                   }
                   return Consumer(
                     builder: (context, ref, child) {
-                      final currentTheme = ref.watch(themecontrollerProvider);
+                      final currentTheme = ref.watch(themeControllerProvider);
                       var brightness =
                           MediaQuery.of(context).platformBrightness;
                       final isDarkMode = brightness == Brightness.dark;
@@ -274,7 +274,7 @@ class _PDPAttendanceScreenState extends State<PDPAttendanceScreen> {
         child: SizedBox(
           child: Consumer(
             builder: (context, ref, child) {
-              final currentTheme = ref.watch(themecontrollerProvider);
+              final currentTheme = ref.watch(themeControllerProvider);
               var brightness = MediaQuery.of(context).platformBrightness;
               final isDarkMode = brightness == Brightness.dark;
               return FloatingActionButton.extended(

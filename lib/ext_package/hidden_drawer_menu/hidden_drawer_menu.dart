@@ -116,7 +116,7 @@ class HiddenDrawerMenu extends StatelessWidget {
     this.disableAppBarDefault = false,
     this.withShadow = true,
     this.boxShadow,
-    this.typeOpen = TypeOpen.FROM_LEFT,
+    this.typeOpen = TypeOpen.fromLeft,
   });
 
   @override
@@ -175,7 +175,7 @@ class HiddenDrawerMenu extends StatelessWidget {
   }
 
   Widget _buildLeading(SimpleHiddenDrawerController bloc) {
-    if (typeOpen == TypeOpen.FROM_LEFT) {
+    if (typeOpen == TypeOpen.fromLeft) {
       return IconButton(icon: leadingAppBar, onPressed: () => bloc.toggle());
     } else {
       return const SizedBox.shrink();
@@ -190,7 +190,7 @@ class HiddenDrawerMenu extends StatelessWidget {
 
     List<Widget> actions = [];
 
-    if (typeOpen == TypeOpen.FROM_RIGHT) {
+    if (typeOpen == TypeOpen.fromRight) {
       actions.add(
         IconButton(
           icon: leadingAppBar,
