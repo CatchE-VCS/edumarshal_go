@@ -39,8 +39,12 @@ class AttendanceData {
         extraLectures: List<AttendanceCopy>.from(
             json["extraLectures"].map((x) => AttendanceCopy.fromJson(x))),
         stdSubAtdDetails: StdSubAtdDetails.fromJson(json["stdSubAtdDetails"]),
-        actualDataKiloBytes: json["actualDataKiloBytes"],
-        compressedDataKiloBytes: json["compressedDataKiloBytes"],
+        actualDataKiloBytes: json["actualDataKiloBytes"] != null
+            ? json["actualDataKiloBytes"].toDouble()
+            : 0.0,
+        compressedDataKiloBytes: json["compressedDataKiloBytes"] != null
+            ? json["compressedDataKiloBytes"].toDouble()
+            : 0.0,
       );
 
   Map<String, dynamic> toJson() => {

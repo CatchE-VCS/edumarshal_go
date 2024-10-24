@@ -5,9 +5,10 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../const/config.dart';
 
-final profileDataProvider = FutureProvider<ProfileData?>(
-  (ref) async => await ref.read(profileRepositoryProvider).getProfileData(),
-);
+final profileDataProvider = FutureProvider<ProfileData?>((ref) async {
+  var profileData = await ref.read(profileRepositoryProvider).getProfileData();
+  return profileData;
+});
 
 final profileBannerAdProvider = Provider.autoDispose<BannerAd>((ref) {
   BannerAd ad = BannerAd(

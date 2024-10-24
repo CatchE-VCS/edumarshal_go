@@ -17,7 +17,8 @@ import '../auth.dart';
   deferredLoading: true,
 )
 class LoginPage extends ConsumerWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
+
   static final formKey = GlobalKey<FormState>();
 
   String formatSelectedDate(DateTime selectedDate) {
@@ -240,7 +241,7 @@ class LoginPage extends ConsumerWidget {
                                           context,
                                           value.toString(),
                                         );
-                                        context.router.pop();
+                                        context.router.maybePop();
                                       }).catchError(
                                         (e) => simpleSnackBar(
                                           context,

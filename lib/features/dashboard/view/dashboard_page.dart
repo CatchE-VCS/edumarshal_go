@@ -6,12 +6,12 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:edumarshal/core/theme/theme_controller.dart';
 import 'package:edumarshal/features/subject_attendance/pdp_att_page.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 // import 'package:zoom_widget/zoom_widget.dart';
 
@@ -33,7 +33,7 @@ class DashboardPage extends ConsumerWidget {
     final currentTheme = ref.watch(themeControllerProvider);
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isDarkMode = brightness == Brightness.dark;
-    final ad = ref.watch(dashBannerAdProvider);
+    final ad = ref.read(dashBannerAdProvider);
     return RefreshIndicator(
       strokeWidth: 3,
       triggerMode: RefreshIndicatorTriggerMode.anywhere,
@@ -110,457 +110,493 @@ class DashboardPage extends ConsumerWidget {
               ),
             ),
             ref.watch(attendanceDataProvider).when(
-              loading: () {
-                // Check the connection state
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height - 200,
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              },
-              error: (e, s) {
-                // Error fetching data
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height - 200,
-                  child: const Center(
-                    child: Text('Error fetching data'),
-                  ),
-                );
-              },
-              // Add a watch
-              data: (AttendanceData? data) {
-                // print("Refreshed");
-                // If no error occurred
-                if (data == null) {
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height - 200,
-                    child: const Center(
-                      child: Text(
-                        'No data found',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                  );
-                }
-
-                /// events for barChart Data
-                Map<DateTime, List<AttendanceEntry>> events = {};
-                for (var element in data.attendanceData) {
-                  if (!events.containsKey(element.absentDate)) {
-                    events[element.absentDate] = [];
-                  }
-                  events[element.absentDate]!
-                      .add(AttendanceEntry(isAbsent: element.isAbsent));
-                }
-                for (var element in data.extraLectures) {
-                  if (!events.containsKey(element.absentDate)) {
-                    events[element.absentDate] = [];
-                  }
-                  events[element.absentDate]!
-                      .add(AttendanceEntry(isAbsent: element.isAbsent));
-                }
-
-                ///
-
-                String name = '';
-                String email = '';
-                if (kDebugMode) {
-                  print(data.stdSubAtdDetails!.studentSubjectAttendance[0]
-                      .userDetails);
-                }
-                if (data.stdSubAtdDetails!.studentSubjectAttendance[0]
-                        .userDetails !=
-                    null) {
-                  if (jsonDecode(data
-                          .stdSubAtdDetails!
-                          .studentSubjectAttendance[0]
-                          .userDetails!)['firstName'] !=
-                      null) {
-                    var userDetails = jsonDecode(data.stdSubAtdDetails!
-                        .studentSubjectAttendance[0].userDetails!);
-                    String firstName = userDetails['firstName'] ?? '';
-                    String middleName = userDetails['middleName'] ?? '';
-                    String lastName = userDetails['lastName'] ?? '';
-                    if (middleName.isNotEmpty) {
-                      name = '$firstName $middleName $lastName';
-                    } else {
-                      name = '$firstName $lastName';
-                    }
-                    email = jsonDecode(data.stdSubAtdDetails!
-                        .studentSubjectAttendance.first.userDetails!)['email'];
-                  }
-                } else {
-                  name =
-                      '${data.stdSubAtdDetails!.studentSubjectAttendance.first.firstName} ${data.stdSubAtdDetails!.studentSubjectAttendance.first.lastName}';
-
-                  email = data.stdSubAtdDetails!.studentSubjectAttendance.first
-                          .email ??
-                      '';
-                }
-                int totalSubjects = data.stdSubAtdDetails!
-                    .studentSubjectAttendance[0].subjects.length;
-                double overallPercentage =
-                    data.stdSubAtdDetails!.overallPercentage;
-                List<Subject> subjectsList =
-                    data.stdSubAtdDetails!.studentSubjectAttendance[0].subjects;
-                int? totalPresent = data.stdSubAtdDetails?.overallPresent!;
-                int? totalClasses = data.stdSubAtdDetails?.overallLecture!;
-                // late bool above75 = false;
-                int calculatedValue = 3 * totalClasses! - 4 * totalPresent!;
-                // int totalAbsent = totalClasses - totalPresent;
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Hello, $name",
-                                    style: GoogleFonts.poppins(
-                                      textStyle: const TextStyle(
-                                        fontSize: 23,
-                                        fontWeight: FontWeight.bold,
-                                        // color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    email,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
-                                      // color: Colors.black,
-                                      fontFamily:
-                                          GoogleFonts.poppins().fontFamily,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              // const SizedBox(
-                              //   width: 8,
-                              // ),
-                              // GestureDetector(
-                              //   onTap: () {
-                              //     showDialog(
-                              //       context: context,
-                              //       builder: (context) {
-                              //         return SizedBox(
-                              //           height: 80,
-                              //           width: 80,
-                              //           child: CircleAvatar(
-                              //             backgroundImage: NetworkImage(
-                              //               profilePhotoUrl!,
-                              //               scale: 0.1,
-                              //             ),
-                              //             radius: 18,
-                              //           ),
-                              //         );
-                              //       },
-                              //     );
-                              //   },
-                              //   child: Container(
-                              //     height: 70,
-                              //     width: 70,
-                              //     decoration: BoxDecoration(
-                              //         shape: BoxShape.circle,
-                              //         border: Border.all(
-                              //           color: Colors.black,
-                              //         )),
-                              //     child: ClipRRect(
-                              //         borderRadius: BorderRadius.circular(100),
-                              //         child: profilePhotoUrl!.isNotEmpty
-                              //             ? Image.network(profilePhotoUrl!,
-                              //                 fit: BoxFit.cover, loadingBuilder:
-                              //                     (context, child,
-                              //                         loadingProgress) {
-                              //                 if (loadingProgress == null) {
-                              //                   return child;
-                              //                 }
-                              //                 return const Center(
-                              //                   child:
-                              //                       CircularProgressIndicator(),
-                              //                 );
-                              //               }, errorBuilder:
-                              //                     (context, object, stack) {
-                              //                 return const Icon(
-                              //                   Icons.error_outline,
-                              //                   color: Colors.amber,
-                              //                 );
-                              //               })
-                              //             : const Center(
-                              //                 child: CircularProgressIndicator(),
-                              //               )),
-                              //   ),
-                              // ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 200, // Adjust the height of the cards
-                      width: double.infinity,
-                      child: SwipeCardsScreen(
-                        totalSubjects: totalSubjects,
-                        overallPercentage: overallPercentage,
-                        subjectsList: subjectsList,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0,
-                        vertical: 2,
-                      ),
-                      child: Text(
-                        'Your Statistics',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontFamily: GoogleFonts.poppins().fontFamily,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 270,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        physics: const BouncingScrollPhysics(),
-                        child: Row(
-                          children: [
-                            const SizedBox(
-                              width: 15,
-                            ),
-                            AdditionalInfo(
-                              index: 0,
-                              image: Image.asset(
-                                  'assets/images/school_7214224.png'),
-                              label: 'Course',
-                              value: data
-                                          .stdSubAtdDetails!
-                                          .studentSubjectAttendance[0]
-                                          .userDetails !=
-                                      null
-                                  ? jsonDecode(data
-                                          .stdSubAtdDetails!
-                                          .studentSubjectAttendance[0]
-                                          .userDetails!)['selectedCourse']
-                                      .toString()
-                                  : '',
-                            ),
-                            const SizedBox(
-                              width: 15,
-                            ),
-                            AdditionalInfo(
-                              index: 1,
-                              image: Image.asset(
-                                'assets/images/presentation_760138.png',
-                              ),
-                              label: 'Attendance Preview',
-                              value:
-                                  'Total Present: $totalPresent\nTotal Lectures: $totalClasses',
-                            ),
-                            const SizedBox(
-                              width: 15,
-                            ),
-                            Stack(children: [
-                              AdditionalInfo(
-                                index: 2,
-                                image: Image.asset(
-                                  'assets/images/presentation_760138.png',
-                                ),
-                                label: (calculatedValue < 0)
-                                    ? 'You are already above 75%'
-                                    : 'Classes Required for 75%:',
-                                value: (() {
-                                  int canSkip = totalPresent -
-                                      (0.75 * totalClasses).ceil();
-                                  if (calculatedValue < 0) {
-                                    if (calculatedValue == 0) {
-                                      return 'You cannot miss any classes';
-                                    }
-                                    return 'You can miss $canSkip class${canSkip > 1 ? 'es' : ''}';
-                                  } else {
-                                    return 'Classes Required: $calculatedValue';
-                                  }
-                                })(),
-                              ),
-                              Positioned(
-                                  top: 5,
-                                  right: 5,
-                                  child: (calculatedValue < 0)
-                                      ? IconButton(
-                                          icon: const Icon(
-                                              Icons.error_outline_rounded),
-                                          color: const Color(0xffD25D81),
-                                          iconSize: 25,
-                                          onPressed: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return AlertDialog(
-                                                  title: Text('DISCLAIMER',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontFamily:
-                                                            GoogleFonts.roboto()
-                                                                .fontFamily,
-                                                      )),
-                                                  content: Text(
-                                                    'This calculation is only based on the attendance updated on edumarshal. Please don\'t blindly rely on this.',
-                                                    style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontFamily:
-                                                          GoogleFonts.roboto()
-                                                              .fontFamily,
-                                                    ),
-                                                  ),
-                                                  actionsAlignment:
-                                                      MainAxisAlignment.center,
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: const Text(
-                                                        'OK',
-                                                      ),
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            );
-                                          },
-                                        )
-                                      : Container()),
-                            ]),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: Text(
-                        'Your Weekly Analysis',
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: GoogleFonts.poppins().fontFamily,
-                        ),
-                      ),
-                    ),
-                    BarChartSample2(
-                      events: events,
-                      map: const {
-                        0: 0.3,
-                        1: 5.0,
-                        2: 10.0,
-                        3: 15.0,
-                        4: 20.0,
-                        5: 25.0,
-                        6: 30.0,
-                        7: 35.0,
-                        8: 40.0
-                      },
-                      maxY: 40,
-                      aR: 1.3,
-                      rightBarColor: currentTheme == ThemeMode.dark
-                          ? Colors.greenAccent
-                          : currentTheme == ThemeMode.dark
-                              ? Colors.green
-                              : isDarkMode
-                                  ? Colors.greenAccent
-                                  : Colors.green,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: Text(
-                        'All Subjects',
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: GoogleFonts.poppins().fontFamily,
-                        ),
-                      ),
-                    ),
-
-                    // Container(
-                    //   height: 230,
-                    //   width:  MediaQuery.sizeOf(context).width - 20,
-                    //   margin: const EdgeInsets.only(left: 10, right: 10),
-                    //   child: Zoom(
-                    //     maxZoomWidth: MediaQuery.sizeOf(context).width - 20,
-                    //     maxZoomHeight: 230,
-                    //
-                    //     child: TimetableDropdowns(),
-                    //     ),
-                    //   ),
-
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    for (int i = 0; i < totalSubjects; i++) ...[
-                      Container(
-                        decoration: BoxDecoration(
-                          color: currentTheme == ThemeMode.dark
-                              ? Colors.grey.shade900
-                              : currentTheme == ThemeMode.light
-                                  ? Colors.grey.shade200
-                                  : isDarkMode
-                                      ? Colors.grey.shade900
-                                      : Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        margin: const EdgeInsets.only(left: 18, right: 15),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SubjectAttendanceScreen(
-                                  attendanceData: data,
-                                  subject: subjectsList[i],
-                                  index: i,
-                                ),
-                              ),
-                            );
-                          },
-                          child: SubjectCard(
-                            totalPresent: subjectsList[i].presentLeactures,
-                            totalClasses: subjectsList[i].totalLeactures,
-                            subject: subjectsList[i].name ?? '',
-                            attendance: subjectsList[i].percentageAttendance,
+                  loading: () {
+                    // Check the connection state
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height - 200,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          value: ref.watch(attendanceFetchProgressProvider),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            currentTheme == ThemeMode.dark
+                                ? Colors.greenAccent
+                                : currentTheme == ThemeMode.light
+                                    ? Colors.green
+                                    : isDarkMode
+                                        ? Colors.greenAccent
+                                        : Colors.green,
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 10,
+                    );
+                  },
+                  error: (e, s) {
+                    // Error fetching data
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height - 200,
+                      child: const Center(
+                        child: Text('Error fetching data'),
                       ),
-                    ],
-                  ],
-                );
-              },
-            ),
+                    );
+                  },
+                  // Add a watch
+                  data: (AttendanceData? data) {
+                    // print("Refreshed");
+                    // If no error occurred
+                    if (data == null) {
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height - 200,
+                        child: const Center(
+                          child: Text(
+                            'No data found',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                      );
+                    }
+
+                    /// events for barChart Data
+                    Map<DateTime, List<AttendanceEntry>> events = {};
+                    for (var element in data.attendanceData) {
+                      if (!events.containsKey(element.absentDate)) {
+                        events[element.absentDate] = [];
+                      }
+                      if (events[element.absentDate] != null) {
+                        events[element.absentDate]!
+                            .add(AttendanceEntry(isAbsent: element.isAbsent));
+                      }
+                    }
+                    for (var element in data.extraLectures) {
+                      if (!events.containsKey(element.absentDate)) {
+                        events[element.absentDate] = [];
+                      }
+                      if (events[element.absentDate] != null) {
+                        events[element.absentDate]!
+                            .add(AttendanceEntry(isAbsent: element.isAbsent));
+                      }
+                    }
+
+                    ///
+
+                    String name = '';
+                    String email = '';
+                    // if (kDebugMode) {
+                    //   print(data.stdSubAtdDetails!.studentSubjectAttendance[0]
+                    //       .userDetails);
+                    // }
+                    if (data.stdSubAtdDetails != null) {
+                      if (data.stdSubAtdDetails!.studentSubjectAttendance[0]
+                              .userDetails !=
+                          null) {
+                        if (jsonDecode(data
+                                .stdSubAtdDetails!
+                                .studentSubjectAttendance[0]
+                                .userDetails!)['firstName'] !=
+                            null) {
+                          var userDetails = jsonDecode(data.stdSubAtdDetails!
+                              .studentSubjectAttendance[0].userDetails!);
+                          String firstName = userDetails['firstName'] ?? '';
+                          String middleName = userDetails['middleName'] ?? '';
+                          String lastName = userDetails['lastName'] ?? '';
+                          if (middleName.isNotEmpty) {
+                            name = '$firstName $middleName $lastName';
+                          } else {
+                            name = '$firstName $lastName';
+                          }
+                          email = jsonDecode(data
+                              .stdSubAtdDetails!
+                              .studentSubjectAttendance
+                              .first
+                              .userDetails!)['email'];
+                        }
+                      } else {
+                        name =
+                            '${data.stdSubAtdDetails!.studentSubjectAttendance.first.firstName} ${data.stdSubAtdDetails!.studentSubjectAttendance.first.lastName}';
+
+                        email = data.stdSubAtdDetails!.studentSubjectAttendance
+                                .first.email ??
+                            '';
+                      }
+                    }
+                    int totalSubjects = data.stdSubAtdDetails!
+                        .studentSubjectAttendance[0].subjects.length;
+                    double overallPercentage =
+                        data.stdSubAtdDetails!.overallPercentage;
+                    List<Subject> subjectsList = data
+                        .stdSubAtdDetails!.studentSubjectAttendance[0].subjects;
+                    int totalPresent =
+                        data.stdSubAtdDetails?.overallPresent ?? 0;
+                    int totalClasses =
+                        data.stdSubAtdDetails?.overallLecture ?? 0;
+                    int calculatedValue = 0;
+                    if (totalClasses.isPositive && totalPresent.isPositive) {
+                      // print('Total Classes: $totalClasses');
+                      // print('Total Present: $totalPresent');
+                      // late bool above75 = false;
+                      // int totalAbsent = totalClasses - totalPresent;
+                      calculatedValue = 3 * totalClasses - 4 * totalPresent;
+                    }
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Hello, $name",
+                                        style: GoogleFonts.poppins(
+                                          textStyle: const TextStyle(
+                                            fontSize: 23,
+                                            fontWeight: FontWeight.bold,
+                                            // color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        email,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal,
+                                          // color: Colors.black,
+                                          fontFamily:
+                                              GoogleFonts.poppins().fontFamily,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  // const SizedBox(
+                                  //   width: 8,
+                                  // ),
+                                  // GestureDetector(
+                                  //   onTap: () {
+                                  //     showDialog(
+                                  //       context: context,
+                                  //       builder: (context) {
+                                  //         return SizedBox(
+                                  //           height: 80,
+                                  //           width: 80,
+                                  //           child: CircleAvatar(
+                                  //             backgroundImage: NetworkImage(
+                                  //               profilePhotoUrl!,
+                                  //               scale: 0.1,
+                                  //             ),
+                                  //             radius: 18,
+                                  //           ),
+                                  //         );
+                                  //       },
+                                  //     );
+                                  //   },
+                                  //   child: Container(
+                                  //     height: 70,
+                                  //     width: 70,
+                                  //     decoration: BoxDecoration(
+                                  //         shape: BoxShape.circle,
+                                  //         border: Border.all(
+                                  //           color: Colors.black,
+                                  //         )),
+                                  //     child: ClipRRect(
+                                  //         borderRadius: BorderRadius.circular(100),
+                                  //         child: profilePhotoUrl!.isNotEmpty
+                                  //             ? Image.network(profilePhotoUrl!,
+                                  //                 fit: BoxFit.cover, loadingBuilder:
+                                  //                     (context, child,
+                                  //                         loadingProgress) {
+                                  //                 if (loadingProgress == null) {
+                                  //                   return child;
+                                  //                 }
+                                  //                 return const Center(
+                                  //                   child:
+                                  //                       CircularProgressIndicator(),
+                                  //                 );
+                                  //               }, errorBuilder:
+                                  //                     (context, object, stack) {
+                                  //                 return const Icon(
+                                  //                   Icons.error_outline,
+                                  //                   color: Colors.amber,
+                                  //                 );
+                                  //               })
+                                  //             : const Center(
+                                  //                 child: CircularProgressIndicator(),
+                                  //               )),
+                                  //   ),
+                                  // ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 200, // Adjust the height of the cards
+                          width: double.infinity,
+                          child: SwipeCardsScreen(
+                            totalSubjects: totalSubjects,
+                            overallPercentage: overallPercentage,
+                            subjectsList: subjectsList,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0,
+                            vertical: 2,
+                          ),
+                          child: Text(
+                            'Your Statistics',
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontFamily: GoogleFonts.poppins().fontFamily,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 270,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            child: Row(
+                              children: [
+                                const SizedBox(
+                                  width: 15,
+                                ),
+                                AdditionalInfo(
+                                  index: 0,
+                                  image: Image.asset(
+                                      'assets/images/school_7214224.png'),
+                                  label: 'Course',
+                                  value: data
+                                              .stdSubAtdDetails!
+                                              .studentSubjectAttendance[0]
+                                              .userDetails !=
+                                          null
+                                      ? jsonDecode(data
+                                              .stdSubAtdDetails!
+                                              .studentSubjectAttendance[0]
+                                              .userDetails!)['selectedCourse']
+                                          .toString()
+                                      : '',
+                                ),
+                                const SizedBox(
+                                  width: 15,
+                                ),
+                                AdditionalInfo(
+                                  index: 1,
+                                  image: Image.asset(
+                                    'assets/images/presentation_760138.png',
+                                  ),
+                                  label: 'Attendance Preview',
+                                  value:
+                                      'Total Present: $totalPresent\nTotal Lectures: $totalClasses',
+                                ),
+                                const SizedBox(
+                                  width: 15,
+                                ),
+                                Stack(children: [
+                                  AdditionalInfo(
+                                    index: 2,
+                                    image: Image.asset(
+                                      'assets/images/presentation_760138.png',
+                                    ),
+                                    label: (calculatedValue < 0)
+                                        ? 'You are already above 75%'
+                                        : 'Classes Required for 75%:',
+                                    value: (() {
+                                      int canSkip = totalPresent -
+                                          (0.75 * totalClasses).ceil();
+                                      if (calculatedValue < 0) {
+                                        if (calculatedValue == 0) {
+                                          return 'You cannot miss any classes';
+                                        }
+                                        return 'You can miss $canSkip class${canSkip > 1 ? 'es' : ''}';
+                                      } else {
+                                        return 'Classes Required: $calculatedValue';
+                                      }
+                                    })(),
+                                  ),
+                                  Positioned(
+                                      top: 5,
+                                      right: 5,
+                                      child: (calculatedValue < 0)
+                                          ? IconButton(
+                                              icon: const Icon(
+                                                  Icons.error_outline_rounded),
+                                              color: const Color(0xffD25D81),
+                                              iconSize: 25,
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return AlertDialog(
+                                                      title: Text('DISCLAIMER',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            fontSize: 20,
+                                                            fontFamily:
+                                                                GoogleFonts
+                                                                        .roboto()
+                                                                    .fontFamily,
+                                                          )),
+                                                      content: Text(
+                                                        'This calculation is only based on the attendance updated on edumarshal. Please don\'t blindly rely on this.',
+                                                        style: TextStyle(
+                                                          fontSize: 16,
+                                                          fontFamily:
+                                                              GoogleFonts
+                                                                      .roboto()
+                                                                  .fontFamily,
+                                                        ),
+                                                      ),
+                                                      actionsAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: const Text(
+                                                            'OK',
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            )
+                                          : Container()),
+                                ]),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16),
+                          child: Text(
+                            'Your Weekly Analysis',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: GoogleFonts.poppins().fontFamily,
+                            ),
+                          ),
+                        ),
+                        BarChartSample2(
+                          events: events,
+                          map: const {
+                            0: 0.3,
+                            1: 5.0,
+                            2: 10.0,
+                            3: 15.0,
+                            4: 20.0,
+                            5: 25.0,
+                            6: 30.0,
+                            7: 35.0,
+                            8: 40.0
+                          },
+                          maxY: 40,
+                          aR: 1.3,
+                          rightBarColor: currentTheme == ThemeMode.dark
+                              ? Colors.greenAccent
+                              : currentTheme == ThemeMode.dark
+                                  ? Colors.green
+                                  : isDarkMode
+                                      ? Colors.greenAccent
+                                      : Colors.green,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16),
+                          child: Text(
+                            'All Subjects',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: GoogleFonts.poppins().fontFamily,
+                            ),
+                          ),
+                        ),
+
+                        // Container(
+                        //   height: 230,
+                        //   width:  MediaQuery.sizeOf(context).width - 20,
+                        //   margin: const EdgeInsets.only(left: 10, right: 10),
+                        //   child: Zoom(
+                        //     maxZoomWidth: MediaQuery.sizeOf(context).width - 20,
+                        //     maxZoomHeight: 230,
+                        //
+                        //     child: TimetableDropdowns(),
+                        //     ),
+                        //   ),
+
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        for (int i = 0; i < totalSubjects; i++) ...[
+                          Container(
+                            decoration: BoxDecoration(
+                              color: currentTheme == ThemeMode.dark
+                                  ? Colors.grey.shade900
+                                  : currentTheme == ThemeMode.light
+                                      ? Colors.grey.shade200
+                                      : isDarkMode
+                                          ? Colors.grey.shade900
+                                          : Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            margin: const EdgeInsets.only(left: 18, right: 15),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        SubjectAttendanceScreen(
+                                      attendanceData: data,
+                                      subject: subjectsList[i],
+                                      index: i,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: SubjectCard(
+                                totalPresent: subjectsList[i].presentLeactures,
+                                totalClasses: subjectsList[i].totalLeactures,
+                                subject: subjectsList[i].name ?? '',
+                                attendance:
+                                    subjectsList[i].percentageAttendance,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ],
+                    );
+                  },
+                  skipLoadingOnRefresh: false,
+                ),
             const SizedBox(
               height: 20,
             ),
@@ -661,10 +697,10 @@ class DashboardPage extends ConsumerWidget {
               ),
               width: ad.size.width.toDouble(),
               height: ad.size.height.toDouble(),
-              child: AdWidget(ad: ad),
+              child: new AdWidget(ad: ad),
             ),
             const SizedBox(
-              height: 10,
+              height: 30,
             ),
           ],
         ),

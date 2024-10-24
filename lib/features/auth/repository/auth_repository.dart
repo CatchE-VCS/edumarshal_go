@@ -115,4 +115,36 @@ class AuthRepository {
       return null;
     }
   }
+
+  Future<int> getSemester() async {
+    try {
+      User? user = await DBRepository().getUserById(1);
+      if (user == null) {
+        return 1;
+      }
+      var res = await _dio.get(
+        'api/v1/semester',
+        options: Options(headers: {
+          'Authorization': '${user.tokenType} ${user.accessToken}',
+          'X-ContextId': user.xContextId,
+          'X-UserId': user.xUserId,
+          'X-LogoId': user.xLogoId,
+          'X-RX': user.xRx,
+        }),
+      );
+      if (res.statusCode == 200) {
+        if (res.data['semester'] == null || res.data['semester'] == 0) {
+          return 1;
+        }
+        return res.data['semester'];
+      } else {
+        return 1;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return 1;
+    }
+  }
 }

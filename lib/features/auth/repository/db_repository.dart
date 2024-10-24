@@ -89,6 +89,18 @@ class DBRepository {
     }
   }
 
+  // Update user
+  Future<void> updateUserId(String userId) async {
+    final db = await initializedDB();
+    await db.update(
+      'userDB',
+      {'xUserId': userId},
+      where: "id = ?",
+      whereArgs: [1],
+    );
+    debugPrint('User updated successfully $userId');
+  }
+
   Future<int> insertCom() async {
     int result = 0;
     BoolCom boolCom = BoolCom(

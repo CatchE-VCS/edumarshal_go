@@ -12,7 +12,7 @@ import 'package:auto_route/auto_route.dart' as _i7;
 import 'package:edumarshal/features/auth/view/auth_page.dart' deferred as _i3;
 import 'package:edumarshal/features/counter/view/counter_page.dart'
     deferred as _i1;
-import 'package:edumarshal/features/home_nav/hidden_drawer_page.dart'
+import 'package:edumarshal/features/home_nav/view/hidden_drawer_page.dart'
     deferred as _i2;
 import 'package:edumarshal/features/splash/view/splash_page.dart'
     deferred as _i4;
@@ -20,69 +20,6 @@ import 'package:edumarshal/features/time_table/time_table_page.dart' as _i5;
 import 'package:edumarshal/features/what_we_have_done/view/what_we_have_done_page.dart'
     deferred as _i6;
 import 'package:flutter/foundation.dart' as _i8;
-
-abstract class $AppRouter extends _i7.RootStackRouter {
-  $AppRouter({super.navigatorKey});
-
-  @override
-  final Map<String, _i7.PageFactory> pagesMap = {
-    CounterRoute.name: (routeData) {
-      return _i7.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: _i7.DeferredWidget(
-          _i1.loadLibrary,
-          () => _i1.CounterPage(),
-        ),
-      );
-    },
-    HiddenDrawerRoute.name: (routeData) {
-      final args = routeData.argsAs<HiddenDrawerRouteArgs>();
-      return _i7.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: _i7.DeferredWidget(
-          _i2.loadLibrary,
-          () => _i2.HiddenDrawerPage(
-            key: args.key,
-            accessToken: args.accessToken,
-          ),
-        ),
-      );
-    },
-    LoginRoute.name: (routeData) {
-      return _i7.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: _i7.DeferredWidget(
-          _i3.loadLibrary,
-          () => _i3.LoginPage(),
-        ),
-      );
-    },
-    SplashRoute.name: (routeData) {
-      return _i7.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: _i7.DeferredWidget(
-          _i4.loadLibrary,
-          () => _i4.SplashPage(),
-        ),
-      );
-    },
-    TimeTableRoute.name: (routeData) {
-      return _i7.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i5.TimeTablePage(),
-      );
-    },
-    WhatWeHaveDoneRoute.name: (routeData) {
-      return _i7.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: _i7.DeferredWidget(
-          _i6.loadLibrary,
-          () => _i6.WhatWeHaveDonePage(),
-        ),
-      );
-    },
-  };
-}
 
 /// generated route for
 /// [_i1.CounterPage]
@@ -95,7 +32,15 @@ class CounterRoute extends _i7.PageRouteInfo<void> {
 
   static const String name = 'CounterRoute';
 
-  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+  static _i7.PageInfo page = _i7.PageInfo(
+    name,
+    builder: (data) {
+      return _i7.DeferredWidget(
+        _i1.loadLibrary,
+        () => _i1.CounterPage(),
+      );
+    },
+  );
 }
 
 /// generated route for
@@ -116,8 +61,19 @@ class HiddenDrawerRoute extends _i7.PageRouteInfo<HiddenDrawerRouteArgs> {
 
   static const String name = 'HiddenDrawerRoute';
 
-  static const _i7.PageInfo<HiddenDrawerRouteArgs> page =
-      _i7.PageInfo<HiddenDrawerRouteArgs>(name);
+  static _i7.PageInfo page = _i7.PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<HiddenDrawerRouteArgs>();
+      return _i7.DeferredWidget(
+        _i2.loadLibrary,
+        () => _i2.HiddenDrawerPage(
+          key: args.key,
+          accessToken: args.accessToken,
+        ),
+      );
+    },
+  );
 }
 
 class HiddenDrawerRouteArgs {
@@ -147,7 +103,15 @@ class LoginRoute extends _i7.PageRouteInfo<void> {
 
   static const String name = 'LoginRoute';
 
-  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+  static _i7.PageInfo page = _i7.PageInfo(
+    name,
+    builder: (data) {
+      return _i7.DeferredWidget(
+        _i3.loadLibrary,
+        () => _i3.LoginPage(),
+      );
+    },
+  );
 }
 
 /// generated route for
@@ -161,7 +125,15 @@ class SplashRoute extends _i7.PageRouteInfo<void> {
 
   static const String name = 'SplashRoute';
 
-  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+  static _i7.PageInfo page = _i7.PageInfo(
+    name,
+    builder: (data) {
+      return _i7.DeferredWidget(
+        _i4.loadLibrary,
+        () => _i4.SplashPage(),
+      );
+    },
+  );
 }
 
 /// generated route for
@@ -175,7 +147,12 @@ class TimeTableRoute extends _i7.PageRouteInfo<void> {
 
   static const String name = 'TimeTableRoute';
 
-  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+  static _i7.PageInfo page = _i7.PageInfo(
+    name,
+    builder: (data) {
+      return const _i5.TimeTablePage();
+    },
+  );
 }
 
 /// generated route for
@@ -189,5 +166,13 @@ class WhatWeHaveDoneRoute extends _i7.PageRouteInfo<void> {
 
   static const String name = 'WhatWeHaveDoneRoute';
 
-  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+  static _i7.PageInfo page = _i7.PageInfo(
+    name,
+    builder: (data) {
+      return _i7.DeferredWidget(
+        _i6.loadLibrary,
+        () => _i6.WhatWeHaveDonePage(),
+      );
+    },
+  );
 }

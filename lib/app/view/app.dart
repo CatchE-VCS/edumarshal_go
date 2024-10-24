@@ -31,7 +31,7 @@ class _AppState extends ConsumerState<App> with GlobalHelper {
     final locale = ref.watch(localePod);
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'EduMarshalGO App',
+      title: 'EduGO App',
       theme: Themes.theme,
       darkTheme: Themes.darkTheme,
       themeMode: currentTheme,

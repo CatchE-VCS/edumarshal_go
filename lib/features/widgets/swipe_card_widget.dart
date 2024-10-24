@@ -120,18 +120,19 @@ class _SwipeCardsScreenState extends State<SwipeCardsScreen> {
                             _targetSize = widget.overallPercentage / 100;
                           });
                         } else {
-                          Future.delayed(
-                            const Duration(seconds: 3),
-                            () => setState(() {
-                              _targetSize = 0;
-                            }),
-                          );
+                          try {
+                            Future.delayed(
+                                const Duration(seconds: 3),
+                                () => setState(() {
+                                      _targetSize = 0;
+                                    }));
+                          } catch (e) {}
                         }
                       },
                       tween: tween,
                       duration: const Duration(milliseconds: 2000),
                       builder:
-                          (BuildContext context, double value, Widget? child) =>
+                          (BuildContext ctx, double value, Widget? child) =>
                               Stack(
                         fit: StackFit.expand,
                         children: [
