@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:edumarshal/ext_package/hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:edumarshal/features/assignment/view/assignment_page.dart';
 import 'package:edumarshal/features/dashboard/dashboard.dart';
+import 'package:edumarshal/features/home_nav/controller/semester_controller.dart';
 import 'package:edumarshal/features/home_nav/repository/nav_repository.dart';
 import 'package:edumarshal/features/profile/view/profile_page.dart';
 import 'package:edumarshal/features/time_table/time_table_page.dart';
@@ -13,10 +14,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../core/theme/theme_controller.dart';
-import '../auth/auth.dart';
-import '../barcode/barcode.dart';
-import '../profile/controller/profile_state_pod.dart';
+import '../../../core/theme/theme_controller.dart';
+import '../../auth/auth.dart';
+import '../../barcode/barcode.dart';
+import '../../profile/controller/profile_state_pod.dart';
 
 @RoutePage(
   deferredLoading: true,
@@ -315,6 +316,61 @@ class _HiddenDrawerState extends ConsumerState<HiddenDrawerPage> {
         actionsAppBar: <Widget>[
           Consumer(
             builder: (context, ref, child) {
+              return DropdownButton(
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+                dropdownColor: const Color(0xFF1E1E1E),
+                underline: null,
+                items: [
+                  for (int i = 1; i <= 8; i++)
+                    DropdownMenuItem(
+                      value: i,
+                      child: Text('$i'),
+                    ),
+                ],
+                onChanged: (int? selectedValue) {
+                  if (selectedValue == null) {
+                    return;
+                  }
+                  if (kDebugMode) {
+                    print('Semester change button pressed');
+                  }
+
+                  ref
+                      .read(attendanceRepositoryProvider)
+                      .changeSemester(selectedValue)
+                      .then((res) {
+                    if (res['status']) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(res['message']),
+                          duration: const Duration(seconds: 2),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                      ref.invalidate(attendanceDataProvider);
+                      ref
+                          .read(semesterProvider.notifier)
+                          .update((state) => selectedValue);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(res['message']),
+                          duration: const Duration(seconds: 2),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
+                  });
+                },
+                value: ref.watch(semesterProvider),
+              );
+            },
+          ),
+          Consumer(
+            builder: (context, ref, child) {
               return IconButton(
                 icon: const Icon(Icons.card_giftcard),
                 onPressed: () {
@@ -373,14 +429,14 @@ class _HiddenDrawerState extends ConsumerState<HiddenDrawerPage> {
             builder: (context, ref, child) {
               return IconButton(
                 icon: Icon(
-                  ref.watch(themecontrollerProvider) == ThemeMode.light
+                  ref.watch(themeControllerProvider) == ThemeMode.light
                       ? Icons.dark_mode
-                      : ref.watch(themecontrollerProvider) == ThemeMode.dark
+                      : ref.watch(themeControllerProvider) == ThemeMode.dark
                           ? Icons.brightness_auto
                           : Icons.light_mode,
                 ),
                 onPressed: () {
-                  ref.read(themecontrollerProvider.notifier).changeThemeMode();
+                  ref.read(themeControllerProvider.notifier).changeThemeMode();
                 },
               );
             },

@@ -18,7 +18,7 @@ class WhatWeHaveDonePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var brightness = Theme.of(context).brightness;
-    var currentTheme = ref.watch(themecontrollerProvider);
+    var currentTheme = ref.watch(themeControllerProvider);
     var isDarkMode = brightness == Brightness.dark;
     final color = currentTheme == ThemeMode.dark
         ? Colors.grey.shade900
@@ -40,8 +40,8 @@ class WhatWeHaveDonePage extends ConsumerWidget {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          var a = ref.refresh(overallDataStatsPod);
-          var x = ref.refresh(individualDataStatsPod);
+          ref.invalidate(overallDataStatsPod);
+          ref.invalidate(individualDataStatsPod);
         },
         child: Stack(
           children: [

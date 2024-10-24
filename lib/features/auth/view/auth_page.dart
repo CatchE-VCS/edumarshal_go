@@ -17,7 +17,8 @@ import '../auth.dart';
   deferredLoading: true,
 )
 class LoginPage extends ConsumerWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
+
   static final formKey = GlobalKey<FormState>();
 
   String formatSelectedDate(DateTime selectedDate) {
@@ -29,7 +30,7 @@ class LoginPage extends ConsumerWidget {
     Function simpleSnackBar = SnackBarUtil().simpleSnackBar;
     final usernameController = ref.watch(usernameControllerPod);
     final passwordController = ref.watch(passwordControllerPod);
-    final currentTheme = ref.watch(themecontrollerProvider);
+    final currentTheme = ref.watch(themeControllerProvider);
     var brightness = Theme.of(context).brightness;
     final isDark = brightness == Brightness.dark;
     bool obscureText = ref.watch(passwordVisibilityPod);
@@ -240,7 +241,7 @@ class LoginPage extends ConsumerWidget {
                                           context,
                                           value.toString(),
                                         );
-                                        context.router.pop();
+                                        context.router.maybePop();
                                       }).catchError(
                                         (e) => simpleSnackBar(
                                           context,

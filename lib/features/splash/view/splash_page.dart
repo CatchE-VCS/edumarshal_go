@@ -1,23 +1,36 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:edumarshal/core/router/router.gr.dart';
+import 'package:edumarshal/features/auth/controller/user_id_controller.dart';
+import 'package:edumarshal/features/dashboard/controller/attendance_state_pod.dart';
+import 'package:edumarshal/features/profile/controller/profile_state_pod.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../auth/auth.dart';
+import '../../home_nav/controller/semester_controller.dart';
 
 @RoutePage(
   deferredLoading: true,
 )
-class SplashPage extends StatelessWidget {
+class SplashPage extends ConsumerWidget {
   const SplashPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     DBRepository handler = DBRepository();
-    handler.getUserById(1).then((value) {
+    handler.getUserById(1).then((value) async {
+      if (value != null) {
+        ref.read(attendanceDataProvider);
+        ref.read(profileDataProvider);
+        int semester = await ref.read(authRepositoryProvider).getSemester();
+        ref.read(semesterProvider.notifier).state = semester;
+        debugPrint('Semester: $semester');
+        ref.read(userIdProvider.notifier).state = value.xUserId;
+      }
       Future.delayed(
-        const Duration(seconds: 3),
+        const Duration(seconds: 2),
         () {
           value != null
               ? context.router.replace(

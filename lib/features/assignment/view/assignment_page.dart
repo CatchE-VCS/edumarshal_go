@@ -10,7 +10,7 @@ class AssignmentPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentTheme = ref.watch(themecontrollerProvider);
+    final currentTheme = ref.watch(themeControllerProvider);
     final brightness = MediaQuery.of(context).platformBrightness;
     bool darkModeOn = brightness == Brightness.dark;
 
@@ -67,14 +67,9 @@ class AssignmentPage extends ConsumerWidget {
                         vertical: 16,
                       ),
                       decoration: BoxDecoration(
-                        color: currentTheme == ThemeMode.dark
+                        color: (currentTheme == ThemeMode.dark || darkModeOn)
                             ? Colors.indigo[200]
-                            : currentTheme == ThemeMode.light
-                                ? Colors.blueAccent
-                                : MediaQuery.of(context).platformBrightness ==
-                                        Brightness.light
-                                    ? Colors.blueAccent
-                                    : Colors.indigo[200],
+                            : Colors.blueAccent,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: AssignmentCard(
@@ -111,7 +106,7 @@ class AssignmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String description = '';
-    String? attachment;
+    // String? attachment;
     if (submittedAssignmentDetails != null) {
       description = submittedAssignmentDetails!.textResponse!;
     }

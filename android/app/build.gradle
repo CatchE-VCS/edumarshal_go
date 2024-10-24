@@ -75,11 +75,23 @@ android {
 //        }
         release {
             signingConfig signingConfigs.release
+            resValue "string", "app_name", "EduGO"
+            manifestPlaceholders = [
+                    appName: "EduGO"
+            ]
+            firebaseCrashlytics {
+                mappingFileUploadEnabled true
+            }
 //            isDebuggable = false
         }
         debug {
             signingConfig signingConfigs.debug
             applicationIdSuffix ".debug"
+            versionNameSuffix "-dev"
+            resValue "string", "app_name", "[DEV] EduGO"
+            manifestPlaceholders = [
+                    appName: "[DEV] EduGo"
+            ]
 //            isDebuggable = true
         }
 

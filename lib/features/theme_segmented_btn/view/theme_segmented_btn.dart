@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:edumarshal/core/theme/theme_controller.dart';
 import 'package:edumarshal/features/theme_segmented_btn/controller/selection_theme_pod.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 ///This class provider segmented button which can be used
 ///for getting current theme and switching theme
@@ -33,7 +33,7 @@ class _ThemeSegmentedBtnState extends ConsumerState<ThemeSegmentedBtn> {
       selected: ref.watch(themeSelectionPod),
       onSelectionChanged: (thememodes) {
         ref
-            .read(themecontrollerProvider.notifier)
+            .read(themeControllerProvider.notifier)
             .changeTheme(thememodes.first);
       },
       style: const ButtonStyle(

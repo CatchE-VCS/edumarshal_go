@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 ///This provider stores the ThemeModeController
-final themecontrollerProvider =
+final themeControllerProvider =
     NotifierProvider.autoDispose<ThemeModeController, ThemeMode>(
   ThemeModeController.new,
-  name: 'themecontrollerProvider',
+  name: 'themeControllerProvider',
 );
 
 ///This controller class used change theme and
-///get the intial theme from storage if its available
+///get the initial theme from storage if its available
 class ThemeModeController extends AutoDisposeNotifier<ThemeMode> {
   final _themeKey = "theme";
 
